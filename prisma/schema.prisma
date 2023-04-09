@@ -11,21 +11,66 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique
-  username    String?
-  password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  posts       Post[]
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  username  String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  groups    Group[] @relation("GroupMembers")
+  invitations Invitation[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Group {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  members     User[]   @relation("GroupMembers")
+  admin       Admin    @relation("GroupAdmin", fields: [adminId], references: [id])
+  adminId     Int
 }
+
+model Invitation {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  inviteFrom Admin    @relation(fields: [inviteFromId], references: [id])
+  inviteFromId Int
+  sentTo    User     @relation(fields: [senttoId], references: [id])
+  senttoId  Int
+  viewed    Boolean  @default(false)
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  groups    Group[]  @relation("GroupAdmin")
+  invites   Invitation[]
+
+}
+
+model Game {
+  id      Int     @id @default(autoincrement())
+  title   String
+  tables  Table[]
+}
+
+model Table {
+  id      Int     @id @default(autoincrement())
+  name    String
+  matches Match[]
+  videogame Game   @relation(fields: [gameId], references: [id])
+  gameId  Int
+}
+
+model Match {
+  id     Int  @id @default(autoincrement())
+  table  Table @relation(fields: [tableId], references: [id])
+  tableId Int
+}
+
 
