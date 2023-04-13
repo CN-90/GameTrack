@@ -19,7 +19,9 @@ export default async function handler(
 ) {
   switch (req.method) {
     case 'GET':
-      res.status(200).json({ name: 'John Doe' })
+      console.log("Spaghetti hit...")
+      // let foundUser = await findUser(req.body as User);
+      // res.status(200).json(foundUser);
       break;
 
     case 'POST':
@@ -36,7 +38,6 @@ export default async function handler(
 
 async function CreateUser(user: User) {
   const { email, password, username } = user;
-
   try {
     const salt = await genSalt(10);
     const hashedPassword = await hash(password, salt);
@@ -52,5 +53,22 @@ async function CreateUser(user: User) {
   
   catch (error) { 
     console.log(error);
+  }
+}
+
+
+async function findUser(email){
+  try {
+    let foundUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    })
+    return foundUser;
+  }
+  
+  catch (error) { 
+    console.log(error);
+    console.log("User not Found...")
   }
 }
