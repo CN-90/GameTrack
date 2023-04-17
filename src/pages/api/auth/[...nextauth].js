@@ -20,25 +20,11 @@ export default NextAuth({
             // You can specify which fields should be submitted, by adding keys to the `credentials` object.
             // e.g. domain, username, password, 2FA token, etc.
             // You can pass any HTML attribute to the <input> tag through the object.
+          
             async authorize(credentials, req) {
                 let { email, password } = credentials;
-                let user = await prisma.user.findUnique({ where: { email: email } });
-                if (user) {
-                    // Any object returned will be saved in `user` property of the JWT
-                    const confirmPassword = await bcrypt.compare(password, user.password);
-                    if (confirmPassword) {
-                        return user
-                    } else {
-                        console.log("Email or password is incorrect");
-                        throw new Error("Email or password is incorrect")
-                    }
-                } else {
+                return await verifyCredentials(password, email);
 
-                    // If you return null then an error will be displayed advising the user to check their details.
-                    return null
-
-                    // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-                }
             }
         }),
         GoogleAuthProvider({
@@ -51,22 +37,42 @@ export default NextAuth({
                 }
             },
         })
-
-
     ],
     secret: process.env.JWT_SECRET,
     pages: {
         signIn: "pages/login/index"
     },
-    // callbacks: {
-    //     signIn: async (user, account, profile) => {
-    //         console.log("This is the callback that's running...")
-    //     }
-    // }
+    callbacks: {
+        async signIn({ user, account, profile }) {
+            if (account.type === 'credentials') {
+                return user;
+            }
+            console.log(user)
+            console.log(account)
+            console.log(profile)
+            
+        }
+    }
 });
 
 
-// GoogleProvider({
-//     clientId: process.env.GOOGLE_CLIENT_ID,
-//     clientSecret: process.env.GOOGLE_CLIENT_SECRET
-//   })
+
+
+// Find User to see if exists, and then checks if provided password matches the user's password
+export async function verifyCredentials(canidatePassword, email) {
+    let user = await prisma.user.findUnique({ where: { email: email } });
+
+    if (user) {
+        // Any object returned will be saved in `user` property of the JWT
+        let confirmPassword = await bcrypt.compare(canidatePassword, user.password);
+        if (confirmPassword) {
+            return user
+        } else {
+            return false
+        }
+    } else {
+        // If you return null then an error will be displayed advising the user to check their details.
+        return null
+    }
+}
+

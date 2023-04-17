@@ -4,7 +4,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const email = "test@gmail.com"
-        const password = 'tester'
+        const password = 'tests'
         const result = await signIn('credentials', { email, password})
         console.log(result);
     }
@@ -12,7 +12,7 @@ function Login() {
     const handleGoogleSignIn = async (event) => {
         event.preventDefault()
         const result = await signIn('google', { callbackUrl: '/' })
-        console.log(result)
+        console.log(result);
       }
 
     return (

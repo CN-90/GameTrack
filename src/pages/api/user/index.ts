@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { hash, genSalt } from 'bcryptjs'
+import { hash, genSalt, bcrypt } from 'bcryptjs'
 
 import prisma from '../../../../prisma/prisma'
 
@@ -50,14 +50,14 @@ async function CreateUser(user: User) {
     })
     return newUser;
   }
-  
-  catch (error) { 
+
+  catch (error) {
     console.log(error);
   }
 }
 
 
-async function findUser(email){
+async function findUser(email:string) {
   try {
     let foundUser = await prisma.user.findUnique({
       where: {
@@ -66,9 +66,10 @@ async function findUser(email){
     })
     return foundUser;
   }
-  
-  catch (error) { 
+
+  catch (error) {
     console.log(error);
     console.log("User not Found...")
   }
 }
+

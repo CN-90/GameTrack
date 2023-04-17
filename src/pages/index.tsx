@@ -8,7 +8,6 @@ import RegisterForm from '@/components/auth/register/registerForm'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({loggedIn}) {
-  console.log(loggedIn)
   // const { status } = useSession({
   //   required: true,
   //   onUnauthenticated() {
