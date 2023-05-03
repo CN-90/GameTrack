@@ -1,19 +1,23 @@
 import { signIn } from 'next-auth/react';
 
-function Login() {
+function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const email = "test@gmail.com"
-        const password = 'tests'
-        const result = await signIn('credentials', { email, password})
-        console.log(result);
+        try {
+            let result = await signIn('credentials', {
+              email: 'test@gmail.com',
+              password: 'test123',
+            });
+          } catch (error) {
+            alert(error);
+            // Handle sign in error...
+          }
     }
 
     const handleGoogleSignIn = async (event) => {
         event.preventDefault()
         const result = await signIn('google', { callbackUrl: '/' })
-        console.log(result);
-      }
+    }
 
     return (
         <div>
@@ -24,4 +28,4 @@ function Login() {
     )
 }
 
-export default Login;
+export default LoginPage;

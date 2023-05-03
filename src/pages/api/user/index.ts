@@ -19,9 +19,7 @@ export default async function handler(
 ) {
   switch (req.method) {
     case 'GET':
-      console.log("Spaghetti hit...")
-      // let foundUser = await findUser(req.body as User);
-      // res.status(200).json(foundUser);
+      console.log("Get Request");
       break;
 
     case 'POST':
@@ -38,9 +36,11 @@ export default async function handler(
 
 async function CreateUser(user: User) {
   const { email, password, username } = user;
+  
   try {
     const salt = await genSalt(10);
     const hashedPassword = await hash(password, salt);
+
     let newUser = await prisma.user.create({
       data: {
         email,
@@ -49,15 +49,17 @@ async function CreateUser(user: User) {
       },
     })
     return newUser;
-  }
 
-  catch (error) {
-    console.log(error);
+  } catch (error) {
+    if (error.code === 'P2002') {
+      let uniqueField = error.meta.target[0];
+      return { error: `${uniqueField} is already in use` }
+    }
   }
 }
 
 
-async function findUser(email:string) {
+async function findUser(email: string) {
   try {
     let foundUser = await prisma.user.findUnique({
       where: {

@@ -1,5 +1,5 @@
 
-function Register(){
+function RegisterPage(){
     return (
         <div>
             <h1 className="text-center pt-12">This is the register page.</h1>
@@ -7,4 +7,4 @@ function Register(){
     )
 }
 
-export default Register;
+export default RegisterPage;

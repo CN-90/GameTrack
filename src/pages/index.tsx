@@ -1,40 +1,57 @@
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { getSession, signOut, useSession } from "next-auth/react"
-import Router from 'next/router'
 import RegisterForm from '@/components/auth/register/registerForm'
+import ProtectRoute from '@/components/protect/Protect'
+import useSWR from 'swr'
+import axios from 'axios'
+import { setUser } from '@/hooks/user'
+import Groups from '@/components/groups/groups'
+
 
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({loggedIn}) {
-  // const { status } = useSession({
-  //   required: true,
-  //   onUnauthenticated() {
-  //       Router.push('/login')
-  //   },
-  // })
+export default function Home({ userId }) {
+  const { data, error, isLoading } = useSWR(`/api/user/${userId}`, (url) => axios.get(url).then(res => res.data))
+
+  if (isLoading) return <h1>Loading...</h1>
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let res = await axios.post('/api/group', { name: 'test', description: "A group for gentlemen who want to have a good time..." });
+    console.log(res.data);
+
+  }
 
   return (
-    <main className={styles}>
-    {loggedIn ? <button onClick={signOut}>Log Out</button> : <button>Log In</button>}
-    <h1>Hello there</h1>
-    <RegisterForm/>
-    </main>
+    <ProtectRoute>
+      <main className={styles}>
+        {userId ? <button onClick={signOut}>Log Out</button> : <a href="/login">Log In</a>}
+        <br></br>
+        <button onClick={handleSubmit}>Testing</button>
+        <h2>{data.user.username}</h2>
+        <RegisterForm />
+        <Groups groups={data.user.groups}/>
+      </main>
+    </ProtectRoute>
   )
 
 }
 
 
-export async function getServerSideProps(context){
+export async function getServerSideProps(context) {
   const session = await getSession(context);
-  let loggedIn = false;
-  if(session){
-    loggedIn = true
+  let userId = null;
+
+  if (session) {
+    userId = session.user.id;
   }
+  
   return {
     props: {
-      loggedIn
+      userId
     }
   }
 }

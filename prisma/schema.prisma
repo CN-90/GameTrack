@@ -11,18 +11,18 @@ datasource db {
 }
 
 model Account {
-  id                 Int  @id @default(autoincrement())
-  userId             Int
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                Int     @id @default(autoincrement())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -30,18 +30,21 @@ model Account {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  username    String       @unique
-  password    String
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  groups      Group[]      @relation("GroupMembers")
-  invitations Invitation[]
-  matches     Match[]
-  sessions    Session[]
-  accounts    Account[]
-  
+  id            Int          @id @default(autoincrement())
+  name          String?
+  username      String?      @unique
+  email         String       @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  groups        Group[]      @relation("GroupMembers")
+  invitations   Invitation[]
+  matches       Match[]
+  sessions      Session[]
+  accounts      Account[]
+  admin         Admin[]
 }
 
 model VerificationToken {
@@ -58,18 +61,25 @@ model Session {
   userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id])
-
 }
 
 model Group {
   id          Int      @id @default(autoincrement())
-  name        String
+  name        String   @unique
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   members     User[]   @relation("GroupMembers")
-  admin       Admin    @relation("GroupAdmin", fields: [adminId], references: [id])
-  adminId     Int
+  admin       Admin[]
+}
+
+model Admin {
+  id      Int          @id @default(autoincrement())
+  user    User         @relation(fields: [userId], references: [id])
+  group   Group?       @relation(fields: [groupId], references: [id])
+  invites Invitation[]
+  groupId Int?
+  userId  Int
 }
 
 model Invitation {
@@ -82,15 +92,6 @@ model Invitation {
   senttoId     Int
   viewed       Boolean  @default(false)
   accepted     Boolean  @default(false)
-}
-
-model Admin {
-  id       Int          @id @default(autoincrement())
-  name     String
-  email    String       @unique
-  password String
-  groups   Group[]      @relation("GroupAdmin")
-  invites  Invitation[]
 }
 
 model Game {

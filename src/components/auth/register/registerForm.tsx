@@ -1,6 +1,4 @@
 import { useState } from "react";
-import store from "../../../../stores";
-import useSWR from "swr";
 import { registerUser } from '../../../fetchers';
 
 
@@ -21,7 +19,11 @@ function RegisterForm() {
             return;
         }
         let user = { email, username, password };
+
         const res = await registerUser(user);
+        if(res.error){
+            setError(res.error);
+        }
         
         
 
@@ -30,7 +32,7 @@ function RegisterForm() {
 
     return (
         <div className="register">
-            {error && <p>{error}</p>}
+            {error && <p style={{textTransform: 'capitalize'}}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Email</label>
                 <input
