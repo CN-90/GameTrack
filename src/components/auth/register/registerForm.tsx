@@ -1,5 +1,5 @@
+import { registerUser } from "@/actions/user";
 import { useState } from "react";
-import { registerUser } from '../../../fetchers';
 
 
 

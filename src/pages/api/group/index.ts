@@ -1,10 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from "next-auth/jwt"
-
-
-
 import prisma from '../../../../prisma/prisma'
+
 
 type Data = {
     name: string
@@ -20,9 +18,6 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     switch (req.method) {
-        case 'GET':
-            break;
-
         case 'POST':
             let group = await createGroup(req)
             res.status(200).json(group);
@@ -48,14 +43,16 @@ async function createGroup(req: NextApiRequest) {
                     members: {
                         connect: { id: userId }
                     },
-                    admin: {
-                        create: [
-                            { userId }
-                        ]
-                    }
                 }
             })
-            return newGroup            
+
+            await prisma.admin.create({
+                data: {
+                    userId,
+                    groupId: newGroup.id
+                }
+            })
+
         } catch (error) {
             console.log(error);
         }
@@ -65,14 +62,15 @@ async function createGroup(req: NextApiRequest) {
 }
 
 
-async function createAdmin(req: NextApiRequest) {
+async function createAdmin(req: NextApiRequest, groupId) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     if (token) {
         try {
             let userId = token.userID
             let admin = await prisma.admin.create({
                 data: {
-                    userId
+                    userId,
+                    groupId
                 }
             })
             console.log(admin)

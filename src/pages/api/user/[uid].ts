@@ -25,15 +25,14 @@ export default async function handler(
   }
 }
 
-
-
 async function getUser(uid: any) {
   let user = await prisma.user.findUnique({
     where: {
       id: parseInt(uid)
     },
     include: {
-      groups: true
+      groups: true,
+      admin: true
     }
   })
   const userWithExcludedFields = exclude(user, ['password', 'emailVerified', 'createdAt', 'updatedAt'])
