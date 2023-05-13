@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export async function registerUser(user) {
     try {
         let res = await axios.post('/api/user', { ...user });

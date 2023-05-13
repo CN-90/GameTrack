@@ -26,16 +26,34 @@ export default async function handler(
 }
 
 async function getUser(uid: any) {
+  let totalGroups = [];
+
   let user = await prisma.user.findUnique({
     where: {
       id: parseInt(uid)
     },
     include: {
       groups: true,
-      admin: true
+      invitations: true,
+      admin: {
+        select: {
+          group: true
+        }
+      }
     }
   })
-  const userWithExcludedFields = exclude(user, ['password', 'emailVerified', 'createdAt', 'updatedAt'])
+
+  let userWithExcludedFields = exclude(user, ['password', 'emailVerified', 'createdAt', 'updatedAt']);
+
+  // Combines the Admin groups and the reguler User groups into one array.
+  for(let data of userWithExcludedFields.admin ){
+    totalGroups.push(data.group);
+  }
+
+  totalGroups = [...totalGroups, ...userWithExcludedFields.groups];
+  userWithExcludedFields.groups = totalGroups;
+  
+
   return userWithExcludedFields;
 }
 
@@ -49,3 +67,7 @@ function exclude<User, Key extends keyof User>(
   }
   return user
 }
+
+// function combineUserGroups(){
+
+// }

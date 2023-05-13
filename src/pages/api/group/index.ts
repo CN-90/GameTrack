@@ -40,9 +40,12 @@ async function createGroup(req: NextApiRequest) {
                 data: {
                     name,
                     description,
-                    members: {
-                        connect: { id: userId }
-                    },
+                    // admin: {
+                    //     create: {
+                    //         userId: userId
+                    //     }
+
+                    // }
                 }
             })
 
@@ -52,6 +55,8 @@ async function createGroup(req: NextApiRequest) {
                     groupId: newGroup.id
                 }
             })
+
+
 
         } catch (error) {
             console.log(error);

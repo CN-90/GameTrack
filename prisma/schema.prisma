@@ -30,21 +30,22 @@ model Account {
 }
 
 model User {
-  id            Int          @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   name          String?
-  username      String?      @unique
-  email         String       @unique
+  username      String?        @unique
+  email         String         @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  groups        Group[]      @relation("GroupMembers")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  groups        Group[]        @relation("GroupMembers")
   invitations   Invitation[]
   matches       Match[]
   sessions      Session[]
   accounts      Account[]
   admin         Admin[]
+  notifications Notification[]
 }
 
 model VerificationToken {
@@ -64,41 +65,54 @@ model Session {
 }
 
 model Group {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  members     User[]   @relation("GroupMembers")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  members     User[]       @relation("GroupMembers")
   admin       Admin[]
-  private    Boolean  @default(true)
+  private     Boolean      @default(true)
+  invitations Invitation[]
 }
 
 model Admin {
-  id      Int          @id @default(autoincrement())
-  user    User         @relation(fields: [userId], references: [id])
-  group   Group?       @relation(fields: [groupId], references: [id])
-  invites Invitation[]
-  groupId Int?
-  userId  Int
+  id          Int          @id @default(autoincrement())
+  user        User         @relation(fields: [userId], references: [id])
+  group       Group?       @relation(fields: [groupId], references: [id])
+  invitations Invitation[]
+  groupId     Int?
+  userId      Int
 }
 
 model Invitation {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  inviteFrom   Admin    @relation(fields: [inviteFromId], references: [id])
-  inviteFromId Int
-  sentTo       User     @relation(fields: [senttoId], references: [id])
-  senttoId     Int
-  viewed       Boolean  @default(false)
-  accepted     Boolean  @default(false)
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  group     Group    @relation(fields: [groupId], references: [id], onUpdate: Cascade)
+  sentTo    User     @relation(fields: [sentToId], references: [id], onUpdate: Cascade)
+  viewed    Boolean  @default(false)
+  accepted  Boolean  @default(false)
+  groupId   Int
+  sentToId  Int
+  Admin     Admin?   @relation(fields: [adminId], references: [id])
+  adminId   Int?
 }
 
 model Game {
   id     Int     @id @default(autoincrement())
   title  String
   tables Table[]
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  message   String
+  viewed    Boolean  @default(false)
 }
 
 model Table {

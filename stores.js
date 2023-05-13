@@ -4,7 +4,9 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 export const useUserStore = create(
     persist(
       (set, get) => ({
-        user: null,
+        user: {
+          username: "TestingMan"
+        },
         setUser: (user) => set({ ...user }),
       }),
       {

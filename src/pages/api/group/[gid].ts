@@ -40,7 +40,7 @@ async function getGroup(req: NextApiRequest, groupId: string) {
     if (token) {
         try {
 
-            const group = await prisma.group.findMany({
+            const group = await prisma.group.findUnique({
                 where: {
                     name: {
                         equals: groupId,
@@ -96,5 +96,13 @@ async function deleteGroup(req: NextApiRequest, groupId: string) {
         } catch (error) {
             console.log(error);
         }
+    }
+}
+
+
+async function addMember(req: NextApiRequest, groupId: string, userId: string) {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    if (token) {
+       
     }
 }

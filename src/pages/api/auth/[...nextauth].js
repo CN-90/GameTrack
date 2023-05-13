@@ -39,6 +39,7 @@ export default NextAuth({
     ],
     callbacks: {
         async jwt({ token, user}) {    
+            console.log(user);
             if(user) {  
                 token.userID = user.id;
             }
@@ -46,6 +47,8 @@ export default NextAuth({
         },
         async session({ session, token }) {
             session.user.id = token.userID;
+            session.user.username = token.username;
+            
             return session;
         },
     },

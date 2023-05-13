@@ -4,7 +4,7 @@ import { getSession, signOut, useSession } from "next-auth/react"
 import ProtectRoute from '@/components/protect/Protect'
 import useSWR from 'swr'
 import axios from 'axios'
-import Groups from '@/components/groups/groups'
+import Groups from '@/components/groups/Groups'
 
 
 
@@ -12,15 +12,21 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({ userId }) {
   const { data, error, isLoading } = useSWR(`/api/user/${userId}`, (url) => axios.get(url).then(res => res.data))
-
   if (isLoading) return <h1>Loading...</h1>
-  console.log(data)
- 
-  const handleSubmit = async (e) => {
+
+
+
+  console.log(data.user);
+
+  const handleSubmit = async (e: Event) => {
+
     e.preventDefault();
 
-    let res = await axios.post('/api/group', { name: 'The Gentlemens League', description: "A group for gentlemen who want to have a good time..." });
-    console.log(res.data);
+    let res = await axios.post('/api/group',
+      {
+        name: 'The Gentlemens Leagues',
+        description: "A group for gentlemen who want to have a good time..."
+      });
 
   }
 
@@ -31,14 +37,12 @@ export default function Home({ userId }) {
         <br></br>
         <button onClick={handleSubmit}>Testing</button>
         <h2>{data.user.username}</h2>
-        <Groups groups={data.user.groups}/>
-        
+        <Groups userGroups={data.user.groups} />
+
       </main>
     </ProtectRoute>
   )
-
 }
-
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -54,7 +58,7 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  
+
   return {
     props: {
       userId
