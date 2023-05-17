@@ -1,0 +1,10 @@
+.navbar {
+    min-height: fit-content;
+    padding: 20px 0px;
+    background: white;
+    color: #2e2e2e;
+}
+
+.brand {
+    font-size: 75px;
+}

@@ -67,7 +67,3 @@ function exclude<User, Key extends keyof User>(
   }
   return user
 }
-
-// function combineUserGroups(){
-
-// }

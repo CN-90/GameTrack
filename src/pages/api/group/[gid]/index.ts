@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from "next-auth/jwt"
-import prisma from '../../../../prisma/prisma';
+import prisma from '../../../../../prisma/prisma';
 
 type Data = {
     name: string
@@ -103,6 +103,11 @@ async function deleteGroup(req: NextApiRequest, groupId: string) {
 async function addMember(req: NextApiRequest, groupId: string, userId: string) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     if (token) {
+        const group = await prisma.group.findUnique({
+            where: {
+                id: parseInt(groupId),
+            }
+        });
        
     }
 }

@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 
 function Groups({ userGroups }) {
-    console.log(userGroups)
     if(userGroups.length === 0) return (<h1>You haven't joined any groups yet.</h1>)
 
     async function onDeleteHandler(groupId) {

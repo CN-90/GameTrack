@@ -89,8 +89,8 @@ model Invitation {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  group     Group    @relation(fields: [groupId], references: [id], onUpdate: Cascade)
-  sentTo    User     @relation(fields: [sentToId], references: [id], onUpdate: Cascade)
+  group     Group    @relation(fields: [groupId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  sentTo    User     @relation(fields: [sentToId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   viewed    Boolean  @default(false)
   accepted  Boolean  @default(false)
   groupId   Int

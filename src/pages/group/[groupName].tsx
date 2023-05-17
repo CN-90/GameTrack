@@ -14,7 +14,7 @@ function GroupPage({ group, userID }) {
 
     // Allows Admin to invite a user to group.
     const sendGroupInvite = async (username) => {
-        let res = await axios.post(`/api/group/invitation/${username}`, { username: username.current.value, groupId: id, adminId: userID });
+        let res = await axios.post(`/api/invitation`, { username: username.current.value, groupId: id, adminId: userID });
         console.log(res);
     }
 

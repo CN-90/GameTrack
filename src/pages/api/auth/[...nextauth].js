@@ -1,7 +1,7 @@
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import NextAuth from "next-auth";
 import bcrypt from "bcryptjs";
 
 
@@ -39,11 +39,11 @@ export default NextAuth({
     ],
     callbacks: {
         async jwt({ token, user}) {    
-            console.log(user);
             if(user) {  
                 token.userID = user.id;
+                token.username = user.username;
             }
-            return { ...token};
+            return token;
         },
         async session({ session, token }) {
             session.user.id = token.userID;

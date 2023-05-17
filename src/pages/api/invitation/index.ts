@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import prisma from '../../../../../prisma/prisma';
+import prisma from '../../../../prisma/prisma';
 
 
 type Data = {
@@ -10,14 +10,12 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
 ) {
-    console.log(req.method);
     switch (req.method) {
         case 'GET':
             break;
 
         case 'POST':
             let data = await createInvitation(req);
-            console.log(data);
             return res.status(200).json(data);
 
         default:
@@ -33,9 +31,6 @@ async function createInvitation(req) {
         where: {
             username: req.body.username,
         },
-        include: {
-            groups: true
-        }
 
     })
 
@@ -69,4 +64,5 @@ async function createInvitation(req) {
 //     accepted     Boolean  @default(false)
 //     group        Group    @relation(fields: [groupId], references: [id])
 //     groupId      Int
+//     groupName    String
 //   }

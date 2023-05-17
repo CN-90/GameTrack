@@ -23,6 +23,11 @@ export default async function handler(
             res.status(200).json(group);
             break;
 
+        case 'DELETE':
+            let data = await deleteGroup(req, req.query.gid);
+            res.status(200).json({ message: 'Group has been successfully deleted.' })
+            break;
+
         default:
             res.status(405).end();
 
@@ -64,6 +69,27 @@ async function createGroup(req: NextApiRequest) {
 
     }
 
+}
+
+async function deleteGroup(req: NextApiRequest, groupId: string) {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    if (token) {
+        try {
+            const deletedAdmins = await prisma.admin.deleteMany({
+                where: {
+                    groupId: parseInt(groupId)
+                }
+            })
+            const deletedGroup = await prisma.group.delete({
+                where: {
+                    id: parseInt(groupId),
+                },
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 
