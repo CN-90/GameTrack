@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from "next-auth/jwt"
 import prisma from '../../../../../../prisma/prisma';
+import { getGroupById } from '@/fetchers/groupFetcher';
 
 
 type Data = {
@@ -16,15 +17,16 @@ export default async function handler(
     let data = null;
     switch (req.method) {
         case 'GET':
-
             break;
 
         case 'POST':
-            let data = await addMember(req, req.query.gid, req.query.uid);
-            res.status(200.).json({ message: "Member has been added." });
+            await addMemberToGroup(req, req.query.gid, req.query.uid);
+            res.status(200).json({ message: "Member has been added." });
             break;
 
         case 'DELETE':
+            await removeMemberFromGroup(req, req.query.gid, req.query.uid);
+            res.status(200).json({ message: "Member was removed from group." })
             break;
 
 
@@ -35,34 +37,49 @@ export default async function handler(
 }
 
 
-async function addMember(req: NextApiRequest, groupName: any, userId: any) {
+async function addMemberToGroup(req: NextApiRequest, groupId: any, userId: any) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     if (token) {
         try {
-            const group = await prisma.group.findUnique({
-                where: {
-                    name: groupName
-                },
-                include: {
-                    members: true
-                }
-            });
-            // let groupMembers = [...group.members, userId];
-
-            // console.log(groupMembers);
-
             const updatedGroup = await prisma.group.update({
                 where: {
-                    name: groupName
+                    id: parseInt(groupId)
                 },
                 data: {
                     members: {
-                        set: userId
+                        connect: [{ id: parseInt(userId) }]
+                    }
+                }
+            })
+            console.log(updatedGroup);
+        } catch (error) {
+            console.log(error);
+
+        }
+
+    }
+}
+
+async function removeMemberFromGroup(req: NextApiRequest, groupId: string, userId: string) {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    if (token) {
+        try {
+            let group = await getGroupById(parseInt(groupId));
+            let members = group.members;
+            let newMembers = members.filter((member) => member.id !== parseInt(userId));
+            
+            const updatedGroup = await prisma.group.update({
+                where: {
+                    id: parseInt(groupId)
+                },
+                data: {
+                    members: {
+                        set: newMembers
                     }
                 }
             })
 
-            console.log(updatedGroup);
+            return updatedGroup;
 
         } catch (error) {
             console.log(error);

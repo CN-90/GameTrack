@@ -74,6 +74,8 @@ model Group {
   admin       Admin[]
   private     Boolean      @default(true)
   invitations Invitation[]
+  matches     Match[]
+  tables      Table[]
 }
 
 model Admin {
@@ -121,6 +123,8 @@ model Table {
   matches   Match[]
   videogame Game    @relation(fields: [gameId], references: [id])
   gameId    Int
+  group     Group?  @relation(fields: [groupId], references: [id])
+  groupId   Int?
 }
 
 model Match {
@@ -128,4 +132,6 @@ model Match {
   table   Table  @relation(fields: [tableId], references: [id])
   tableId Int
   players User[]
+  Group   Group? @relation(fields: [groupId], references: [id])
+  groupId Int?
 }

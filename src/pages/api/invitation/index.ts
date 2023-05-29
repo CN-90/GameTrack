@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../../prisma/prisma';
+import { getUserByUsername } from '@/fetchers/userFetcher';
+import { getInvitation } from '@/fetchers/invitationFetcher';
 
 
 type Data = {
@@ -27,16 +29,18 @@ export default async function handler(
 
 async function createInvitation(req) {
     const { username, groupId, adminId } = req.body;
-    let user = await prisma.user.findUnique({
-        where: {
-            username: req.body.username,
-        },
 
-    })
+    let user = await getUserByUsername(username);
 
     if (!user) {
-        console.log("No user with that username was found.");
-        return 'No user with that username was found.';
+        return { error: "That user does not exist." }
+    }
+
+    // Check if an admin has already sent an invitation to this user.
+    let invitationExists = await getInvitation(user.id, groupId);
+
+    if (invitationExists) {
+        return { error: "An invitation has already been sent to this user." };
     }
 
     let invitation = await prisma.invitation.create({

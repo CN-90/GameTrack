@@ -25,17 +25,20 @@ export default function Home({ userId }) {
       });
   }
 
-  const acceptInvitation = async (e: Event) => { 
-    console.log("This is running my dawg...")
-    let res = await axios.post(`/api/group/The Gentlemens Leagues/member/${userId}`,
-      {
-        groupId: 'The Gentlemens Leagues',
-        userId: userId
-      });
-      console.log(res);
+  const acceptInvitation = async (groupId: String, invitationId: String) => {
+    try {
 
+      await axios.post(`/api/group/${groupId}/member/${userId}`,
+        {
+          groupId: 'The Gentlemens Leagues',
+          userId: userId
+        });
+      await axios.delete(`/api/invitation/${invitationId}`);
+
+    } catch (error) {
+      console.log(error);
+    }
   }
-
 
 
   return (
@@ -51,7 +54,7 @@ export default function Home({ userId }) {
         <br></br>
         <h3>Inbox</h3>
         {data.user.invitations.length ? data.user.invitations.map(invite => {
-          return <p onClick={acceptInvitation}>{invite.id}</p>
+          return <p onClick={e => acceptInvitation(invite.group.id, invite.id)}>{`You have been invited to ${invite.group.name}`}</p>
         }) : <p>Your inbox is empty</p>}
 
       </div>

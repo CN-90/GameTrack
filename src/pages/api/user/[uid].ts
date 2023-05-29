@@ -34,7 +34,12 @@ async function getUser(uid: any) {
     },
     include: {
       groups: true,
-      invitations: true,
+      invitations: {
+        select: {
+          group: true,
+          id: true
+        }
+      },
       admin: {
         select: {
           group: true

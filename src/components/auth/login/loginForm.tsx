@@ -1,3 +1,4 @@
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 function LoginForm() {
@@ -6,27 +7,33 @@ function LoginForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
 
-    setIsSubmitting(true);
+      console.log(email, password)
+      let result = await signIn('credentials', {
+        email: email,
+        password: password
+      });
 
-    // try {
-    // //   await login(email, password);
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
-  };
+    } catch (error) {
+
+      alert(error);
+      // Handle sign in error...
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit}>
+      <label htmlFor="">Email</label>
       <input
         type="email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)
+        }
       />
+      <label htmlFor="">Password</label>
       <input
         type="password"
         value={password}

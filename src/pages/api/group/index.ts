@@ -45,12 +45,6 @@ async function createGroup(req: NextApiRequest) {
                 data: {
                     name,
                     description,
-                    // admin: {
-                    //     create: {
-                    //         userId: userId
-                    //     }
-
-                    // }
                 }
             })
 
@@ -75,6 +69,7 @@ async function deleteGroup(req: NextApiRequest, groupId: string) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     if (token) {
         try {
+            // adding cascade can probably fix this so I  only have to delete deletedGroup
             const deletedAdmins = await prisma.admin.deleteMany({
                 where: {
                     groupId: parseInt(groupId)
