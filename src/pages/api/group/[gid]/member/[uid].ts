@@ -37,7 +37,7 @@ export default async function handler(
 }
 
 
-async function addMemberToGroup(req: NextApiRequest, groupId: any, userId: any) {
+async function addMemberToGroup(req: NextApiRequest, groupId: string, userId: string) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     if (token) {
         try {
@@ -51,7 +51,8 @@ async function addMemberToGroup(req: NextApiRequest, groupId: any, userId: any) 
                     }
                 }
             })
-            console.log(updatedGroup);
+
+
         } catch (error) {
             console.log(error);
 
@@ -67,7 +68,7 @@ async function removeMemberFromGroup(req: NextApiRequest, groupId: string, userI
             let group = await getGroupById(parseInt(groupId));
             let members = group.members;
             let newMembers = members.filter((member) => member.id !== parseInt(userId));
-            
+
             const updatedGroup = await prisma.group.update({
                 where: {
                     id: parseInt(groupId)
@@ -83,7 +84,6 @@ async function removeMemberFromGroup(req: NextApiRequest, groupId: string, userI
 
         } catch (error) {
             console.log(error);
-
         }
 
     }

@@ -1,11 +1,12 @@
 import { getToken } from "next-auth/jwt"
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import prisma from '../../../prisma/prisma';
 import axios from "axios";
 
 
 function GroupPage({ group, userID }) {
     const username = useRef('');
+    const [game, setGame] = useState('');
 
     if (!group.length) {
         return <h1>Group not found</h1>
@@ -25,10 +26,16 @@ function GroupPage({ group, userID }) {
     }
 
     // Create a table for a game
-    const createTable = async () => {
-        let res = await axios.post(`/api/table`, { groupId: id, game: "" });
+    const createTable = async (e) => {
+        e.preventDefault();
+        let res = await axios.post(`/api/table`, { groupId: id, game});
         console.log(res);
     }
+
+    const handleChange = (e) => {
+        setGame(e.target.value);
+    }
+
 
     return (
         <div>
@@ -49,18 +56,16 @@ function GroupPage({ group, userID }) {
                 <input type="text" ref={username} />
                 <button onClick={() => sendGroupInvite(username)}>Invite</button>
             </div>
-            <div class="mt-5">
+            <div className="mt-5">
                 <h3 onClick={() => removeMemberFromGroup(id, userID)}>Leave Group</h3>
             </div>
 
-            <div style={{"padding":"100px 0px;"}}>
-                <h2>Create Table for Game</h2>
+            <div style={{"padding":"100px 0px"}}>
+                <h2 className='pb-5'>Create Table for Game</h2>
                 <form onSubmit={createTable} action="">
-                    <label htmlFor="">Name</label><br></br>
-                    <input type="text"  /><br />
-                    <label htmlFor="">Game</label><br />
-                    <input type="text"  /><br />
-                    <button className="p-5 green">Create Table</button>
+                    <label htmlFor="">Game</label>
+                    <input onChange={handleChange} className="mb-5" type="text" name="game" value={game}  /><br />
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Table</button>
                 </form>
             </div>
         </div>
