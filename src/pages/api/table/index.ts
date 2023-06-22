@@ -1,5 +1,5 @@
 import prisma from '../../../../prisma/prisma';
-import { getGameByTitle } from '@/fetchers/gameFetcher';
+import { getGameByTitle } from '@/helpers/gameHelper';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 

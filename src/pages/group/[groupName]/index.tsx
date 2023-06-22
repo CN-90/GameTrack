@@ -1,7 +1,9 @@
 import { getToken } from "next-auth/jwt"
 import { useRef, useState } from "react";
-import prisma from '../../../prisma/prisma';
+import prisma from '../../../../prisma/prisma';
 import axios from "axios";
+import Link from 'next/link';
+
 
 
 function GroupPage({ group, userID }) {
@@ -11,15 +13,17 @@ function GroupPage({ group, userID }) {
     if (!group.length) {
         return <h1>Group not found</h1>
     }
-    const { name, description, admin, members, id } = group[0];
+    console.log(group[0]);
+    const { name, description, admin, members, id, tables } = group[0];
 
     // Allows Admin to invite a user to group.
     const sendGroupInvite = async (username) => {
         let res = await axios.post(`/api/invitation`, { username: username.current.value, groupId: id, adminId: userID });
         console.log(res);
+    
     }
 
-    // Remove memver from group
+    // Remove member from group
     const removeMemberFromGroup = async (groupId: number, userId: number) => {
         let res = await axios.delete(`/api/group/${groupId}/member/${userId}`);
         console.log(res);
@@ -38,27 +42,27 @@ function GroupPage({ group, userID }) {
 
 
     return (
-        <div>
-            <h1>{name}</h1>
-            <p>{description}</p>
-            <div>
+        <div className="w-4/5 m-auto">
+            <h1 className="text-6xl pt-8">{name}</h1>
+            <p className="text-2xl">{description}</p>
+            {/* <div>
                 <h2>Admins</h2>
                 {admin.map((admin) => <h1 key={admin.id}>{admin.user.username}</h1>)}
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
                 <h2>Members:</h2>
                {members.map((member) => <h1 key={member.id}>{member.username}</h1>)}
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
                 <h3>Invite a friend</h3>
                 <input type="text" ref={username} />
                 <button onClick={() => sendGroupInvite(username)}>Invite</button>
             </div>
             <div className="mt-5">
                 <h3 onClick={() => removeMemberFromGroup(id, userID)}>Leave Group</h3>
-            </div>
+            </div> */}
 
             <div style={{"padding":"100px 0px"}}>
                 <h2 className='pb-5'>Create Table for Game</h2>
@@ -67,6 +71,10 @@ function GroupPage({ group, userID }) {
                     <input onChange={handleChange} className="mb-5" type="text" name="game" value={game}  /><br />
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Table</button>
                 </form>
+            </div>
+            <div>
+                <h2>Tables</h2>
+                {tables.map((table) => <h1 key={table.game.id}><Link href={`/group/${name}/table/${table.game.id}`}>{table.game.title}</Link></h1>)}
             </div>
         </div>
     )
@@ -86,6 +94,11 @@ export async function getServerSideProps(context) {
 
         },
         include: {
+            tables: {
+                select: {
+                    game: true
+                }
+            },
             members: {
                 select: {
                     username: true,

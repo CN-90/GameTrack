@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from "next-auth/jwt"
 import prisma from '../../../../../../prisma/prisma';
-import { getGroupById } from '@/fetchers/groupFetcher';
+import { getGroupById } from '@/helpers/groupHelper';
 
 
 type Data = {

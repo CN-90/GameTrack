@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../../prisma/prisma';
-import { getUserByUsername } from '@/fetchers/userFetcher';
-import { getInvitation } from '@/fetchers/invitationFetcher';
+import { getUserByUsername } from '@/helpers/userHelper';
+import { getInvitation } from '@/helpers/invitationHelper';
 
 
 type Data = {
