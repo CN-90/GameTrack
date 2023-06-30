@@ -29,33 +29,25 @@ export default async function handler(
 
 async function createTable(req: NextApiRequest, res: NextApiResponse) {
     const { name, groupId, game } = req.body;
-    console.log(game, groupId)
 
-    let existingGame = await getGameByTitle(game)
-    // if game doesn't already exist in database, create it.
-    if (!existingGame) {
-        existingGame = await prisma.game.create({
-            data: {
-                title: game
-            }
-        })
-    }
+    // let existingGame = await getGameByTitle(game)
+    // // if game doesn't already exist in database, create it.
+    // if (!existingGame) {
+    //     existingGame = await prisma.game.create({
+    //         data: {
+    //             title: game
+    //         }
+    //     })
+    // }
     
-    console.log(existingGame)
-
     const table = await prisma.table.create({
         data: {
             name: game,
-            group: {
-                connect: {
-                    id: parseInt(groupId)
-                }
-            },
-            game: {
-                connect: {
-                    id: parseInt(existingGame.id)
-                }
-            }
+            // group: {
+            //     connect: {
+            //         id: parseInt(groupId)
+            //     }
+            // },
         }
     })
     return table;

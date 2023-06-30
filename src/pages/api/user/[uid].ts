@@ -33,30 +33,33 @@ async function getUser(uid: any) {
       id: parseInt(uid)
     },
     include: {
-      groups: true,
-      invitations: {
-        select: {
-          group: true,
-          id: true
-        }
-      },
-      admin: {
-        select: {
-          group: true
-        }
-      }
+      tables: true
     }
+    // include: {
+    //   groups: true,
+    //   invitations: {
+    //     select: {
+    //       group: true,
+    //       id: true
+    //     }
+    //   },
+    //   admin: {
+    //     select: {
+    //       group: true
+    //     }
+    //   }
+    // }
   })
 
   let userWithExcludedFields = exclude(user, ['password', 'emailVerified', 'createdAt', 'updatedAt']);
 
   // Combines the Admin groups and the reguler User groups into one array.
-  for(let data of userWithExcludedFields.admin ){
-    totalGroups.push(data.group);
-  }
+  // for(let data of userWithExcludedFields.admin ){
+  //   totalGroups.push(data.group);
+  // }
 
-  totalGroups = [...totalGroups, ...userWithExcludedFields.groups];
-  userWithExcludedFields.groups = totalGroups;
+  // totalGroups = [...totalGroups, ...userWithExcludedFields.groups];
+  // userWithExcludedFields.groups = totalGroups;
   
 
   return userWithExcludedFields;
