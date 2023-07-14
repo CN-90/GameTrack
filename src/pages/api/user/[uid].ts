@@ -33,7 +33,7 @@ async function getUser(uid: any) {
       id: parseInt(uid)
     },
     include: {
-      tables: true
+      ladders: true
     }
     // include: {
     //   groups: true,
