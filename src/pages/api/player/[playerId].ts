@@ -19,9 +19,7 @@ export default async function handler(
           
 
         case 'DELETE':
-            data = await deletePlayer(req, res);
-            
-
+           return deletePlayer(req, res);            
         default:
 
     }
@@ -29,7 +27,19 @@ export default async function handler(
 
 
 async function deletePlayer(req: NextApiRequest, res: NextApiResponse) {
-    // const { playerId } = req.body;
-    console.log("Player Deleted")...
+    let playerId = parseInt(req.query.playerId);
+    console.log(playerId);
+    try {
+        let deletedPlayer =  await prisma.player.delete({
+            where: {
+                id: playerId
+            }
+        })
+        return res.status(200).json({ message:"Player deleted successfully", deletedPlayer });
+
+    } catch (error) {
+        return res.status(500).json({ message: "Failed to delete player." });
+    }
+    
 }
 

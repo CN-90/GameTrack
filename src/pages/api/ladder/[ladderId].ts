@@ -13,6 +13,8 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'GET':
+            console.log(req.query.ladderId)
+            // getLadder(req.query.ladderId)
             break;
 
         case 'POST':
@@ -26,4 +28,7 @@ export default async function handler(
     }
 }
 
-
+async function getLadder(ladderId: number){
+    console.log("LadderID is: ", ladderId);
+    
+}

@@ -2,6 +2,7 @@ import type { NextApiRequest } from 'next'
 
 
 export async function createMatch(req: NextApiRequest) {
+    console.log("YOU ARE CREATING A MATCH MY GUY...");
     
 }
 

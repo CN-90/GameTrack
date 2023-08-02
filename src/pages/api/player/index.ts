@@ -40,4 +40,3 @@ async function createPlayer(req: NextApiRequest, res: NextApiResponse) {
 
     return player;
 }
-

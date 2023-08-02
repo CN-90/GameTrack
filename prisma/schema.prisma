@@ -39,14 +39,14 @@ model User {
   password      String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  ladders       Ladder[]
   // groups        Group[]        @relation("GroupMembers")
   // invitations   Invitation[]
   // matches       Match[]
-  sessions      Session[]
-  accounts      Account[]
   // admin         Admin[]
   // notifications Notification[]
-  ladders       Ladder[]
   // gameRecords   Player[]
 }
 
@@ -64,6 +64,45 @@ model Session {
   userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id])
+}
+
+model Player {
+  id       Int     @id @default(autoincrement())
+  name     String?
+  ladder   Ladder  @relation(fields: [ladderId], references: [id])
+  ladderId Int
+  matches  Match[]
+  wins     Match[] @relation(name: "Wins")
+  losses   Match[] @relation(name: "Losses")
+  // user    User?    @relation(fields: [userId], references: [id])
+  // userId  Int
+  // game    Game    @relation(fields: [gameId], references: [id])
+}
+
+model Ladder {
+  id      Int      @id @default(autoincrement())
+  name    String
+  players Player[]
+  user    User     @relation(fields: [userId], references: [id])
+  userId  Int
+  matches Match[]
+  // game    Game?    @relation(fields: [gameId], references: [id])
+  // gameId  Int?
+  // group   Group?   @relation(fields: [groupId], references: [id])
+  // groupId Int?
+  // users   User[]
+}
+
+model Match {
+  id       Int      @id @default(autoincrement())
+  players  Player[]
+  ladder   Ladder   @relation(fields: [ladderId], references: [id])
+  ladderId Int
+  draw     Boolean  @default(false)
+  winner   Player   @relation(name: "Wins", fields: [winnerId], references: [id])
+  winnerId Int
+  loser    Player   @relation(name: "Losses", fields: [loserId], references: [id])
+  loserId  Int
 }
 
 // model Group {
@@ -110,21 +149,6 @@ model Session {
 //   players Player[]
 // }
 
-model Player {
-  id       Int     @id @default(autoincrement())
-  // user    User?    @relation(fields: [userId], references: [id])
-  // userId  Int
-  name     String?
-  // game    Game    @relation(fields: [gameId], references: [id])
-  wins     Int     @default(0)
-  loses    Int     @default(0)
-  draws    Int     @default(0)
-  // gameId  Int
-  matches  Match[]
-  ladder   Ladder  @relation(fields: [ladderId], references: [id])
-  ladderId Int
-}
-
 // model Notification {
 //   id        Int      @id @default(autoincrement())
 //   createdAt DateTime @default(now())
@@ -134,28 +158,3 @@ model Player {
 //   message   String
 //   viewed    Boolean  @default(false)
 // }
-
-model Ladder {
-  id      Int      @id @default(autoincrement())
-  name    String
-  // matches Match[]
-  // game    Game?    @relation(fields: [gameId], references: [id])
-  // gameId  Int?
-  // group   Group?   @relation(fields: [groupId], references: [id])
-  // groupId Int?
-  // users   User[]
-  players Player[]
-  user    User     @relation(fields: [userId], references: [id])
-  userId  Int
-}
-
-model Match {
-  id       Int     @id @default(autoincrement())
-  // ladder    Ladder   @relation(fields: [ladderId], references: [id])
-  // ladderId  Int
-  // users    User[]
-  // Group    Group?  @relation(fields: [groupId], references: [id])
-  // groupId  Int?
-  players  Player? @relation(fields: [playerId], references: [id])
-  playerId Int?
-}
