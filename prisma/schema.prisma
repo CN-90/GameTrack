@@ -96,12 +96,12 @@ model Ladder {
 model Match {
   id       Int      @id @default(autoincrement())
   players  Player[]
-  ladder   Ladder   @relation(fields: [ladderId], references: [id])
+  ladder   Ladder   @relation(fields: [ladderId], references: [id], onDelete: Cascade)
   ladderId Int
   draw     Boolean  @default(false)
-  winner   Player   @relation(name: "Wins", fields: [winnerId], references: [id])
+  winner   Player   @relation(name: "Wins", fields: [winnerId], references: [id], onDelete: Cascade)
   winnerId Int
-  loser    Player   @relation(name: "Losses", fields: [loserId], references: [id])
+  loser    Player   @relation(name: "Losses", fields: [loserId], references: [id], onDelete: Cascade)
   loserId  Int
 }
 

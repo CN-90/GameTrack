@@ -1,5 +1,5 @@
 import prisma from '../../../../prisma/prisma';
-import { createMatch } from '@/helpers/matchHelper';
+import { deleteMatch } from '@/helpers/matchHelper';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 
@@ -15,8 +15,8 @@ export default async function handler(
         case 'GET':
             break;
 
-        case 'POST':
-            let match = await createMatch(req);
+        case 'DELETE':
+            let match = await deleteMatch(req.query.matchId);
             return res.status(200).json(match);
 
         default:

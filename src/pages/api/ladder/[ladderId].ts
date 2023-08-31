@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import prisma from '../../../../../prisma/prisma';
+import prisma from '../../../../prisma/prisma';
 
 
 
@@ -20,6 +20,8 @@ export default async function handler(
         case 'POST':
 
         case 'DELETE':
+            let ladder = await deleteLadder(req.query.ladderId);
+            return res.status(200).json(ladder);
         
 
         default:
@@ -30,5 +32,16 @@ export default async function handler(
 
 async function getLadder(ladderId: number){
     console.log("LadderID is: ", ladderId);
+    
+}
+
+async function deleteLadder(ladderId: number){
+    console.log('DeleteLadder is ' + ladderId);
+    // prisma.ladder.delete({
+    //     where: {
+    //         id: ladderId
+    //     }
+    // })
+
     
 }
