@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../../prisma/prisma';
+import { removeMatchesFromLadder } from '@/helpers/ladderHelper';
 
 
 type Data = {
@@ -19,7 +20,9 @@ export default async function handler(
           
 
         case 'DELETE':
-           return deletePlayer(req, res);            
+            let deletedPlayer = await deletePlayer(req, res);
+            return res.status(200).json({message: "Player has been successfully deleted.", deletedPlayer});
+
         default:
 
     }
@@ -27,19 +30,28 @@ export default async function handler(
 
 
 async function deletePlayer(req: NextApiRequest, res: NextApiResponse) {
-    let playerId = parseInt(req.query.playerId);
-    console.log(playerId);
-    try {
-        let deletedPlayer =  await prisma.player.delete({
-            where: {
-                id: playerId
-            }
-        })
-        return res.status(200).json({ message:"Player deleted successfully", deletedPlayer });
+    // const playerId = parseInt(req.query.playerId);
+    // const ladderId = req;
+    // console.log(playerId);  7
+    // console.log(ladderId);
 
-    } catch (error) {
-        return res.status(500).json({ message: "Failed to delete player." });
-    }
+    // need to delete every match the player is currently in before being able to delete the player.
+    // get ladder
+    // console.log("DELETED MATCHES----")
+    // let deletedMatches = await removeMatchesFromLadder(req, res);
+    
+    // try {
+    //     let deletedPlayer =  await prisma.player.delete({
+    //         where: {
+    //             id: playerId
+    //         }
+    //     })
+    //     console.log(deletedPlayer)
+    //    return deletedPlayer
+
+    // } catch (error) {
+    //     return error
+    // }
     
 }
 

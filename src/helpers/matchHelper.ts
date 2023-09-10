@@ -32,7 +32,17 @@ export async function deleteMatch(matchId: string) {
             id: parseInt(matchId)
         }
     });
+}
 
+export async function deleteMatches(playerId: string, ladderId: string) {
+
+   // find ladder
+    let ladder = await prisma.ladder.findUnique({
+         where: {
+              id: parseInt(ladderId)
+         }
+    });
+    console.log(ladder);
 }
 
 

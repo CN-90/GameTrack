@@ -14,14 +14,14 @@ function LadderPage({ userID, ladder }) {
     if (!ladder) {
         return <h1>Ladder not found</h1>
     }
-    console.log(ladder);
 
-    const deleteTable = async () => {
-        let deletedTable = await axios.delete(`/api/ladder/${ladderId}`, { ladderId });
+    const deleteLadder = async () => {
+        let deletedTable = await axios.delete(`/api/ladder/${ladderId}`);
+        console.log(deletedTable);
     }
 
-    const deletePlayer = async (playerId) => {
-        let deletedPlayer = await axios.delete(`/api/player/${playerId}`);
+    const deletePlayer = async (playerId, ladderId) => {
+        let deletedPlayer = await axios.delete(`/api/ladder/${ladderId}/player/${playerId}/`);
     }
 
     const createPlayer = async (playerName: string, ladderId: number) => {
@@ -63,11 +63,11 @@ function LadderPage({ userID, ladder }) {
             {playerError && <p className="text-red-300">{playerError}</p>}
 
             <h1 className="pt-5">Players</h1>
-            {ladder.players.map((player) => <h1 onClick={() => deletePlayer(player.id)} key={player.id}>{player.name}</h1>)}
+            {ladder.players.map((player) => <h1 onClick={() => deletePlayer(player.id, ladderId)} key={player.id}>{player.name}</h1>)}
             <div style={{height: '200px'}}></div>
-            <button onClick={() => createMatch(10, 12, 12, 10)} className="pt-5">Create Match</button>
+            <button onClick={() => createMatch(15, 14, 14, 15)} className="pt-5">Create Match</button>
             <div style={{height: '200px'}}></div>
-            <button onClick={deleteTable} className="pt-5">Delete Table</button>
+            <button onClick={deleteLadder} className="pt-5">Delete Ladder</button>
 
             <h1>Matches</h1>
             {ladder.matches.map((match) => <h1 onClick={() => deleteMatch(match.id)} key={match.id}>{match.id}</h1>)}
