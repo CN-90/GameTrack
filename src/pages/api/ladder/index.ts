@@ -32,7 +32,7 @@ export default async function handler(
 
 
 async function createLadder(req: NextApiRequest, res: NextApiResponse) {
-    const { name, userId, title } = req.body;
+    const { userId, title } = req.body;
 
     const ladder = await prisma.ladder.create({
         data: {

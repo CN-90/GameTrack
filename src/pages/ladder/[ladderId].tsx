@@ -65,7 +65,7 @@ function LadderPage({ userID, ladder }) {
             <h1 className="pt-5">Players</h1>
             {ladder.players.map((player) => <h1 onClick={() => deletePlayer(player.id, ladderId)} key={player.id}>{player.name}</h1>)}
             <div style={{height: '200px'}}></div>
-            <button onClick={() => createMatch(15, 14, 14, 15)} className="pt-5">Create Match</button>
+            <button onClick={() => createMatch(18, 16, 16, 18)} className="pt-5">Create Match</button>
             <div style={{height: '200px'}}></div>
             <button onClick={deleteLadder} className="pt-5">Delete Ladder</button>
 
@@ -75,6 +75,7 @@ function LadderPage({ userID, ladder }) {
         </div>
     )
 }
+
 
 export default LadderPage;
 

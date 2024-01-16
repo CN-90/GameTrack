@@ -82,7 +82,7 @@ model Player {
 model Ladder {
   id      Int      @id @default(autoincrement())
   name    String
-  players Player[] 
+  players Player[]
   user    User     @relation(fields: [userId], references: [id])
   userId  Int
   matches Match[] 

@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
@@ -40,19 +41,19 @@ async function deleteLadder(req, res) {
 
     // delete players that are in the ladder
 
+    try {
+        let deletedLadder = await prisma.ladder.delete({
+            where: {
+                id: ladderId
+            },
+           
+        })    
+
+    }   catch (error) {
+        console.log(error);
+    }
 
 
-
-
-    // let test = parseInt(ladderId);
-    // console.log(test)
-    let deletedLadder = await prisma.ladder.delete({
-        where: {
-            id: ladderId
-        },
-       
-    })
-    console.log("Deleted Ladder")
-    return deletedLadder;
+    
 
 }
