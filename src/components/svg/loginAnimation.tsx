@@ -236,7 +236,7 @@ function LoginAnimation(props) {
 
         runAnimation();
 
-    });
+    }, {scope: svgContainer});
     
 
     return (

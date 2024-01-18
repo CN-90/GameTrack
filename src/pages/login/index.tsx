@@ -2,7 +2,6 @@ import LoginForm from '@/components/auth/Login/loginForm';
 import RegisterForm from '@/components/auth/Register/registerForm';
 import LoginAnimation from '@/components/svg/loginAnimation';
 import { signIn } from 'next-auth/react';
-import styles from './Login.module.css';
 import LoginScoreboard from '@/components/loginScoreboard/LoginScoreboard';
 
 function LoginPage() {
@@ -13,7 +12,7 @@ function LoginPage() {
   }
 
   return (
-    <div className="flex bg-neutral-300 " id={styles.login}>
+    <div className="flex bg-neutral-300">
         <div className="flex flex-col justify-center">
         <div className="p-10 font-ctn">
           <h1 className="text-black lh-0_8 font-black m-0">LOREMIPSUM</h1>
@@ -24,7 +23,7 @@ function LoginPage() {
         </div>
       
       </div>
-      <div id={styles.svgContainer}>
+      <div id="login_svg">
         <LoginAnimation />
         <LoginScoreboard />
       </div>

@@ -1,3 +1,6 @@
+
+
+
 function GandalFaceSVG(props) {
     return (
         <div>
@@ -11,7 +14,7 @@ function GandalFaceSVG(props) {
                 viewBox="0 0 100 100"
                 style={{
                     enableBackground: "new 0 0 100 100",
-                  
+
                 }}
                 xmlSpace="preserve"
                 {...props}

@@ -13,30 +13,24 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 
-  --primary-glow: conic-gradient(
-    from 180deg at 50% 50%,
-    #16abff33 0deg,
-    #0885ff33 55deg,
-    #54d6ff33 120deg,
-    #0071ff33 160deg,
-    transparent 360deg
-  );
-  --secondary-glow: radial-gradient(
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 0)
-  );
+  --primary-glow: conic-gradient(from 180deg at 50% 50%,
+      #16abff33 0deg,
+      #0885ff33 55deg,
+      #54d6ff33 120deg,
+      #0071ff33 160deg,
+      transparent 360deg);
+  --secondary-glow: radial-gradient(rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0));
 
   --tile-start-rgb: 239, 245, 249;
   --tile-end-rgb: 228, 232, 233;
-  --tile-border: conic-gradient(
-    #00000080,
-    #00000040,
-    #00000030,
-    #00000020,
-    #00000010,
-    #00000010,
-    #00000080
-  );
+  --tile-border: conic-gradient(#00000080,
+      #00000040,
+      #00000030,
+      #00000020,
+      #00000010,
+      #00000010,
+      #00000080);
 
   --callout-rgb: 238, 240, 241;
   --callout-border-rgb: 172, 175, 176;
@@ -51,24 +45,20 @@
     --background-end-rgb: 0, 0, 0;
 
     --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
+    --secondary-glow: linear-gradient(to bottom right,
+        rgba(1, 65, 255, 0),
+        rgba(1, 65, 255, 0),
+        rgba(1, 65, 255, 0.3));
 
     --tile-start-rgb: 2, 13, 46;
     --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(
-      #ffffff80,
-      #ffffff40,
-      #ffffff30,
-      #ffffff20,
-      #ffffff10,
-      #ffffff10,
-      #ffffff80
-    );
+    --tile-border: conic-gradient(#ffffff80,
+        #ffffff40,
+        #ffffff30,
+        #ffffff20,
+        #ffffff10,
+        #ffffff10,
+        #ffffff80);
 
     --callout-rgb: 20, 20, 20;
     --callout-border-rgb: 108, 108, 108;
@@ -91,8 +81,9 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: rgb(231, 228, 228)
+  background: #D4d4D4;
 }
+
 
 a {
   color: inherit;
@@ -111,7 +102,7 @@ a {
 
 
 .table-img {
-  height:10vh;
+  height: 10vh;
 }
 
 .box-shadow-1 {
@@ -126,13 +117,21 @@ a {
   background: #212121;
 }
 
+.bg-21 {
+  background: #212121;
+}
+
+.bg-37 {
+  background: #373737;
+}
+
 #Layer_1 {
   /* display: none !important; */
+  z-index: 10;
 }
 
 .font-ctn {
-  container-type:inline-size;
-  container-name: loginText;
+  container-type: inline-size;
   width: 50vw;
 }
 
@@ -145,9 +144,24 @@ a {
   font-size: 3.1cqw;
 }
 
-.table-img {
-  /* border-bottom: 3px solid #393939;  */
+#login_table-head {
+  container-type: inline-size;
+  width: 100%;
 }
+
+#login_table-head h1 {
+  font-size: 6.7cqw;
+}
+
+#login_svg {
+  width: 60vw;
+  height: 100vh;
+  background: #ebebeb;
+  position: relative;
+  overflow: hidden !important;
+  padding: 60px 50px;
+}
+
 
 
 @media screen and (max-width: 1600px) {
@@ -160,21 +174,16 @@ a {
     height: 140px !important;
     object-fit: cover;
   }
-  
+  #login_svg {
+    min-width: 50vw;
+    width: 50vw;
+    padding: 30px 50px;
+}
+
 }
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
-  }
-}
-
-
-@container loginText (min-width: 200px) {
-  /* h1 {
-    font-size: 15cqw;
-  } */
-  p {
-    font-size:1.5vw;
   }
 }
