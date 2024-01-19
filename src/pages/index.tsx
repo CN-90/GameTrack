@@ -16,6 +16,7 @@ export default function Home({ userId }) {
   const { data, error, isLoading } = useSWR(`/api/user/${userId}`, (url) => axios.get(url).then(res => res.data))
   const newLadderName = useRef("");
 
+  console.log(data)
 
   if (isLoading) return <h1>Loading...</h1>;
 
@@ -25,8 +26,8 @@ export default function Home({ userId }) {
     <ProtectRoute>
       <section className="flex">
         <div className='m-auto w-11/12 pt-10'>
-          <CreateLadder userId={userId} />
           <h1 className="text-8xl font-bold">YOUR TABLES</h1>
+          <CreateLadder userId={userId} players={data.user.players} />
           {/* <h2>Username: {data.user.username}</h2> */}
 
           <div>
@@ -37,7 +38,7 @@ export default function Home({ userId }) {
             </ul>
           </div>
         </div>
-        <PlayerSidebar/>
+        <PlayerSidebar players={data.user.players}/>
 
       </section>
     </ProtectRoute>

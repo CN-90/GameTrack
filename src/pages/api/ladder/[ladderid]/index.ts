@@ -20,7 +20,7 @@ export default async function handler(
 
         case 'DELETE':
             let ladder = await deleteLadder(req, res);
-            return res.status(200).json({message: "Ladder has been deleted"});
+            return res.status(200).json({ message: "Ladder has been deleted"});
 
 
         default:

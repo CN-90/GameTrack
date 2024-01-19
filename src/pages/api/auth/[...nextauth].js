@@ -59,8 +59,6 @@ export async function verifyCredentials(canidatePassword, email) {
     let user = await prisma.user.findUnique({ where: { email: email } });
 
     if (user) {
-        // Any object returned will be saved in `user` property of the JWT
-
         let confirmPassword = await bcrypt.compare(canidatePassword, user.password);
         if (confirmPassword) {
             return user
@@ -68,7 +66,6 @@ export async function verifyCredentials(canidatePassword, email) {
             return null
         }
     } else {
-        // If you return null then an error will be displayed advising the user to check their details.
         return null
     }
 }

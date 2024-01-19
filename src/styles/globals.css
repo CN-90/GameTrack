@@ -162,6 +162,9 @@ a {
   padding: 60px 50px;
 }
 
+.player-img {
+  left: -28px;
+}
 
 
 @media screen and (max-width: 1600px) {

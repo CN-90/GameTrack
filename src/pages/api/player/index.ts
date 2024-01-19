@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../../prisma/prisma';
+import { getToken } from 'next-auth/jwt';
 
 
 type Data = {
@@ -28,15 +29,60 @@ export default async function handler(
 
 
 async function createPlayer(req: NextApiRequest, res: NextApiResponse) {
-    const { name, ladderId } = req.body;
+    const { name } = req.body;
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    let response = { error: "", player: null };
 
-    const player = await prisma.player.create({
-        data: {
-            name: name,
-            ladderId: parseInt(ladderId) 
-        },
-
-    })
-
-    return player;
+    if (token) {
+        try {
+            let userId = parseInt(token.userID);
+            // console.log(userId)l
+            let newPlayer = await prisma.player.create({
+                data: {
+                    name,
+                    user: {
+                        connect: {
+                            id: userId
+                        }
+                    }
+                }
+            })
+            response.player = newPlayer;
+        } catch (error) {
+            console.log(error)
+            if (error instanceof Error) response.error = error.message;
+        }
+    }
+    return response;
 }
+
+
+// async function createGroup(req: NextApiRequest) {
+//     const { name, description } = req.body;
+//     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+//     if (token) {
+//         try {
+//             let userId = parseInt(token.userID);
+//             let newGroup = await prisma.group.create({
+//                 data: {
+//                     name,
+//                     description,
+//                 }
+//             })
+
+//             await prisma.admin.create({
+//                 data: {
+//                     userId,
+//                     groupId: newGroup.id
+//                 }
+//             })
+
+
+
+//         } catch (error) {
+//             console.log(error);
+//         }
+
+//     }
+
+// }

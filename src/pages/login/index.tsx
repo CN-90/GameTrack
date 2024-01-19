@@ -20,6 +20,7 @@ function LoginPage() {
         </div>
         <div className="py-7">
           <LoginForm />
+          {/* <RegisterForm /> */}
         </div>
       
       </div>

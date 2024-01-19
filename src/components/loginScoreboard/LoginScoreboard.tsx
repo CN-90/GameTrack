@@ -22,18 +22,14 @@ function LoginScoreboard() {
         const timer = setInterval(() => {
             setGamesPlayed(prevCount => prevCount + 1);
             const randomNumber = Math.floor(Math.random() * 3)
-            console.log(randomNumber)
             switch (randomNumber) {
                 case 0:
-                    console.log("GANDALF")
                     setGandalf(prev => ({name: "Gandalf", wins: prev.wins + 1}))
                     break;
                 case 1:
-                    console.log("GOLLUM")
                     setGollum(prev => ({name: "Gollum", wins: prev.wins + 1}))
                     break;
                 case 2:
-                    console.log("FRODO")
                     setFrodo(prev => ({name: "Frodo", wins: prev.wins + 1}))
                     break;
                 default:

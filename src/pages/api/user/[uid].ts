@@ -33,7 +33,8 @@ async function getUser(uid: any) {
       id: parseInt(uid)
     },
     include: {
-      ladders: true
+      ladders: true,
+      players: true
     }
     // include: {
     //   groups: true,
