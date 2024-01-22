@@ -32,7 +32,6 @@ export default async function handler(
 
 
 async function createLadder(req: NextApiRequest, res: NextApiResponse) {
-    console.log(req.body)
     const { userId, title, players } = req.body;
 
     const ladder = await prisma.ladder.create({
@@ -43,9 +42,26 @@ async function createLadder(req: NextApiRequest, res: NextApiResponse) {
                     id: parseInt(userId)
                 }
             },
+            players: {
+                connect: players.map((player: any) => {
+                    return {
+                        id: player.id,
+                    }
+                })
+            },
+            records: {
+                create: players.map((player: any) => {
+                    return {
+                        playerId: player.id,
+                    }
+                })
+            }
+
+           
             
         }
     })
+ 
     return ladder;
 }
 

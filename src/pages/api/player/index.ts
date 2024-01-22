@@ -57,32 +57,3 @@ async function createPlayer(req: NextApiRequest, res: NextApiResponse) {
 }
 
 
-// async function createGroup(req: NextApiRequest) {
-//     const { name, description } = req.body;
-//     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-//     if (token) {
-//         try {
-//             let userId = parseInt(token.userID);
-//             let newGroup = await prisma.group.create({
-//                 data: {
-//                     name,
-//                     description,
-//                 }
-//             })
-
-//             await prisma.admin.create({
-//                 data: {
-//                     userId,
-//                     groupId: newGroup.id
-//                 }
-//             })
-
-
-
-//         } catch (error) {
-//             console.log(error);
-//         }
-
-//     }
-
-// }

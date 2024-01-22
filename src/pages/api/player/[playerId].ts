@@ -30,14 +30,10 @@ export default async function handler(
 
 
 async function deletePlayer(req: NextApiRequest, res: NextApiResponse) {
+    console.log("You've hit the delete player route, congratulations...");
+    console.log(req.query.playerId);
     // const playerId = parseInt(req.query.playerId);
-    // const ladderId = req;
-    // console.log(playerId);  7
-    // console.log(ladderId);
 
-    // need to delete every match the player is currently in before being able to delete the player.
-    // get ladder
-    // console.log("DELETED MATCHES----")
     // let deletedMatches = await removeMatchesFromLadder(req, res);
     
     // try {

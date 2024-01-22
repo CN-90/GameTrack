@@ -68,17 +68,30 @@ model Session {
 }
 
 model Player {
-  id       Int     @id @default(autoincrement())
+  id       Int      @id @default(autoincrement())
   name     String?
-  ladder   Ladder?  @relation(fields: [ladderId], references: [id], onDelete: Cascade)
+  ladder   Ladder?  @relation(fields: [ladderId], references: [id])
   ladderId Int?
   matches  Match[]
-  wins     Match[] @relation(name: "Wins")
-  losses   Match[] @relation(name: "Losses")
-  user     User    @relation(fields: [userId], references: [id])
+  wins     Match[]  @relation(name: "Wins")
+  losses   Match[]  @relation(name: "Losses")
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
+  records  Record[]
   // game    Game    @relation(fields: [gameId], references: [id])
- 
+}
+
+model Record {
+  id       Int    @id @default(autoincrement())
+  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  playerId Int
+  wins     Int    @default(0)
+  losses   Int    @default(0)
+  Draws    Int    @default(0)
+  ladder   Ladder @relation(fields: [ladderId], references: [id], onDelete: Cascade)
+  ladderId Int
+  // game     Game    @relation(fields: [gameId], references: [id])
+  // gameId   Int
 }
 
 model Ladder {
@@ -88,6 +101,7 @@ model Ladder {
   user    User     @relation(fields: [userId], references: [id])
   userId  Int
   matches Match[]
+  records Record[]
   // game    Game?    @relation(fields: [gameId], references: [id])
   // gameId  Int?
   // group   Group?   @relation(fields: [groupId], references: [id])

@@ -130,6 +130,10 @@ a {
   z-index: 10;
 }
 
+.table-img {
+  /* border: 3px solid #3e3e3e; */
+}
+
 .font-ctn {
   container-type: inline-size;
   width: 50vw;

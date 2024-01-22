@@ -20,30 +20,6 @@ function LadderPage({ userID, ladder }) {
         console.log(deletedTable);
     }
 
-    // const deletePlayer = async (playerId, ladderId) => {
-    //     let deletedPlayer = await axios.delete(`/api/ladder/${ladderId}/player/${playerId}/`);
-    // }
-
-    // const createPlayer = async (playerName: string, ladderId: number) => {
-    //     if (!playerName) {
-    //         setPlayerError("Please enter a player name");
-    //         return;
-    //     }
-    //     let filteredPlayers = ladder.players.filter((player) => player.name === playerName);
-    //     if (filteredPlayers.length) {
-    //         setPlayerError("Player already exists");
-    //         return;
-    //     }
-
-    //     try {
-    //         let data = await axios.post(`/api/player`, { name: playerName, ladderId });
-    //         console.log(data);
-
-    //     } catch (error) {
-
-    //     }
-    // }
-
     const createMatch = async (playerOne: number, playerTwo: number, winnerId: number, loserId: number) => {
         let data = await axios.post(`/api/match`, { playerOne, playerTwo, winnerId, loserId, ladderId });
         console.log(data);
@@ -55,6 +31,7 @@ function LadderPage({ userID, ladder }) {
     }
 
 
+    console.log(ladder);
     return (
         <section className="w-11/12 m-auto pt-10">
             <div>
@@ -68,14 +45,14 @@ function LadderPage({ userID, ladder }) {
             {playerError && <p className="text-red-300">{playerError}</p>} */}
 
             <h1 className="pt-5">Players</h1>
-            {/* {ladder.players.map((player) => <h1 onClick={() => deletePlayer(player.id, ladderId)} key={player.id}>{player.name}</h1>)}
-            <div style={{height: '200px'}}></div>
-            <button onClick={() => createMatch(18, 16, 16, 18)} className="pt-5">Create Match</button>
-            <div style={{height: '200px'}}></div> */}
+            {ladder.players.map((player) => <h1 key={player.id}>{player.name}</h1>)}
+            {/* <button onClick={() => createMatch(18, 16, 16, 18)} className="pt-5">Create Match</button> */}
             <button onClick={deleteLadder} className="pt-5">Delete Ladder</button>
 
             <h1>Matches</h1>
             {ladder.matches.map((match) => <h1 onClick={() => deleteMatch(match.id)} key={match.id}>{match.id}</h1>)}
+
+            
 
         </section>
     )
