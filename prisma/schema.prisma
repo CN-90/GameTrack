@@ -73,8 +73,6 @@ model Player {
   ladder   Ladder?  @relation(fields: [ladderId], references: [id])
   ladderId Int?
   matches  Match[]
-  wins     Match[]  @relation(name: "Wins")
-  losses   Match[]  @relation(name: "Losses")
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
   records  Record[]
@@ -82,16 +80,15 @@ model Player {
 }
 
 model Record {
-  id       Int    @id @default(autoincrement())
-  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  id       Int     @id @default(autoincrement())
+  player   Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
   playerId Int
-  wins     Int    @default(0)
-  losses   Int    @default(0)
-  Draws    Int    @default(0)
-  ladder   Ladder @relation(fields: [ladderId], references: [id], onDelete: Cascade)
+  matches  Match[]
+  wins     Match[]  @relation(name: "Wins") 
+  losses   Match[]  @relation(name: "Losses")
+  ladder   Ladder  @relation(fields: [ladderId], references: [id], onDelete: Cascade)
   ladderId Int
-  // game     Game    @relation(fields: [gameId], references: [id])
-  // gameId   Int
+  playerName String @default("")
 }
 
 model Ladder {
@@ -115,10 +112,11 @@ model Match {
   ladder   Ladder   @relation(fields: [ladderId], references: [id], onDelete: Cascade)
   ladderId Int
   draw     Boolean  @default(false)
-  winner   Player   @relation(name: "Wins", fields: [winnerId], references: [id], onDelete: Cascade)
+  winner   Record   @relation(name: "Wins", fields: [winnerId], references: [id], onDelete: Cascade)
   winnerId Int
-  loser    Player   @relation(name: "Losses", fields: [loserId], references: [id], onDelete: Cascade)
+  loser    Record   @relation(name: "Losses", fields: [loserId], references: [id], onDelete: Cascade)
   loserId  Int
+  records  Record[]
 }
 
 // model Group {

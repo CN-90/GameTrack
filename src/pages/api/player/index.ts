@@ -36,7 +36,6 @@ async function createPlayer(req: NextApiRequest, res: NextApiResponse) {
     if (token) {
         try {
             let userId = parseInt(token.userID);
-            // console.log(userId)l
             let newPlayer = await prisma.player.create({
                 data: {
                     name,

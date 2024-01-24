@@ -53,6 +53,7 @@ async function createLadder(req: NextApiRequest, res: NextApiResponse) {
                 create: players.map((player: any) => {
                     return {
                         playerId: player.id,
+                        playerName: player.name,
                     }
                 })
             }

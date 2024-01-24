@@ -3,6 +3,7 @@ import prisma from '../../prisma/prisma';
 
 
 export async function createMatch(req: NextApiRequest) {
+    console.log(req.body);
     let match = await prisma.match.create({
         data: {
             ladder: {
@@ -10,8 +11,8 @@ export async function createMatch(req: NextApiRequest) {
             },
             players: {
                 connect: [
-                    { id: req.body.playerOne },
-                    { id: req.body.playerTwo }
+                    { id: req.body.playerOne.id },
+                    { id: req.body.playerTwo.id }
                 ]
             },
             winner: {

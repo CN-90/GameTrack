@@ -19,6 +19,29 @@ export async function removeMatchesFromLadder(ladderId: string) {
     } catch (error) {
 
     }
-
-
 }
+
+
+export async function addWinToRecord(playerId: number) {
+    try {
+        let player = await prisma.player.findUnique({
+            where: {
+                id: playerId
+            }
+        });
+
+        let updatedPlayer = await prisma.player.update({
+            where: {
+                id: playerId
+            },
+            data: {
+                wins: player.wins + 1
+            }
+        });
+
+        return updatedPlayer;
+
+    } catch (error) {
+
+    }
+}   

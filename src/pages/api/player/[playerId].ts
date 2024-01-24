@@ -30,24 +30,20 @@ export default async function handler(
 
 
 async function deletePlayer(req: NextApiRequest, res: NextApiResponse) {
-    console.log("You've hit the delete player route, congratulations...");
-    console.log(req.query.playerId);
-    // const playerId = parseInt(req.query.playerId);
-
+    const playerId = parseInt(req.query.playerId);
     // let deletedMatches = await removeMatchesFromLadder(req, res);
-    
-    // try {
-    //     let deletedPlayer =  await prisma.player.delete({
-    //         where: {
-    //             id: playerId
-    //         }
-    //     })
-    //     console.log(deletedPlayer)
-    //    return deletedPlayer
+    try {
+        let deletedPlayer =  await prisma.player.delete({
+            where: {
+                id: playerId
+            }
+        })
+        console.log(deletedPlayer)
+       return deletedPlayer
 
-    // } catch (error) {
-    //     return error
-    // }
+    } catch (error) {
+        return error
+    }
     
 }
 
