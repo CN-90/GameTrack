@@ -31,7 +31,7 @@ export default async function handler(
 
 async function deletePlayer(req: NextApiRequest, res: NextApiResponse) {
     const playerId = parseInt(req.query.playerId);
-    // let deletedMatches = await removeMatchesFromLadder(req, res);
+    
     try {
         let deletedPlayer =  await prisma.player.delete({
             where: {

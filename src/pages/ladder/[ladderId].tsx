@@ -4,8 +4,10 @@ import { getToken } from "next-auth/jwt";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import prisma from "../../../prisma/prisma";
+import { getUserById } from "@/helpers/userHelper";
 
-function LadderPage({ userID, ladder }) {
+function LadderPage({ ladder, user }) {
+    console.log(user);
     console.log(ladder);
     const router = useRouter();
     const { ladderId } = router.query;
@@ -35,7 +37,11 @@ function LadderPage({ userID, ladder }) {
 
     const selectPlayer = (setPlayerFn: Function, playerId) => {
         setPlayerFn(playerId);
-        console.log(playerId);
+    }
+
+
+    const addPlayerToLadder = async (playerId: Number) => {
+        let addedPlayer = await axios.post(`/api/ladder/${ladderId}/player/${playerId}`);
     }
 
 
@@ -71,7 +77,7 @@ function LadderPage({ userID, ladder }) {
 
             <div className="p-10">
                 <h1 className="uppercase text-4xl font-bold">Recent Matches</h1>
-                {ladder.matches.map((match) => <h1 onClick={() => deleteMatch(match.id)} key={match.id}>{match.id}</h1>)}
+                {ladder.matches.map((match) => <h1 className="uppercase font-bold   " onClick={() => deleteMatch(match.id)} key={match.id}>{match.winner.playerName} vs {match.loser.playerName}</h1>)}
                 <div className="pt-10 flex gap-20">
                     <div>
                         <div className="border-4">
@@ -101,8 +107,9 @@ function LadderPage({ userID, ladder }) {
                     <h1 onClick={() => setWinner(playerTwo)}>{playerTwo.player.name}</h1>
                     <span>Winner is {winner.player.name}</span>
                 </div>}
-                <button onClick={createMatch} >Create Match</button>
-                
+                <button onClick={createMatch} >Create Match</button><br></br>
+
+                <button onClick={addPlayerToLadder}>test</button>
             </div>
 
         </section>
@@ -123,16 +130,20 @@ export async function getServerSideProps(context) {
             id: parseInt(context.params.ladderId)
         },
         include: {
-            matches: { include: { winner: true, loser: true,}},
+            matches: { include: { winner: true, loser: true, } },
             records: { include: { wins: true, losses: true, player: true }, orderBy: { wins: { _count: 'desc' } } }
         }
 
     })
 
+    const user = await getUserById(userID);
+
     return {
         props: {
-            userID: userID,
-            ladder
+            ladder,
+            user: user
+            
+            
         }
     }
 }

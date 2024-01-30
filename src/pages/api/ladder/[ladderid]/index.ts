@@ -11,8 +11,6 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'GET':
-            console.log(req.query.ladderId)
-            // getLadder(req.query.ladderId)
             break;
 
         case 'POST':
@@ -36,9 +34,6 @@ async function getLadder(ladderId: number) {
 
 async function deleteLadder(req, res) {
     const ladderId = parseInt(req.query.ladderid);
-    console.log("Delete ladder has been hit...")
-    console.log("LadderID is: ", ladderId);
-
     // delete players that are in the ladder
 
     try {

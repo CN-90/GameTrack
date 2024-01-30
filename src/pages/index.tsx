@@ -16,10 +16,7 @@ export default function Home({ userId }) {
   const { data, error, isLoading } = useSWR(`/api/user/${userId}`, (url) => axios.get(url).then(res => res.data))
   const newLadderName = useRef("");
 
-  console.log(data)
-
   if (isLoading) return <h1>Loading...</h1>;
-
 
 
   return (
@@ -45,7 +42,7 @@ export default function Home({ userId }) {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   const session = await getSession(context);
   let userId = null;
 

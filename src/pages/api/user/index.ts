@@ -59,11 +59,11 @@ async function CreateUser(user: User) {
 }
 
 
-async function findUser(email: string) {
+async function findUserById(id: Number) {
   try {
     let foundUser = await prisma.user.findUnique({
       where: {
-        email,
+        id,
       },
     })
     return foundUser;
