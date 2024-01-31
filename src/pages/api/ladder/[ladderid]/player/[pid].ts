@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from "next-auth/jwt"
 import prisma from '../../../../../../prisma/prisma';
+import { deleteRecord } from '@/helpers/recordHelper';
 
 
 type Data = {
@@ -13,17 +14,19 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
 ) {
-    let data = null;
+    let data;
     switch (req.method) {
         case 'GET':
             break;
 
         case 'POST':
-            let addedPlayer = await addPlayerToLadder();
+            data = await addPlayerToLadder(req, res);
+            return res.status(200).json({ message: "Player has been added to ladder.", data });
             break;
 
         case 'DELETE':
-            
+            data = await deletePlayerFromLadder(req, res);
+            return res.status(200).json({ message: "Player has been removed from ladder.", data });
             break;
 
 
@@ -35,30 +38,66 @@ export default async function handler(
 
 
 async function addPlayerToLadder(req: NextApiRequest, res: NextApiResponse) {
-    console.log("You've are trying to add a player.")
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+
+
+    if (token) {
+        const { players, ladderId } = req.body;
+        console.log(players);
+        try {
+            const updatedLadder = await prisma.ladder.update({
+                where: {
+                    id: parseInt(ladderId)
+                },
+                data: {
+                    players: {
+                        connect: players.map((player: any) => {
+                            return { id: player.id }
+                        })
+                    },
+                    records: {
+                        create: players.map((player: any) => {
+                            return { playerName: player.name, player: { connect: { id: player.id } } }
+                        })
+                    }
+                }
+            })
+
+            return updatedLadder;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 
-// async function addMemberToGroup(req: NextApiRequest, groupId: string, userId: string) {
-//     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-//     if (token) {
-//         try {
-//             const updatedGroup = await prisma.group.update({
-//                 where: {
-//                     id: parseInt(groupId)
-//                 },
-//                 data: {
-//                     members: {
-//                         connect: [{ id: parseInt(userId) }]
-//                     }
-//                 }
-//             })
 
+async function deletePlayerFromLadder(req: NextApiRequest, res: NextApiResponse) {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
 
-//         } catch (error) {
-//             console.log(error);
+    if (token) {
+        const { ladderid, pid } = req.query;
+        console.log(req.body);
+        try {
+            // const updatedLadder = await prisma.ladder.update({
+            //     where: {
+            //         id: parseInt(ladderid)
+            //     },
+            //     data: {
+            //         players: {
+            //             disconnect: {
+            //                 id: parseInt(pid)
+            //             }
+            //         }
+            //     }
+            // })
 
-//         }
+            // const deletedRecord = await deleteRecord(ladderid, pid);
 
-//     }
-// }
+            // return updatedLadder;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+}

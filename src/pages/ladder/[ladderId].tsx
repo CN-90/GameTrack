@@ -7,14 +7,14 @@ import prisma from "../../../prisma/prisma";
 import { getUserById } from "@/helpers/userHelper";
 
 function LadderPage({ ladder, user }) {
-    console.log(user);
-    console.log(ladder);
+
     const router = useRouter();
     const { ladderId } = router.query;
 
     const [winner, setWinner] = useState({ id: "", player: { name: "" } });
     const [playerOne, setplayerOne] = useState({ id: "", player: { name: "" } });
     const [playerTwo, setplayerTwo] = useState({ id: "", player: { name: "" } });
+    const [playersToAdd, setPlayersToAdd] = useState([]);
 
     if (!ladder) {
         return <h1>Ladder not found</h1>
@@ -41,7 +41,23 @@ function LadderPage({ ladder, user }) {
 
 
     const addPlayerToLadder = async (playerId: Number) => {
-        let addedPlayer = await axios.post(`/api/ladder/${ladderId}/player/${playerId}`);
+        if(!playersToAdd.length) return;
+        let addedPlayers = await axios.post(`/api/ladder/${ladderId}/player/${playerId}`, { players: playersToAdd, ladderId });
+        // console.log(playersToAdd)
+    }
+
+    const deletePlayerFromLadder = async (player) => {
+        console.log(player);
+        // let deletedPlayer = await axios.delete(`/api/ladder/${ladderId}/player/${playerId}`, {});
+        // console.log(deletedPlayer);
+    }
+
+    const selectPlayersToAdd = (player) => {
+        if(playersToAdd.find(newPlayer => newPlayer.id === player.id)) {
+            setPlayersToAdd(prev => prev.filter(p => p.id !== player.id));
+        } else {
+            setPlayersToAdd(prev => [...prev, player]);
+        }
     }
 
 
@@ -62,7 +78,7 @@ function LadderPage({ ladder, user }) {
                             <div className="w-14 h-14 fully-rounded bg-zinc-500"></div>
                         </div>
                         <div>
-                            <h1 className="text-4xl font-bold leading-none">{record.player.name}</h1>
+                            <h1 onClick={() => deletePlayerFromLadder(record.player)} className="text-4xl font-bold leading-none">{record.player.name}</h1>
                             <div className="flex gap-2 text-2xl leading-none">
                                 <h3 className="text-2xl leading-4 text-zinc-400" >{record.wins.length} Wins</h3>
                                 <h3 className="text-2xl leading-4 text-zinc-400">{record.losses.length} Losses</h3>
@@ -107,12 +123,14 @@ function LadderPage({ ladder, user }) {
                     <h1 onClick={() => setWinner(playerTwo)}>{playerTwo.player.name}</h1>
                     <span>Winner is {winner.player.name}</span>
                 </div>}
-                <button onClick={createMatch} >Create Match</button><br></br>
+                <button onClick={createMatch}>Create Match</button><br></br>
 
+                <h1 className="text-4xl font-bold pt-5">Add players to to ladder.</h1>
+                {user.players.filter(player => ladder.players.find(ladderPlayer => player.id === ladderPlayer.id) ? null : player).map(player => <h1 className="text-4xl font-bold" onClick={() => selectPlayersToAdd(player)} key={player.id}>{player.name}</h1>)}
                 <button onClick={addPlayerToLadder}>test</button>
             </div>
 
-        </section>
+        </section >
     )
 }
 
@@ -131,6 +149,7 @@ export async function getServerSideProps(context) {
         },
         include: {
             matches: { include: { winner: true, loser: true, } },
+            players: true,
             records: { include: { wins: true, losses: true, player: true }, orderBy: { wins: { _count: 'desc' } } }
         }
 
@@ -142,8 +161,8 @@ export async function getServerSideProps(context) {
         props: {
             ladder,
             user: user
-            
-            
+
+
         }
     }
 }

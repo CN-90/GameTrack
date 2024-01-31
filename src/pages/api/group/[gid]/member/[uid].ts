@@ -39,6 +39,7 @@ export default async function handler(
 
 async function addMemberToGroup(req: NextApiRequest, groupId: string, userId: string) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    
     if (token) {
         try {
             const updatedGroup = await prisma.group.update({
