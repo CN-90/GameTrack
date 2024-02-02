@@ -29,11 +29,13 @@ function PlayerSidebar({ players }) {
 
     return (
         <aside className="bg-37 w-1/5 fixed h-full right-0">
-            <label className="text-white text-lg uppercase font-semibold" htmlFor="">New Player</label><br />
-            <input className="bg-white" ref={newPlayerName} type="text" /><br />
-            <button onClick={() => createPlayer(newPlayerName.current.value)}>Create Player</button><br />
-            {playerError && <p className="text-red-300">{playerError}</p>}
             <h1 className="text-white text-4xl uppercase p-5">Players</h1>
+            <form>
+                <label className="text-white text-lg uppercase font-semibold" htmlFor="">New Player</label><br />
+                <input className="bg-white" ref={newPlayerName} type="text" /><br />
+                <button onClick={() => createPlayer(newPlayerName.current.value)}>Create Player</button><br />
+            </form>
+            {playerError && <p className="text-red-300">{playerError}</p>}
             <ul className="pt-1">
                 {players.map((player) => (
                     <li className="text-white text-lg flex flex-col pb-5 relative" key={player.id}>

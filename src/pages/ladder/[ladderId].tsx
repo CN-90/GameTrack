@@ -46,9 +46,8 @@ function LadderPage({ ladder, user }) {
         // console.log(playersToAdd)
     }
 
-    const deletePlayerFromLadder = async (player) => {
-        console.log(player);
-        // let deletedPlayer = await axios.delete(`/api/ladder/${ladderId}/player/${playerId}`, {});
+    const deletePlayerFromLadder = async (record, ladder) => {
+        let deletedPlayer = await axios.delete(`/api/ladder/${ladderId}/player/${record.playerId}`);
         // console.log(deletedPlayer);
     }
 
@@ -78,7 +77,7 @@ function LadderPage({ ladder, user }) {
                             <div className="w-14 h-14 fully-rounded bg-zinc-500"></div>
                         </div>
                         <div>
-                            <h1 onClick={() => deletePlayerFromLadder(record.player)} className="text-4xl font-bold leading-none">{record.player.name}</h1>
+                            <h1 onClick={() => deletePlayerFromLadder(record, ladder)} className="text-4xl font-bold leading-none">{record.player.name}</h1>
                             <div className="flex gap-2 text-2xl leading-none">
                                 <h3 className="text-2xl leading-4 text-zinc-400" >{record.wins.length} Wins</h3>
                                 <h3 className="text-2xl leading-4 text-zinc-400">{record.losses.length} Losses</h3>

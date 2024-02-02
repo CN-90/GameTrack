@@ -71,7 +71,6 @@ async function addPlayerToLadder(req: NextApiRequest, res: NextApiResponse) {
 }
 
 
-
 async function deletePlayerFromLadder(req: NextApiRequest, res: NextApiResponse) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
 
@@ -79,22 +78,22 @@ async function deletePlayerFromLadder(req: NextApiRequest, res: NextApiResponse)
         const { ladderid, pid } = req.query;
         console.log(req.body);
         try {
-            // const updatedLadder = await prisma.ladder.update({
-            //     where: {
-            //         id: parseInt(ladderid)
-            //     },
-            //     data: {
-            //         players: {
-            //             disconnect: {
-            //                 id: parseInt(pid)
-            //             }
-            //         }
-            //     }
-            // })
+            const updatedLadder = await prisma.ladder.update({
+                where: {
+                    id: parseInt(ladderid)
+                },
+                data: {
+                    players: {
+                        disconnect: {
+                            id: parseInt(pid)
+                        }
+                    }
+                }
+            })
 
-            // const deletedRecord = await deleteRecord(ladderid, pid);
+            const deletedRecord = await deleteRecord(ladderid, pid);
 
-            // return updatedLadder;
+            return updatedLadder;
         } catch (error) {
             console.log(error);
         }

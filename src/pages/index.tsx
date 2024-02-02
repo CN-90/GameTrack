@@ -1,10 +1,10 @@
+import { useRef } from 'react'
 import { Inter } from 'next/font/google'
 import { getSession, signOut } from "next-auth/react"
-import ProtectRoute from '@/components/protect/Protect'
-import useSWR from 'swr'
-import axios from 'axios'
 import Link from 'next/link'
-import { useRef } from 'react'
+import axios from 'axios'
+import useSWR from 'swr'
+import ProtectRoute from '@/components/protect/Protect'
 import CreateLadder from '@/components/ladder/createLadder'
 import PlayerSidebar from '@/components/players/playerSidebar'
 
@@ -23,7 +23,7 @@ export default function Home({ userId }) {
     <ProtectRoute>
       <section className="flex">
         <div className='m-auto w-11/12 pt-10'>
-          <h1 className="text-8xl font-bold">YOUR TABLES</h1>
+          <h1 className="text-8xl font-bold">YOUR LADDERS</h1>
           <CreateLadder userId={userId} players={data.user.players} />
           {/* <h2>Username: {data.user.username}</h2> */}
 
