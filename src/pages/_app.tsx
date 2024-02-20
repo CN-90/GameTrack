@@ -4,6 +4,10 @@ import { SessionProvider } from "next-auth/react"
 import Layout from '@/components/layout/Layout'
 
 import { Raleway, Roboto } from 'next/font/google'
+
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
  
 // If loading a variable font, you don't need to specify the font weight
 const raleway = Raleway({ subsets: ['latin'] })

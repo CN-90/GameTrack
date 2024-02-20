@@ -1,15 +1,20 @@
 import LoginForm from '@/components/auth/Login/loginForm';
 import RegisterForm from '@/components/auth/Register/registerForm';
 import LoginAnimation from '@/components/svg/loginAnimation';
-import { signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import LoginScoreboard from '@/components/loginScoreboard/LoginScoreboard';
+import { useRouter } from 'next/router';
 
 function LoginPage() {
+  const { data: session } = useSession();
+  const router = useRouter();
 
-  const handleGoogleSignIn = async (event) => {
-    event.preventDefault()
-    const result = await signIn('google', { callbackUrl: '/' })
+
+  // Redirect to the homepage if the user is authenticated
+  if (session) {
+    router.replace('/');
   }
+
 
   return (
     <div className="flex bg-neutral-300">

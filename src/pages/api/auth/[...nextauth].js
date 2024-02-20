@@ -32,7 +32,12 @@ export default NextAuth({
             // You can pass any HTML attribute to the <input> tag through the object.
             async authorize(credentials, req) {
                 let { email, password } = credentials;
-                return await verifyCredentials(password, email);
+                let verifiedUser = await verifyCredentials(password, email);
+                if (verifiedUser) {
+                    return verifiedUser
+                } else {
+                    throw new Error("Username or password is incorrect.");
+                }
 
             }
         }),

@@ -23,19 +23,21 @@ export default function Home({ userId }) {
     <ProtectRoute>
       <section className="flex">
         <div className='m-auto w-11/12 pt-10'>
-          <h1 className="text-8xl font-bold">YOUR LADDERS</h1>
+          <div className="h-200 bg-zinc-900 w-3/4 relative rounded-lg ">
+            <h1 className="text-8xl text-white font-bold absolute t-150">YOUR LADDERS</h1>
+          </div>
           <CreateLadder userId={userId} players={data.user.players} />
           {/* <h2>Username: {data.user.username}</h2> */}
 
           <div>
             <ul className="p-5">
-                {data.user.ladders.map((ladder) => (
-                  <Link key={ladder.id} href={`/ladder/${ladder.id}`}><li className="text-3xl font-semibold">{ladder.name}</li></Link>
-                ))}
+              {data.user.ladders.map((ladder) => (
+                <Link key={ladder.id} href={`/ladder/${ladder.id}`}><li className="text-3xl font-semibold">{ladder.name}</li></Link>
+              ))}
             </ul>
           </div>
         </div>
-        <PlayerSidebar players={data.user.players}/>
+        <PlayerSidebar players={data.user.players} />
 
       </section>
     </ProtectRoute>

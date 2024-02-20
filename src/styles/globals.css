@@ -113,6 +113,11 @@ a {
   color: #D1D1D1;
 }
 
+.placeholder-bold::placeholder {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 .bg-d1 {
   background: #212121;
 }
@@ -123,6 +128,14 @@ a {
 
 .bg-37 {
   background: #373737;
+}
+
+.t-150 {
+  top: 130px;
+}
+
+.h-200 {
+  height: 200px;
 }
 
 #Layer_1 {
