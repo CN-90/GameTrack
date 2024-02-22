@@ -161,6 +161,38 @@ a {
   font-size: 3.1cqw;
 }
 
+.player:hover .trash-slide {
+  max-width:20%;
+  min-width:20%;
+  transition: all .2s linear;
+}
+
+.player:hover .trash-slide .fa-trash {
+  opacity: 1;
+  transform: translateY(0px);
+  transition: all .1s linear;
+
+}
+
+.trash-slide {
+  max-width: 0%;
+  min-width: 0%;
+  transition: all .2s linear;
+}
+
+.trash-slide .fa-trash {
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all .1s linear;
+}
+
+.trash-slide:hover {
+  background: rgb(249, 112, 112);
+}
+.trash-slide:hover svg {
+  color: white;
+}
+
 #login_table-head {
   container-type: inline-size;
   width: 100%;

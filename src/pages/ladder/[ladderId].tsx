@@ -1,10 +1,13 @@
 import { createPlayer } from "@/actions/players";
 import axios from "axios";
+import prisma from "../../../prisma/prisma";
 import { getToken } from "next-auth/jwt";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import prisma from "../../../prisma/prisma";
 import { getUserById } from "@/helpers/userHelper";
+import { usePathname, useSearchParams } from 'next/navigation'
+import Link from "next/link";
+
 
 function LadderPage({ ladder, user }) {
 
@@ -15,6 +18,11 @@ function LadderPage({ ladder, user }) {
     const [playerOne, setplayerOne] = useState({ id: "", player: { name: "" } });
     const [playerTwo, setplayerTwo] = useState({ id: "", player: { name: "" } });
     const [playersToAdd, setPlayersToAdd] = useState([]);
+
+    const searchParams = useSearchParams();
+    const pathname = usePathname()
+
+
 
     if (!ladder) {
         return <h1>Ladder not found</h1>
@@ -41,18 +49,17 @@ function LadderPage({ ladder, user }) {
 
 
     const addPlayerToLadder = async (playerId: Number) => {
-        if(!playersToAdd.length) return;
+        if (!playersToAdd.length) return;
         let addedPlayers = await axios.post(`/api/ladder/${ladderId}/player/${playerId}`, { players: playersToAdd, ladderId });
         // console.log(playersToAdd)
     }
 
     const deletePlayerFromLadder = async (record, ladder) => {
         let deletedPlayer = await axios.delete(`/api/ladder/${ladderId}/player/${record.playerId}`);
-        // console.log(deletedPlayer);
     }
 
     const selectPlayersToAdd = (player) => {
-        if(playersToAdd.find(newPlayer => newPlayer.id === player.id)) {
+        if (playersToAdd.find(newPlayer => newPlayer.id === player.id)) {
             setPlayersToAdd(prev => prev.filter(p => p.id !== player.id));
         } else {
             setPlayersToAdd(prev => [...prev, player]);
@@ -61,18 +68,28 @@ function LadderPage({ ladder, user }) {
 
 
     return (
-        <section className="w-11/12 m-auto pt-10 flex">
-            <div className="w-1/2">
-
-
+        <section className="w-11/12 m-auto pt-10">
+           { searchParams.get("players") ? <div>
+                <h1>Modals</h1>
+            </div> : null}
+            <div>
                 <div>
-                    <h1 className="text-8xl font-bold">{ladder.name}</h1>
+                    <div className="flex gap-2 justify-between">
+                        <div>
+                            <h1 className="text-8xl font-bold">{ladder.name}</h1>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <Link href={`${pathname}/?players=true`} className="p-2 bg-zinc-400 font-bold uppercase">Add Players</Link>
+                            <button className="p-2 bg-zinc-400 font-bold uppercase">Create Match</button>
+                        </div>
+                    </div>
                     <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.records.length} players</h3>
-                    <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.matches.length} Matches Played</h3>
+                    <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600 pb-2">{ladder.matches.length} Matches Played</h3>
                 </div>
 
-                <div className="flex flex-col gap-3 pt-10">
-                    {ladder.records.map((record) => <div className="flex gap-2" key={record.player.id}>
+                <ol className="flex flex-col gap-3 pt-10">
+                    {ladder.records.length === 0 && <h1 className="text-4xl font-bold">No players in ladder</h1>}
+                    {ladder.records.map((record) => <li className="flex gap-2" key={record.player.id}>
                         <div>
                             <div className="w-14 h-14 fully-rounded bg-zinc-500"></div>
                         </div>
@@ -84,15 +101,14 @@ function LadderPage({ ladder, user }) {
 
                             </div>
                         </div>
-                    </div>)}
-                </div>
+                    </li>)}
+                </ol>
                 {/* <button onClick={() => createMatch(18, 16, 16, 18)} className="pt-5">Create Match</button> */}
-                <button onClick={deleteLadder} className="pt-5">Delete Ladder</button>
             </div>
 
-            <div className="p-10">
-                <h1 className="uppercase text-4xl font-bold">Recent Matches</h1>
-                {ladder.matches.map((match) => <h1 className="uppercase font-bold   " onClick={() => deleteMatch(match.id)} key={match.id}>{match.winner.playerName} vs {match.loser.playerName}</h1>)}
+            <div className="pt-5">
+                <h1 className="uppercase text-4xl font-bold pb-2">Recent Matches</h1>
+                {ladder.matches.map((match) => <h1 className="uppercase font-bold" onClick={() => deleteMatch(match.id)} key={match.id}>{match.winner.playerName} vs {match.loser.playerName}</h1>)}
                 <div className="pt-10 flex gap-20">
                     <div>
                         <div className="border-4">
@@ -129,6 +145,7 @@ function LadderPage({ ladder, user }) {
                 <button onClick={addPlayerToLadder}>test</button>
             </div>
 
+            <button onClick={deleteLadder} className="pt-5">Delete Ladder</button>
         </section >
     )
 }
@@ -144,7 +161,8 @@ export async function getServerSideProps(context) {
 
     const ladder = await prisma.ladder.findUnique({
         where: {
-            id: parseInt(context.params.ladderId)
+            id: parseInt(context.params.ladderId),
+            userId: parseInt(userID)
         },
         include: {
             matches: { include: { winner: true, loser: true, } },

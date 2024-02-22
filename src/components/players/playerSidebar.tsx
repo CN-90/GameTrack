@@ -3,15 +3,12 @@ import { useRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-
-
-
-
 function PlayerSidebar({ players }) {
     const newPlayerName = useRef("");
     const [playerError, setPlayerError] = useState("");
 
-    const createPlayer = async (playerName: string) => {
+    const createPlayer = async (e, playerName: string) => {
+        e.preventDefault();
         if (!playerName) {
             setPlayerError("Please enter a player name");
             return;
@@ -40,25 +37,25 @@ function PlayerSidebar({ players }) {
                 <label className="text-white text-lg uppercase font-semibold" htmlFor="">New Player</label><br />
                 <div className="flex">
                     <input className="bg-white" ref={newPlayerName} type="text" /><br />
-                    <button className="text-white" onClick={() => createPlayer(newPlayerName.current.value)}>Create Player</button><br />
+                    <button className="text-white p-2 bg-zinc-800" onClick={(e) => createPlayer(e, newPlayerName.current.value)}>Create Player</button><br />
 
                 </div>
-            </form>
             {playerError && <p className="text-red-300">{playerError}</p>}
+            </form>
             <ul className="pt-1">
                 {players.map((player) => (
-                    <li className="text-white text-lg flex pb-5 relative" key={player.id}>
+                    <li className="player text-white text-lg flex pb-5 relative w-full" key={player.id}>
                         <div className="player-img h-14 rounded-full w-14 bg-neutral-700 absolute" />
-                        <span className="pl-10 flex flex-col min-h-[56px]">
+                        <span className="pl-10 flex min-h-[56px] justify-between w-full">
                             <span>
-                            <h1 onClick={() => deletePlayer(player.id)} className="text-white text-2xl leading-none capitalize">{player.name}</h1>
-                            <h2 className="text-zinc-500 leading-none">0 Wins 0 Losses</h2>
+                                <h1 className="text-white text-2xl leading-none capitalize">{player.name.length > 15 ? player.name.substring(0,15) + "..." : player.name}</h1>
+                                <h2 className="text-zinc-500 leading-none">0 Wins 0 Losses</h2>
                             </span>
-                            <div style={{width:"25%", height: "100%", background: "red"}}>
-                            <FontAwesomeIcon icon={faTrash} className="text-white absolute right-5 top-5" />
+                            <div onClick={() => deletePlayer(player.id)} className="trash-slide h-full flex justify-center items-center bg-zinc-300 align-cente cursor-pointer">
+                                <FontAwesomeIcon icon={faTrash} className="text-white text-4xl" />
                             </div>
                         </span>
-                        
+
                     </li>
                 ))}
             </ul>
