@@ -90,6 +90,10 @@ a {
   text-decoration: none;
 }
 
+.green {
+  color: #5bd85b;
+}
+
 .text-42 {
   font-size: 2.125rem;
   line-height: 1;
@@ -124,6 +128,10 @@ a {
 
 .bg-21 {
   background: #212121;
+}
+
+.bg-23 {
+  background: #232323;
 }
 
 .bg-37 {

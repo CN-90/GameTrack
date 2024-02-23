@@ -7,6 +7,9 @@ import { useRef, useState } from "react";
 import { getUserById } from "@/helpers/userHelper";
 import { usePathname, useSearchParams } from 'next/navigation'
 import Link from "next/link";
+import AddPlayersModal from "@/components/ladder/addPlayers/addPlayers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 
 function LadderPage({ ladder, user }) {
@@ -25,7 +28,7 @@ function LadderPage({ ladder, user }) {
 
 
     if (!ladder) {
-        return <h1>Ladder not found</h1>
+        return <h1 className="text-4xl center">Ladder not found</h1>
     }
 
     const deleteLadder = async () => {
@@ -43,7 +46,7 @@ function LadderPage({ ladder, user }) {
         let data = await axios.delete(`/api/match/${matchId}`);
     }
 
-    const selectPlayer = (setPlayerFn: Function, playerId) => {
+    const selectPlayer = (setPlayerFn: Function, playerId: Number) => {
         setPlayerFn(playerId);
     }
 
@@ -69,9 +72,7 @@ function LadderPage({ ladder, user }) {
 
     return (
         <section className="w-11/12 m-auto pt-10">
-           { searchParams.get("players") ? <div>
-                <h1>Modals</h1>
-            </div> : null}
+           { searchParams.get("players") ? <AddPlayersModal user={user} ladder={ladder} /> : null}
             <div>
                 <div>
                     <div className="flex gap-2 justify-between">
@@ -79,8 +80,11 @@ function LadderPage({ ladder, user }) {
                             <h1 className="text-8xl font-bold">{ladder.name}</h1>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <Link href={`${pathname}/?players=true`} className="p-2 bg-zinc-400 font-bold uppercase">Add Players</Link>
-                            <button className="p-2 bg-zinc-400 font-bold uppercase">Create Match</button>
+                            <Link href={`${pathname}/?players=true`} className="p-2 bg-zinc-400 font-bold uppercase rounded-lg">
+                                <FontAwesomeIcon icon={faUser} className="text-2xl pr-2" />
+                                Add Players
+                            </Link>
+                            <button className="p-2 bg-zinc-400 font-bold uppercase rounded-lg">Create Match</button>
                         </div>
                     </div>
                     <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.records.length} players</h3>
@@ -139,10 +143,6 @@ function LadderPage({ ladder, user }) {
                     <span>Winner is {winner.player.name}</span>
                 </div>}
                 <button onClick={createMatch}>Create Match</button><br></br>
-
-                <h1 className="text-4xl font-bold pt-5">Add players to to ladder.</h1>
-                {user.players.filter(player => ladder.players.find(ladderPlayer => player.id === ladderPlayer.id) ? null : player).map(player => <h1 className="text-4xl font-bold" onClick={() => selectPlayersToAdd(player)} key={player.id}>{player.name}</h1>)}
-                <button onClick={addPlayerToLadder}>test</button>
             </div>
 
             <button onClick={deleteLadder} className="pt-5">Delete Ladder</button>

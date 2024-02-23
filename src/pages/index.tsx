@@ -24,7 +24,7 @@ export default function Home({ userId }) {
       <section className="flex">
         <div className='m-auto w-11/12 pt-10'>
           <div className="h-200 bg-zinc-900 w-3/4 relative rounded-lg ">
-            <h1 className="text-8xl text-white font-bold absolute t-150">YOUR LADDERS</h1>
+            <h1 className="text-8xl text-white font-bold absolute t-150">YOUR GAMES</h1>
           </div>
           <CreateLadder userId={userId} players={data.user.players} />
           {/* <h2>Username: {data.user.username}</h2> */}

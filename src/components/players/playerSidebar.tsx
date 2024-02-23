@@ -42,7 +42,7 @@ function PlayerSidebar({ players }) {
                 </div>
             {playerError && <p className="text-red-300">{playerError}</p>}
             </form>
-            <ul className="pt-1">
+            <ul className="pt-5">
                 {players.map((player) => (
                     <li className="player text-white text-lg flex pb-5 relative w-full" key={player.id}>
                         <div className="player-img h-14 rounded-full w-14 bg-neutral-700 absolute" />
