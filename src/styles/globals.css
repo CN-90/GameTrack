@@ -175,6 +175,14 @@ a {
   transition: all .2s linear;
 }
 
+.ladder-player:hover .trash-slide {
+  max-width:10%;
+  min-width:10%;
+  transition: all .2s linear;
+
+} 
+
+
 .player:hover .trash-slide .fa-trash {
   opacity: 1;
   transform: translateY(0px);

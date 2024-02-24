@@ -9,7 +9,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import Link from "next/link";
 import AddPlayersModal from "@/components/ladder/addPlayers/addPlayers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 
 
 function LadderPage({ ladder, user }) {
@@ -72,38 +72,44 @@ function LadderPage({ ladder, user }) {
 
     return (
         <section className="w-11/12 m-auto pt-10">
-           { searchParams.get("players") ? <AddPlayersModal user={user} ladder={ladder} /> : null}
+            {searchParams.get("players") ? <AddPlayersModal user={user} ladder={ladder} /> : null}
             <div>
                 <div>
                     <div className="flex gap-2 justify-between">
                         <div>
-                            <h1 className="text-8xl font-bold">{ladder.name}</h1>
+                            <h1 className="text-8xl font-bold leading-none">{ladder.name}</h1>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <Link href={`${pathname}/?players=true`} className="p-2 bg-zinc-400 font-bold uppercase rounded-lg">
+                            <Link href={`${pathname}/?players=true`} className="p-5 px-10 bg-zinc-400 font-bold uppercase rounded-lg">
                                 <FontAwesomeIcon icon={faUser} className="text-2xl pr-2" />
                                 Add Players
                             </Link>
                             <button className="p-2 bg-zinc-400 font-bold uppercase rounded-lg">Create Match</button>
                         </div>
                     </div>
-                    <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.records.length} players</h3>
-                    <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600 pb-2">{ladder.matches.length} Matches Played</h3>
+                    <div className="relative bottom-5">
+                        <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.records.length} players</h3>
+                        <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.matches.length} Matches Played</h3>
+
+                    </div>
                 </div>
 
-                <ol className="flex flex-col gap-3 pt-10">
+                <ol className="flex flex-col gap-3 pt-10 px-5">
                     {ladder.records.length === 0 && <h1 className="text-4xl font-bold">No players in ladder</h1>}
-                    {ladder.records.map((record) => <li className="flex gap-2" key={record.player.id}>
+                    {ladder.records.map((record) => <li className="flex gap-2 player ladder-player" key={record.player.id}>
                         <div>
-                            <div className="w-14 h-14 fully-rounded bg-zinc-500"></div>
+                            <div className="w-14 h-14 rounded-full bg-zinc-500"></div>
                         </div>
                         <div>
-                            <h1 onClick={() => deletePlayerFromLadder(record, ladder)} className="text-4xl font-bold leading-none">{record.player.name}</h1>
+                            <h2 className="text-4xl font-bold leading-none">{record.player.name}</h2>
                             <div className="flex gap-2 text-2xl leading-none">
                                 <h3 className="text-2xl leading-4 text-zinc-400" >{record.wins.length} Wins</h3>
                                 <h3 className="text-2xl leading-4 text-zinc-400">{record.losses.length} Losses</h3>
 
                             </div>
+                        </div>
+                        <div onClick={() => deletePlayerFromLadder(record, ladder)} className="trash-slide h-full flex justify-center items-center bg-zinc-300 align-center cursor-pointer">
+                                <FontAwesomeIcon icon={faTrash} className="text-white text-4xl" />
                         </div>
                     </li>)}
                 </ol>

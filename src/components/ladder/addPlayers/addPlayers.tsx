@@ -29,7 +29,7 @@ function AddPlayersModal({ user, ladder }) {
 
 
     return (
-        <div className="absolute w-1/2 bg-23 rounded-xl p-5">
+        <div className="absolute w-1/2 bg-23 rounded-xl p-5 z-10">
             <div className="flex w-full justify-between">
                 <h1 className="text-4xl font-bold text-white uppercase">Add Player(s) to Ladder</h1>
                 <p onClick={() => closeModal()} className="text-gray-300">Close Modal</p>
