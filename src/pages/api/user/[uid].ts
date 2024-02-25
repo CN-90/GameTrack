@@ -12,7 +12,7 @@ export default async function handler(
 ) {
   switch (req.method) {
     case 'GET':
-      let user = await getUser(req.query.uid);
+      let user = await getUserById(req.query.uid);
       res.status(200).json({user});
       break;
 
@@ -25,7 +25,7 @@ export default async function handler(
   }
 }
 
-async function getUser(uid: any) {
+export async function getUserById(uid: any) {
   let totalGroups = [];
 
   let user = await prisma.user.findUnique({

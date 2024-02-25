@@ -176,8 +176,8 @@ a {
 }
 
 .ladder-player:hover .trash-slide {
-  max-width:10%;
-  min-width:10%;
+  max-width: 5%;
+  min-width: 5%;
   transition: all .2s linear;
 
 } 

@@ -2,7 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from "next-auth/jwt"
 import prisma from '../../../../../../prisma/prisma';
-import { deleteRecord } from '@/helpers/recordHelper';
 
 
 type Data = {
@@ -99,4 +98,15 @@ async function deletePlayerFromLadder(req: NextApiRequest, res: NextApiResponse)
         }
     }
 
+}
+
+export async function deleteRecord(ladderId: string, playerId: string) {
+    const deletedRecord = await prisma.record.deleteMany({
+        where: {
+            playerId: parseInt(playerId),
+            ladderId: parseInt(ladderId)
+        }
+    });
+
+    return deletedRecord;
 }

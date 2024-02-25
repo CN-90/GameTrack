@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import prisma from "../../../../../prisma/prisma";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
@@ -27,9 +27,21 @@ export default async function handler(
     }
 }
 
-async function getLadder(ladderId: number) {
-    console.log("LadderID is: ", ladderId);
+export async function getLadderById(ladderId: number, userId: number){
+    let ladder = await prisma.ladder.findUnique({
+        where: {
+            id: parseInt(ladderId),
+            userId: parseInt(userId)
+        },
+        include: {
+            matches: { include: { winner: true, loser: true, } },
+            players: true,
+            records: { include: { wins: true, losses: true, player: true }, orderBy: { wins: { _count: 'desc' } } }
+        }
 
+    })
+
+    return ladder;
 }
 
 async function deleteLadder(req, res) {

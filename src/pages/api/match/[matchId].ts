@@ -1,5 +1,4 @@
 import prisma from '../../../../prisma/prisma';
-import { deleteMatch } from '@/helpers/matchHelper';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 
@@ -23,4 +22,13 @@ export default async function handler(
             return res.status(405).end();
 
     }
+}
+
+
+export async function deleteMatch(matchId: number) {
+    const deletedMatch = await prisma.match.delete({
+        where: {
+            id: parseInt(matchId)
+        }
+    });
 }

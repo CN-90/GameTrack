@@ -1,15 +1,20 @@
-import { createPlayer } from "@/actions/players";
+import {  useState } from "react";
+
 import axios from "axios";
-import prisma from "../../../prisma/prisma";
+import Link from "next/link";
 import { getToken } from "next-auth/jwt";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
-import { getUserById } from "@/helpers/userHelper";
 import { usePathname, useSearchParams } from 'next/navigation'
-import Link from "next/link";
-import AddPlayersModal from "@/components/ladder/addPlayers/addPlayers";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
+
+import AddPlayersModal from "@/components/ladder/addPlayers/addPlayers";
+
+import { createPlayer } from "@/actions/players";
+
+import { getLadderById } from "../api/ladder/[ladderid]";
+import { getUserById } from "../api/user/[uid]";
 
 
 function LadderPage({ ladder, user }) {
@@ -165,19 +170,7 @@ export async function getServerSideProps(context) {
     let token = await getToken({ req: context.req });
     const { userID, email } = token;
 
-    const ladder = await prisma.ladder.findUnique({
-        where: {
-            id: parseInt(context.params.ladderId),
-            userId: parseInt(userID)
-        },
-        include: {
-            matches: { include: { winner: true, loser: true, } },
-            players: true,
-            records: { include: { wins: true, losses: true, player: true }, orderBy: { wins: { _count: 'desc' } } }
-        }
-
-    })
-
+    const ladder = await getLadderById(context.query.ladderId, userID);
     const user = await getUserById(userID);
 
     return {

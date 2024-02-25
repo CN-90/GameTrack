@@ -21,8 +21,7 @@ export default async function handler(
             return res.status(200).json({ message: "Ladder has been created.", data });
 
         case 'DELTE':
-             data = await deleteLadder(req);
-            return res.status(200).json({ message: "Ladder table has been deleted." });
+             break;
 
         default:
             return res.status(405).end();
@@ -66,11 +65,3 @@ async function createLadder(req: NextApiRequest, res: NextApiResponse) {
     return ladder;
 }
 
-export async function deleteLadder(tableId: string) {
-    const deletedLadder = await prisma.ladder.delete({
-        where: {
-            id: parseInt(tableId)
-        }
-    });
-
-}
