@@ -9,10 +9,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 
-import AddPlayersModal from "@/components/ladder/addPlayers/addPlayers";
-
-import { createPlayer } from "@/actions/players";
-
+import AddPlayersModal from "@/components/players/addPlayersModal/addPlayers";
 import { getLadderById } from "../api/ladder/[ladderid]";
 import { getUserById } from "../api/user/[uid]";
 
@@ -101,7 +98,7 @@ function LadderPage({ ladder, user }) {
 
                 <ol className="flex flex-col gap-3 pt-10 px-5">
                     {ladder.records.length === 0 && <h1 className="text-4xl font-bold">No players in ladder</h1>}
-                    {ladder.records.map((record) => <li className="flex gap-2 player ladder-player" key={record.player.id}>
+                    {ladder.records.map((record) => <li className="flex gap-2" key={record.player.id}>
                         <div>
                             <div className="w-14 h-14 rounded-full bg-zinc-500"></div>
                         </div>
@@ -113,7 +110,7 @@ function LadderPage({ ladder, user }) {
 
                             </div>
                         </div>
-                        <div onClick={() => deletePlayerFromLadder(record, ladder)} className="trash-slide h-full flex justify-center items-center bg-zinc-300 align-center cursor-pointer">
+                        <div onClick={() => deletePlayerFromLadder(record, ladder)} className="h-full flex justify-center items-center bg-zinc-300 align-center cursor-pointer">
                                 <FontAwesomeIcon icon={faTrash} className="text-white text-4xl" />
                         </div>
                     </li>)}

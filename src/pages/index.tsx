@@ -6,7 +6,7 @@ import axios from 'axios'
 import useSWR from 'swr'
 import ProtectRoute from '@/components/protect/Protect'
 import CreateLadder from '@/components/ladder/createLadder'
-import PlayerSidebar from '@/components/players/playerSidebar'
+import PlayerSidebar from '@/components/players/sidebar/playerSidebar'
 
 
 

@@ -74,6 +74,7 @@
   color: #232323;
 }
 
+
 html,
 body {
   max-width: 100vw;
@@ -126,6 +127,10 @@ a {
   background: #212121;
 }
 
+.bg-body {
+  background: #D4d4D4;
+}
+
 .bg-21 {
   background: #212121;
 }
@@ -169,24 +174,41 @@ a {
   font-size: 3.1cqw;
 }
 
+.player {
+  background: #232323;
+  width: 97%;
+  height: 75px;
+}
+
+.player .text-zinc-300 {
+  padding-top: 10px;
+}
+
+.player-img {
+  /* left: -28px; */
+  width: 60px;
+  height: 50px;
+}
+
 .player:hover .trash-slide {
   max-width:20%;
   min-width:20%;
   transition: all .2s linear;
+  border-radius: 0 .5rem .5rem 0;
 }
 
-.ladder-player:hover .trash-slide {
-  max-width: 5%;
-  min-width: 5%;
-  transition: all .2s linear;
-
-} 
+.trash-slide .fa-trash {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all .1s linear;
+}
 
 
 .player:hover .trash-slide .fa-trash {
   opacity: 1;
   transform: translateY(0px);
   transition: all .1s linear;
+  transition-delay: .1s;
 
 }
 
@@ -194,16 +216,14 @@ a {
   max-width: 0%;
   min-width: 0%;
   transition: all .2s linear;
+  transition-delay: .2s;
+  background: rgb(249, 112, 112);
+
 }
 
-.trash-slide .fa-trash {
-  opacity: 0;
-  transform: translateY(-5px);
-  transition: all .1s linear;
-}
 
 .trash-slide:hover {
-  background: rgb(249, 112, 112);
+  background: white;
 }
 .trash-slide:hover svg {
   color: white;
@@ -226,11 +246,6 @@ a {
   overflow: hidden !important;
   padding: 60px 50px;
 }
-
-.player-img {
-  left: -28px;
-}
-
 
 @media screen and (max-width: 1600px) {
   .table-img {
