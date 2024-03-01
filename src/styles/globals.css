@@ -139,6 +139,10 @@ a {
   background: #232323;
 }
 
+.bg-29 {
+  background: #292929;
+}
+
 .bg-37 {
   background: #373737;
 }
@@ -185,9 +189,8 @@ a {
 }
 
 .player-img {
-  /* left: -28px; */
-  width: 60px;
-  height: 50px;
+  width: 65px;
+  /* height: 65px; */
 }
 
 .player:hover .trash-slide {
@@ -223,7 +226,7 @@ a {
 
 
 .trash-slide:hover {
-  background: white;
+  background: rgb(255, 255, 255);
 }
 .trash-slide:hover svg {
   color: white;

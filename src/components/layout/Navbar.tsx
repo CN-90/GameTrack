@@ -12,14 +12,14 @@ export default function Navbar() {
 
 
     return (
-        <nav className="min-h-100 bg-21">
+        <header className="min-h-100 bg-21">
             <div className="flex align-center justify-between w-11/12 m-auto">
-            <h1 className="text-4xl text-white py-5 h-100">
+            <h1 className="text-2xl text-white py-5 h-100">
                 <a href="/">ENIGMATICSPOON</a>
             </h1>
             <button onClick={signOut} className="text-xl text-white font-semibold uppercase">Sign Out</button>
 
             </div>
-        </nav>
+        </header>
     )
 }

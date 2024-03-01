@@ -10,10 +10,14 @@ function createLadder({ userId, players }) {
     }
 
     return (
-        <div class="pt-10">
-            <input className="w-1/4 p-2 bg-zinc-400 text-white placeholder-gray-300 placeholder-bold focus:outline-none" ref={ladderName} type="text" placeholder="ENTER GAME NAME" />
-            <button onClick={createTable} className="bg-blue-500 font-bold uppercase hover:bg-blue-700 p-2">Create Ladder</button>
-        </div>
+        <form className="pt-10 text-right">
+            <fieldset className="pb-2">
+                <label className="hidden" htmlFor="createGame">Game Name</label>
+                <input id="createGame" name="gameName" className="w-full p-2 bg-zinc-400 text-white placeholder-gray-300 placeholder-bold focus:outline-none" ref={ladderName} type="text" placeholder="ENTER GAME NAME" />
+            </fieldset>
+
+            <button onClick={createTable} className="bg-blue-500 font-bold uppercase hover:bg-blue-700 p-2">Add Game</button>
+        </form>
     )
 
 }

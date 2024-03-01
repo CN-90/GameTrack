@@ -21,19 +21,18 @@ export default function Home({ userId }) {
 
   return (
     <ProtectRoute>
-      <section className="flex">
-        <div className='m-auto w-11/12 pt-10'>
-          <div className="h-200 bg-zinc-900 w-3/4 relative rounded-lg ">
-            <h1 className="text-8xl text-white font-bold absolute t-150">YOUR GAMES</h1>
+      <section className="pt-10 flex flex-col w-11/12 m-auto 2xl:flex-row 2xl:w-full 2xl:p-5">
+        <div className='min-h-full 2xl:w-full 2xl:pl-10 2xl:pt-5'>
+          <div className="h-200 bg-zinc-900 relative rounded-lg ">
+            <h1 className="text-5xl text-white font-bold absolute t-150 2xl:text-8xl">YOUR GAMES</h1>
           </div>
           <CreateLadder userId={userId} players={data.user.players} />
-          {/* <h2>Username: {data.user.username}</h2> */}
 
           <div>
             <ul className="p-5">
-              {data.user.ladders.map((ladder) => (
-                <Link key={ladder.id} href={`/ladder/${ladder.id}`}><li className="text-3xl font-semibold">{ladder.name}</li></Link>
-              ))}
+              {data.user.ladders.length > 0 ? data.user.ladders.map((ladder) => (
+                <Link key={ladder.id} href={`/ladder/${ladder.id}`}><li className="text-4xl font-semibold">{ladder.name}</li></Link>
+              )): <h1 className="text-3xl uppercase font-semibold">You are not recording any games</h1>}
             </ul>
           </div>
         </div>
