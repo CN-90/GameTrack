@@ -1,13 +1,10 @@
-import Image from 'next/image';
-import smashCover from '../../../public/smash_cover.jpg';
-import GandalFaceSVG from '@/components/svg/gandalfFaceSVG';
 import { createRef, useEffect, useState } from 'react';
-import AnimateLadder from '../ladder/animateLadder/AnimateLadder';
-import GollumFaceSVG from '../svg/gollumFaceSVG';
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import smashCover from '../../../public/smash_cover.jpg';
 import FrodoFaceSVG from '../svg/frodoFaceSVG';
-
-
-
+import GandalFaceSVG from '@/components/svg/gandalfFaceSVG';
+import GollumFaceSVG from '../svg/gollumFaceSVG';
+import Image from 'next/image';
 
 
 function LoginScoreboard() {
@@ -15,10 +12,11 @@ function LoginScoreboard() {
     const [gandalf, setGandalf] = useState({name: "Gandalf", wins: 0});
     const [gollum, setGollum] = useState({name: "Gollum", wins: 0});
     const [frodo, setFrodo] = useState({name: "Frodo", wins: 0});
+    const [animationParent] = useAutoAnimate();
+
 
 
     useEffect(() => {
-        // Generate number between 0 and 2 every 5 seconds which will be used to determine which player wins that match. Increment their wins by 1
         const timer = setInterval(() => {
             setGamesPlayed(prevCount => prevCount + 1);
             const randomNumber = Math.floor(Math.random() * 3)
@@ -43,44 +41,41 @@ function LoginScoreboard() {
 
 
 
-    const scoreboard = [gandalf, gollum, frodo];
+    const scoreboard = [gandalf, gollum, frodo].sort((a, b) => b.wins - a.wins);
 
     return (
-        <div>
-            <div className="flex gap-5 border-b-8 border-zinc-700 pb-5">
+        <div className="xl:w-1/2 mx-auto">
+            <div id="login_table-head" className="flex bg-23 p-6 rounded-lg">
                 <Image
                     className='smash-cover'
                     alt={"Game cover of Super Smash Brothers: Ultimate for Nintendo Switch"}
                     src={smashCover}
-                    style={{ width: "140px", height: "154px" }}
 
                 />
-                <div id="login_table-head" className="flex-col">
-                    <h1 className="text-42 font-bold pb-1 uppercase md:text-small">Super Smash: Ultimate (FFA)</h1>
+                <div  className="flex-col p-2 ">
+                    <h1 className="text-white text-42 font-bold pt-4 pb-1 uppercase ">Super Smash: Ultimate (FFA)</h1>
                     <div>
-                        <p className="uppercase text-2xl font-semibold">3 Players</p>
-                        <p className="uppercase text-2xl font-semibold leading-4 m-0">{gamesPlayed} Matches Played</p>
+                        <p className="text-zinc-400 uppercase text-md font-semibold">3 Players</p>
+                        <p className="text-zinc-400 uppercase text-md font-semibold leading-4 m-0">{gamesPlayed} Matches Played</p>
                     </div>
                 </div>
             </div>
-            <ul className="flex flex-col gap-2 pt-2 top-5 relative">
-                <AnimateLadder>
-                    {scoreboard.sort((a, b) => b.wins - a.wins).map((player, index) => (
-                        <li key={player.name} ref={createRef()} className="flex gap-5 p-2">
+
+            <ol ref={animationParent} id="login_table-body" className="flex bg-23 flex-col gap-2 p-5 top-5 rounded-4xl relative rounded-2xl ">
+                    {scoreboard.map((player, index) => (
+                        <li key={player.name} ref={createRef()} className="flex gap-5 p-2 bg-18 min-h-80">
                             <div>
                                 {player.name === "Gandalf" && <GandalFaceSVG />}
                                 {player.name === "Gollum" && <GollumFaceSVG  />}
                                 {player.name === "Frodo" && <FrodoFaceSVG />}
                             </div>
                             <div>
-                                <h1 className="text-4xl font-bold">{player.name}</h1>
-                                <p className="text-2xl leading-4 text-zinc-400">{player.wins} Wins {gamesPlayed - player.wins} Losses</p>
+                                <h1 className="text-2xl text-white whitefont-bold">{player.name}</h1>
+                                <p className="leading-4 text-white text-zinc-400">{player.wins} Wins {gamesPlayed - player.wins} Losses</p>
                             </div>
                         </li>
                     ))}
-
-                </AnimateLadder>
-            </ul>
+            </ol>
 
 
         </div>

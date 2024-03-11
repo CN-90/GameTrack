@@ -29,17 +29,20 @@ function AddPlayersModal({ user, ladder }) {
 
 
     return (
-        <div className="absolute w-1/2 bg-23 rounded-xl p-5 z-10">
-            <div className="flex w-full justify-between">
-                <h1 className="text-4xl font-bold text-white uppercase">Add Player(s) to Ladder</h1>
-                <p onClick={() => closeModal()} className="text-gray-300">Close Modal</p>
+        <div className="absolute w-full bg-23 rounded-xl p-5 z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:w-1/2 ">
+            <div className="flex justify-between">
+                <h1 className="text-2xl font-bold text-white uppercase lg:text-4xl ">Add Player(s) to Ladder</h1>
+                {/* <p onClick={() => closeModal()} className="text-gray-300">Close Modal</p> */}
             </div>
             <div className="p-5">
                 <ul className="pb-5">
                     {user.players.filter(player => ladder.players.find(ladderPlayer => player.id === ladderPlayer.id) ? null : player).map(player => <PlayerItem key={player.id} player={player} selectPlayersToAdd={selectPlayersToAdd} />)}
 
                 </ul>
-                <button onClick={() => addPlayerToLadder(ladder.id)} className="bg-blue-500 font-bold uppercase hover:bg-blue-700 p-2">Add Players</button>
+            </div>
+            <div className="flex gap-2">
+                <button onClick={() => addPlayerToLadder(ladder.id)} className="bg-blue-500 text-white font-bold uppercase hover:bg-blue-700 p-2">Add Players</button>
+                <button onClick={() => closeModal()} className="bg-red-500 text-white font-bold uppercase hover:bg-red-700 p-2">Cancel</button>
             </div>
         </div>
     )

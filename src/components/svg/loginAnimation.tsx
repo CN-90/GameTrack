@@ -250,11 +250,10 @@ function LoginAnimation(props) {
     viewBox="0 0 1100 600"
      style={{
                     enableBackground: "new 0 0 1100 600",
-                    height: "40vw",
                     position: "absolute",
                     width: "100%",
                     left: "0",
-                    bottom: "-5vw"
+                   
                     
                 }}
     xmlSpace="preserve"

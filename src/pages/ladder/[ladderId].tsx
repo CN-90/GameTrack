@@ -74,30 +74,33 @@ function LadderPage({ ladder, user }) {
 
 
     return (
-        <section className="w-full m-auto pt-10">
+        <section className="relative w-11/12 m-auto pt-10">
             {searchParams.get("players") ? <AddPlayersModal user={user} ladder={ladder} /> : null}
             <div>
-                <div>
-                    <div className="flex gap-2 justify-between">
+                <div className="">
+                    <div className=" gap-2 justify-between">
                         <div>
                             <h1 className="text-8xl font-bold leading-none">{ladder.name}</h1>
                         </div>
-                        <div className="flex flex-col gap-2">
-                            <Link href={`${pathname}/?players=true`} className="p-5 px-10 bg-zinc-400 font-bold uppercase rounded-lg">
-                                <FontAwesomeIcon icon={faUser} className="text-2xl pr-2" />
-                                Add Players
-                            </Link>
-                            <button className="p-2 bg-zinc-400 font-bold uppercase rounded-lg">Create Match</button>
+                        <div className="relative pb-4">
+                            <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.records.length} players</h3>
+                            <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.matches.length} Matches Played</h3>
+
                         </div>
-                    </div>
-                    <div className="relative bottom-5">
-                        <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.records.length} players</h3>
-                        <h3 className="font-bold uppercase text-3xl leading-none text-neutral-600">{ladder.matches.length} Matches Played</h3>
 
                     </div>
+
+                    <div className="flex flex-col gap-2">
+                        <Link href={`${pathname}/?players=true`} className="md:w-1/4 text-center py-4  bg-zinc-400 font-bold uppercase rounded-lg">
+                            {/* <FontAwesomeIcon icon={faUser} className="text-2xl pr-2" /> */}
+                            Add Players
+                        </Link>
+                        <button className="md:w-1/4 py-4 bg-zinc-400 font-bold uppercase rounded-lg">Create Match</button>
+                    </div>
+
                 </div>
 
-                <ol className="flex flex-col gap-3 pt-10 px-5 w-1/2">
+                <ol className="flex flex-col gap-3 py-10 w-full 2xl:w-3/4 ">
                     {ladder.records.length === 0 && <h1 className="text-4xl font-bold">No players in ladder</h1>}
                     {ladder.records.map((record) => <li className="flex justify-between gap-2" key={record.player.id}>
                         <div className="flex items-center gap-2">
@@ -121,7 +124,7 @@ function LadderPage({ ladder, user }) {
                 {/* <button onClick={() => createMatch(18, 16, 16, 18)} className="pt-5">Create Match</button> */}
             </div>
 
-            <div className="pt-5">
+            {/* <div className="pt-5">
                 <h1 className="uppercase text-4xl font-bold pb-2">Recent Matches</h1>
                 {ladder.matches.map((match) => <h1 className="uppercase font-bold" onClick={() => deleteMatch(match.id)} key={match.id}>{match.winner.playerName} vs {match.loser.playerName}</h1>)}
                 <div className="pt-10 flex gap-20">
@@ -154,7 +157,7 @@ function LadderPage({ ladder, user }) {
                     <span>Winner is {winner.player.name}</span>
                 </div>}
                 <button onClick={createMatch}>Create Match</button><br></br>
-            </div>
+            </div> */}
 
             <button onClick={deleteLadder} className="pt-5">Delete Ladder</button>
         </section >

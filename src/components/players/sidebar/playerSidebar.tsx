@@ -52,7 +52,7 @@ function PlayerSidebar({ players }) {
         // Add more styles based on conditions
       };
     return (
-        <aside className="bg-29 w-full top-100 right-0 m-w-fit min-h-screen 2xl:w-1/4 rounded-md">
+        <aside className="bg-29 w-full top-100 right-0 m-w-fit min-h-screen 2xl:w-1/4">
             { deletePlayerModal.modalOpen ? (<div style={dynamicStyles} className="w-3/4 fixed top-100 text-center top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-23 text-white right-20 p-5 rounded-lg z-10  xl:w-1/3 2xl:w-1/4">
                 {/* <Image src="/images/trash.svg" alt="trash" width={50} height={50} /> */}
                 
@@ -74,7 +74,7 @@ function PlayerSidebar({ players }) {
                     <label className="text-white text-lg uppercase font-semibold" htmlFor="">New Player</label><br />
                     <div className="flex">
                         <input placeholder="PLAYER NAME" className="bg-white p-2 flex-auto font-bold" ref={newPlayerName} type="text" /><br />
-                        <button className="font-bold uppercase p-2 bg-blue-500" onClick={(e) => createPlayer(e, newPlayerName.current.value)}>Create Player</button><br />
+                        <button className="font-bold uppercase p-2 bg-blue-500" onClick={(e) => createPlayer(e, newPlayerName.current.value)}>Create</button><br />
                     </div>
                 </fieldset>
                 {playerError && <p className="text-red-300">{playerError}</p>}

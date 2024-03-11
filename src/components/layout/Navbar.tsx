@@ -1,23 +1,29 @@
 import { useRouter } from "next/router";
-import { getSession, signOut } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 
 
 export default function Navbar() {
     // const { data: session, status } = useSession();
-    const router = useRouter()
-    if (router.pathname === "/login" || router.pathname === "/signup") {
-        return null
-    };
+    // const router = useRouter()
+    // if (router.pathname === "/login" || router.pathname === "/signup") {
+    //     return null
+    // };
+    const { data: session, status } = useSession()
+
+    console.log(status)
 
 
 
     return (
         <header className="min-h-100 bg-21">
             <div className="flex align-center justify-between w-11/12 m-auto">
-            <h1 className="text-2xl text-white py-5 h-100">
-                <a href="/">ENIGMATICSPOON</a>
+            <h1 className="2xl:text-6xl text-2xl text-white py-5 h-100">
+                <a href="/">GAMETRACK</a>
             </h1>
-            <button onClick={signOut} className="text-xl text-white font-semibold uppercase">Sign Out</button>
+            {
+                session ? <button onClick={signOut} className="text-xl text-white font-semibold uppercase">Sign Out</button> : null
+            }
+            
 
             </div>
         </header>
