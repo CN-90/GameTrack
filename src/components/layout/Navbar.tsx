@@ -3,14 +3,8 @@ import { useSession, signOut } from "next-auth/react"
 
 
 export default function Navbar() {
-    // const { data: session, status } = useSession();
-    // const router = useRouter()
-    // if (router.pathname === "/login" || router.pathname === "/signup") {
-    //     return null
-    // };
     const { data: session, status } = useSession()
 
-    console.log(status)
 
 
 

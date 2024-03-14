@@ -63,7 +63,7 @@ function LoginScoreboard() {
 
             <ol ref={animationParent} id="login_table-body" className="flex bg-23 flex-col gap-2 p-5 top-5 rounded-4xl relative rounded-2xl ">
                     {scoreboard.map((player, index) => (
-                        <li key={player.name} ref={createRef()} className="flex gap-5 p-2 bg-18 min-h-80">
+                        <li key={player.name} ref={createRef()} className="flex gap-5 rounded-lg p-2 bg-18 min-h-80">
                             <div>
                                 {player.name === "Gandalf" && <GandalFaceSVG />}
                                 {player.name === "Gollum" && <GollumFaceSVG  />}

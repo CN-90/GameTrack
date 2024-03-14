@@ -18,10 +18,11 @@ export default function Home({ userId }) {
 
   if (isLoading) return <h1>Loading...</h1>;
 
+  console.log(data)
 
   return (
     <ProtectRoute>
-      <section className="pt-10 flex flex-col w-11/12 m-auto 2xl:flex-row 2xl:w-full 2xl:p-0">
+      <section className="pt-10 flex flex-col w-full m-auto 2xl:flex-row 2xl:w-full 2xl:p-0 sm:w-11/12">
         <div className='min-h-full 2xl:w-full  2xl:p-10'>
           <div className="h-200 bg-zinc-900 relative rounded-lg ">
             <h1 className="text-6xl text-white font-bold absolute t-150 sm:text-7xl md:text-8xl">YOUR GAMES</h1>

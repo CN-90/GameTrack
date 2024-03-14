@@ -1,6 +1,3 @@
-
-
-
 function GandalFaceSVG(props) {
     return (
         <div>

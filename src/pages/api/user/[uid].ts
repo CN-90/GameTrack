@@ -26,7 +26,6 @@ export default async function handler(
 }
 
 export async function getUserById(uid: any) {
-  let totalGroups = [];
 
   let user = await prisma.user.findUnique({
     where: {
@@ -34,7 +33,14 @@ export async function getUserById(uid: any) {
     },
     include: {
       ladders: true,
-      players: true
+      players: {
+        include: {
+          playerWins: true,
+          playerLosses: true,
+        },
+        orderBy: { playerWins: { _count: 'desc' }}
+        
+      }
     }
   })
 

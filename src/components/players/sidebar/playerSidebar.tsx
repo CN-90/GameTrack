@@ -35,14 +35,12 @@ function PlayerSidebar({ players }) {
 
     const deletePlayer = async () => {
         try {
+            console.log("THis is running...")
             let data = await axios.delete(`/api/player/${deletePlayerModal.player.id}`);
             console.log(data);
         } catch (error) {
             console.log(error);
         }
-
-        
-
         togglePlayerModal(false);
     }
 
@@ -52,7 +50,7 @@ function PlayerSidebar({ players }) {
         // Add more styles based on conditions
       };
     return (
-        <aside className="bg-29 w-full top-100 right-0 m-w-fit min-h-screen 2xl:w-1/4">
+        <aside className="bg-29 top-100 rounded-lg right-0 m-w-fit min-h-screen 2xl:w-1/4 xl:rounded-none">
             { deletePlayerModal.modalOpen ? (<div style={dynamicStyles} className="w-3/4 fixed top-100 text-center top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-23 text-white right-20 p-5 rounded-lg z-10  xl:w-1/3 2xl:w-1/4">
                 {/* <Image src="/images/trash.svg" alt="trash" width={50} height={50} /> */}
                 
@@ -60,11 +58,6 @@ function PlayerSidebar({ players }) {
                 <div className="pt-5">
                     <button onClick={() => deletePlayer()} className="bg-green-500 hover:bg-green-700 font-bold mr-2 w-1/3 text-white p-2">DELETE</button>
                     <button onClick={() => togglePlayerModal(false)} className="bg-red-500 hover:bg-red-700 font-bold w-1/3 text-white p-2">NO</button>
-                    <div className="pt-4">
-                        {/* <input type="checkbox" id="deleteWarning" name="deleteWarning" value="true" /> */}
-                        {/* <label className="text-white pl-2" for="deleteWarning">Don't Show Message Again.</label><br></br> */}
-
-                    </div>
 
                 </div>
             </div>) : null}
@@ -81,13 +74,13 @@ function PlayerSidebar({ players }) {
             </form>
 
             <ul className="p-3">
-                {totalPlayers.map((player) => (
-                    <li className="player text-white text-lg flex pl-2 rounded-lg mb-1 relative m-auto" key={player.id}>
+                {totalPlayers.sort(player => player.playerWins - player.playerLosses).map((player) => (
+                    <li className="player bg-23 text-white text-lg flex pl-2 rounded-lg mb-1 relative m-auto" key={player.id}>
                         <div className="player-img self-center h-14 rounded-full w-20 bg-neutral-700 " />
                         <span className="flex min-h-[56px] pl-2 justify-between items-center w-full">
                             <span>
                                 <h1 className="text-white text-2xl leading-none capitalize">{player.name.length > 15 ? player.name.substring(0, 15) + "..." : player.name}</h1>
-                                <h2 className="text-zinc-500 leading-none">0 Wins 0 Losses</h2>
+                                <h2 className="text-zinc-500 leading-none">{player.playerWins.length} Wins {player.playerLosses.length} Losses</h2>
                             </span>
                             <div onClick={() => togglePlayerModal(player)} className="trash-slide h-full flex justify-center items-center align-cente cursor-pointer">
                                 <FontAwesomeIcon icon={faTrash} className="text-4xl" />

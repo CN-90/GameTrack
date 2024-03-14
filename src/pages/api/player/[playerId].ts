@@ -38,7 +38,6 @@ async function deletePlayer(req: NextApiRequest, res: NextApiResponse) {
                 id: playerId
             }
         })
-        console.log(deletedPlayer)
        return deletedPlayer
 
     } catch (error) {

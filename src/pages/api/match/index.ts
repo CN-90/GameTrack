@@ -26,23 +26,30 @@ export default async function handler(
 
 
 export async function createMatch(req: NextApiRequest) {
-    console.log(req.body);
+    let { winner, loser, ladderId } = req.body;
+
     let match = await prisma.match.create({
         data: {
             ladder: {
-                connect: { id: parseInt(req.body.ladderId)}
+                connect: { id: parseInt(ladderId) }
             },
             players: {
                 connect: [
-                    { id: req.body.playerOne.id },
-                    { id: req.body.playerTwo.id }
+                    { id: winner.playerId },
+                    { id: loser.playerId }
                 ]
             },
             winner: {
-                connect: { id: req.body.winnerId },
+                connect: { id: winner.recordId },
             },
             loser: {
-                connect: { id: req.body.loserId }
+                connect: { id: loser.recordId }
+            },
+            winningPlayer: {
+                connect: { id: winner.playerId }
+            },
+            losingPlayer: {
+                connect: { id: loser.playerId }
             }
         }
     });

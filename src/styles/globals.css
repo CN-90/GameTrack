@@ -91,10 +91,6 @@ a {
   text-decoration: none;
 }
 
-.green {
-  color: #5bd85b;
-}
-
 .text-42 {
   font-size: 2.125rem;
   line-height: 1;
@@ -190,8 +186,7 @@ a {
 }
 
 .player {
-  background: #232323;
-  width: 97%;
+  width: 100%;
   height: 65px;
 }
 
@@ -223,15 +218,17 @@ a {
   transform: translateY(0px);
   transition: all .1s linear;
   transition-delay: .1s;
+  display: block;
 
 }
 
 .trash-slide {
-  max-width: 0%;
-  min-width: 0%;
+  max-width: 0px;
+  min-width: 0px;
   transition: all .2s linear;
   transition-delay: .2s;
   background: rgb(249, 112, 112);
+  overflow: hidden;
 
 }
 
@@ -249,10 +246,6 @@ a {
   max-height: 160px;
 }
 
-#login_table-head h1 {
-  /* font-size: 6.7cqw; */
-}
-
 #login_table-body { 
   min-height: 400px
 
@@ -264,6 +257,13 @@ a {
   position: relative;
   overflow: hidden !important;
   padding: 0px 20px;
+}
+
+
+.hover-scale:hover {
+  transform: scale(1.1);
+  transition: all .2s linear;
+
 }
 
 

@@ -70,12 +70,13 @@ model Session {
 model Player {
   id       Int      @id @default(autoincrement())
   name     String?
-  ladder   Ladder?  @relation(fields: [ladderId], references: [id])
-  ladderId Int?
+  ladders   Ladder[] 
   matches  Match[]
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
   records  Record[]
+  playerWins Match[]  @relation(name: "playerWins")
+  playerLosses Match[]  @relation(name: "playerLosses")
   // game    Game    @relation(fields: [gameId], references: [id])
 }
 
@@ -117,6 +118,10 @@ model Match {
   loser    Record   @relation(name: "Losses", fields: [loserId], references: [id], onDelete: Cascade)
   loserId  Int
   records  Record[]
+  winningPlayer Player @relation(name: "playerWins", fields: [winningPlayerId], references: [id])
+  winningPlayerId Int
+  losingPlayer Player @relation(name: "playerLosses", fields: [losingPlayerId], references: [id])
+  losingPlayerId Int
 }
 
 // model Group {
