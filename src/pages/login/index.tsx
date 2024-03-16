@@ -31,7 +31,7 @@ function LoginPage() {
         <LoginScoreboard />
       </div>
         <div className="pb-4">
-          <p className="2xl:text-4xl w-full mx-auto flex items-center justify-center max-w-40 k text-lg font-semibold text-center break-words py-4 ">Track matches between you and your friends.</p>
+          <p className="w-full mx-auto flex items-center justify-center max-w-40 k text-2xl px-4 leading-none font-semibold text-center break-words py-4 2xl:text-4xl 2xl:font-normal">Track matches between you and your friends.</p>
           { searchParams.get("register") ? <RegisterForm /> : <LoginForm /> }
         </div>
       

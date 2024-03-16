@@ -42,8 +42,8 @@ function AddPlayersModal({ user, ladder }) {
                 </ul>
             </div>
             <div className="flex gap-2">
-                <button onClick={() => addPlayerToLadder(ladder.id)} className="bg-blue-500 text-white font-bold uppercase hover:bg-blue-700 p-2">Add Players</button>
-                <button onClick={() => closeModal()} className="bg-red-500 text-white font-bold uppercase hover:bg-red-700 p-2">Cancel</button>
+                <button onClick={() => addPlayerToLadder(ladder.id)} className="bg-blue-500 rounded-lg text-white font-bold uppercase hover:bg-blue-700 p-2">Add Players</button>
+                <button onClick={() => closeModal()} className="bg-red-500 rounded-lg text-white font-bold uppercase hover:bg-red-700 p-2">Cancel</button>
             </div>
         </aside>
     )

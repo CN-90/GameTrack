@@ -45,7 +45,7 @@ function LoginScoreboard() {
 
     return (
         <div className="xl:w-1/2 mx-auto">
-            <div id="login_table-head" className="flex bg-23 p-6 rounded-lg">
+            <div id="login_table-head" className="flex bg-23 p-4 rounded-lg">
                 <Image
                     className='smash-cover'
                     alt={"Game cover of Super Smash Brothers: Ultimate for Nintendo Switch"}
@@ -53,17 +53,17 @@ function LoginScoreboard() {
 
                 />
                 <div  className="flex-col p-2 ">
-                    <h1 className="text-white text-42 font-bold pt-4 pb-1 uppercase ">Super Smash: Ultimate (FFA)</h1>
+                    <h1 className="text-white text-2xl font-bold leading-none pb-1 uppercase xl:text-3xl">Super Smash: Ultimate (FFA)</h1>
                     <div>
-                        <p className="text-zinc-400 uppercase text-md font-semibold">3 Players</p>
-                        <p className="text-zinc-400 uppercase text-md font-semibold leading-4 m-0">{gamesPlayed} Matches Played</p>
+                        <p className="text-zinc-400 uppercase leading-none   text-md font-semibold">3 Players</p>
+                        <p className="text-zinc-400 uppercase text-md font-semibold leading-none m-0">{gamesPlayed} Matches Played</p>
                     </div>
                 </div>
             </div>
 
             <ol ref={animationParent} id="login_table-body" className="flex bg-23 flex-col gap-2 p-5 top-5 rounded-4xl relative rounded-2xl ">
                     {scoreboard.map((player, index) => (
-                        <li key={player.name} ref={createRef()} className="flex gap-5 rounded-lg p-2 bg-18 min-h-80">
+                        <li key={player.name} ref={createRef()} className="flex gap-5 rounded-lgp-2 bg-18 min-h-80">
                             <div>
                                 {player.name === "Gandalf" && <GandalFaceSVG />}
                                 {player.name === "Gollum" && <GollumFaceSVG  />}

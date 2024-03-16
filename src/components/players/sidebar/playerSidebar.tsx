@@ -50,7 +50,7 @@ function PlayerSidebar({ players }) {
         // Add more styles based on conditions
       };
     return (
-        <aside className="bg-29 top-100 rounded-lg right-0 m-w-fit min-h-screen 2xl:w-1/4 xl:rounded-none">
+        <aside className="bg-29 top-100 right-0 m-w-fit min-h-screen sm:rounded-lg 2xl:w-1/4 2xl:rounded-none">
             { deletePlayerModal.modalOpen ? (<div style={dynamicStyles} className="w-3/4 fixed top-100 text-center top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-23 text-white right-20 p-5 rounded-lg z-10  xl:w-1/3 2xl:w-1/4">
                 {/* <Image src="/images/trash.svg" alt="trash" width={50} height={50} /> */}
                 
@@ -66,7 +66,7 @@ function PlayerSidebar({ players }) {
                 <fieldset>
                     <label className="text-white text-lg uppercase font-semibold" htmlFor="">New Player</label><br />
                     <div className="flex">
-                        <input placeholder="PLAYER NAME" className="bg-white p-2 flex-auto font-bold" ref={newPlayerName} type="text" /><br />
+                        <input placeholder="PLAYER NAME" className="bg-white p-2 flex-auto font-semibold" ref={newPlayerName} type="text" /><br />
                         <button className="font-bold uppercase p-2 bg-blue-500" onClick={(e) => createPlayer(e, newPlayerName.current.value)}>Create</button><br />
                     </div>
                 </fieldset>
@@ -79,7 +79,7 @@ function PlayerSidebar({ players }) {
                         <div className="player-img self-center h-14 rounded-full w-20 bg-neutral-700 " />
                         <span className="flex min-h-[56px] pl-2 justify-between items-center w-full">
                             <span>
-                                <h1 className="text-white text-2xl leading-none capitalize">{player.name.length > 15 ? player.name.substring(0, 15) + "..." : player.name}</h1>
+                                <h1 className="hide-text text-white text-2xl leading-none capitalize">{player.name}</h1>
                                 <h2 className="text-zinc-500 leading-none">{player.playerWins.length} Wins {player.playerLosses.length} Losses</h2>
                             </span>
                             <div onClick={() => togglePlayerModal(player)} className="trash-slide h-full flex justify-center items-center align-cente cursor-pointer">
