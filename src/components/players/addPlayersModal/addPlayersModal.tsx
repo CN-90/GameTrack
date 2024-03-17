@@ -24,14 +24,14 @@ function AddPlayersModal({ user, ladder }) {
     }
 
     const closeModal = () => {
-        router.push(`/ladder/${ladder.id}`);
+        router.push(`/ladder/${ladder.id}`, undefined, { scroll: true });
     }
 
     // filter out what players are already in the ladder
     const playersAvailableToAdd = user.players.filter(player => ladder.players.find(ladderPlayer => player.id === ladderPlayer.id) ? null : player);
 
     return (
-        <aside className="absolute w-full bg-23 rounded-xl p-5 z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:w-1/2 ">
+        <aside className="absolute w-full bg-23 rounded-xl p-5 z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:w-1/2 2xl:top-1/2 ">
             <div className="flex justify-between">
                 <h1 className="text-2xl font-bold text-white uppercase lg:text-4xl pb-4">Add Player(s) to Ladder</h1>
                 {/* <p onClick={() => closeModal()} className="text-gray-300">Close Modal</p> */}
