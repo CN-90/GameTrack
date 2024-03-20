@@ -31,17 +31,17 @@ export default async function handler(
 
 async function deletePlayer(req: NextApiRequest, res: NextApiResponse) {
     const playerId = parseInt(req.query.playerId);
-    
+        
     try {
         let deletedPlayer =  await prisma.player.delete({
             where: {
                 id: playerId
             }
         })
-       return deletedPlayer
-
+        return deletedPlayer;
+        
     } catch (error) {
-        return error
+        return error;
     }
     
 }

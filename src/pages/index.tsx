@@ -8,8 +8,6 @@ import ProtectRoute from '@/components/protect/Protect'
 import CreateLadder from '@/components/ladder/createLadder'
 import PlayerSidebar from '@/components/players/sidebar/playerSidebar'
 
-
-
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({ userId }) {
@@ -18,7 +16,6 @@ export default function Home({ userId }) {
 
   if (isLoading) return <h1>Loading...</h1>;
 
-  console.log(data)
 
   return (
     <ProtectRoute>

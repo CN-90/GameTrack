@@ -72,6 +72,9 @@ async function addPlayerToLadder(req: NextApiRequest, res: NextApiResponse) {
 
 async function deletePlayerFromLadder(req: NextApiRequest, res: NextApiResponse) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+        const { ladderid, pid } = req.query;
+        console.log(pid);
+
 
     if (token) {
         const { ladderid, pid } = req.query;

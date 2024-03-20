@@ -2,58 +2,71 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import Image from "next/image";
 
 function PlayerSidebar({ players }) {
     const newPlayerName = useRef("");
     const [totalPlayers, setTotalPlayers] = useState(players);
     const [playerError, setPlayerError] = useState("");
-    const [deletePlayerModal, setDeletePlayerModal] = useState({player: {name: "", id: ""}, modalOpen: false });
+    const [deletePlayerModal, setDeletePlayerModal] = useState({ player: { name: "", id: "" }, modalOpen: false });
 
-    const createPlayer = async (e, playerName: string) => {
+    const createPlayer = async (e: any, playerName: string) => {
         e.preventDefault();
         if (!playerName) {
             setPlayerError("Please enter a player name");
             return;
-        } try {
-            let data = await axios.post(`/api/player`, { name: playerName });
-            console.log(data);
+        }
+
+        if(totalPlayers.length >= 2) {
+            setPlayerError("You can only have 2 players");
+            return;
+        }
+
+        try {
+            let res = await axios.post(`/api/player`, { name: playerName });
+            addPlayer(res.data.player);
         } catch (error) {
 
         }
     }
 
-    const togglePlayerModal = (player) => {
-        if(!player) {
-            setDeletePlayerModal({player: {}, modalOpen: false});
-            return;
-        };
-        setDeletePlayerModal({player, modalOpen: true});
-    }
-
-    
-
     const deletePlayer = async () => {
         try {
-            console.log("THis is running...")
-            let data = await axios.delete(`/api/player/${deletePlayerModal.player.id}`);
-            console.log(data);
+            let res = await axios.delete(`/api/player/${deletePlayerModal.player.id}`);
+            console.log(res);
+            removePlayer(res.data.deletedPlayer.id);
         } catch (error) {
             console.log(error);
         }
         togglePlayerModal(false);
     }
 
-    const dynamicStyles = {
-        opacity: deletePlayerModal.modalOpen ? "1" : '0.2',
-        transition: "opacity 0.3s linear"
-        // Add more styles based on conditions
-      };
+    const addPlayer = (newPlayer) => {
+        setTotalPlayers(prev => [...prev, newPlayer]);
+    }
+
+    const removePlayer = (playerId) => {
+        setTotalPlayers(prev => prev.filter(player => player.id !== playerId));
+    }
+
+
+    const togglePlayerModal = (player) => {
+        if (!player) {
+            setDeletePlayerModal({ player: {}, modalOpen: false });
+            return;
+        };
+        setDeletePlayerModal({ player, modalOpen: true });
+    }
+
+
+
+   
+
+ 
     return (
         <aside className="bg-29 top-100 right-0 m-w-fit min-h-screen sm:rounded-lg 2xl:w-1/4 2xl:rounded-none">
-            { deletePlayerModal.modalOpen ? (<div style={dynamicStyles} className="w-3/4 fixed top-100 text-center top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-23 text-white right-20 p-5 rounded-lg z-10  xl:w-1/3 2xl:w-1/4">
+            {deletePlayerModal.modalOpen ? (<div  className="w-3/4 fixed top-100 text-center top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-23 text-white right-20 p-5 rounded-lg z-10  xl:w-1/3 2xl:w-1/4">
                 {/* <Image src="/images/trash.svg" alt="trash" width={50} height={50} /> */}
-                
+
                 <p className="text-white text-lg">Are you sure you want to delete player {deletePlayerModal.player.name}? ALL matches across ALL games including this player will also be deleted.</p>
                 <div className="pt-5">
                     <button onClick={() => deletePlayer()} className="bg-green-500 hover:bg-green-700 font-bold mr-2 w-1/3 text-white p-2">DELETE</button>
@@ -79,8 +92,8 @@ function PlayerSidebar({ players }) {
                         <div className="player-img self-center h-14 rounded-full w-20 bg-neutral-700 " />
                         <span className="flex min-h-[56px] pl-2 justify-between items-center w-full">
                             <span>
-                                <h1 className="hide-text text-white text-2xl leading-none capitalize">{player.name}</h1>
-                                <h2 className="text-zinc-500 leading-none">{player.playerWins.length} Wins {player.playerLosses.length} Losses</h2>
+                                <h1 className="hide-text text-white text-xl leading-none capitalize">{player.name}</h1>
+                                <h2 className="text-zinc-500 text-md leading-none">{player.playerWins.length} Wins {player.playerLosses.length} Losses</h2>
                             </span>
                             <div onClick={() => togglePlayerModal(player)} className="trash-slide h-full flex justify-center items-center align-cente cursor-pointer">
                                 <FontAwesomeIcon icon={faTrash} className="text-4xl" />

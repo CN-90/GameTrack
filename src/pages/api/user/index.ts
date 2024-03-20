@@ -57,21 +57,3 @@ async function CreateUser(user: User) {
     }
   }
 }
-
-
-async function findUserById(id: Number) {
-  try {
-    let foundUser = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-    })
-    return foundUser;
-  }
-
-  catch (error) {
-    console.log(error);
-    console.log("User not Found...")
-  }
-}
-

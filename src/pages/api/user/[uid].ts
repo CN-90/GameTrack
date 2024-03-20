@@ -25,7 +25,7 @@ export default async function handler(
   }
 }
 
-export async function getUserById(uid: any) {
+export async function getUserById(uid: number | string) {
 
   let user = await prisma.user.findUnique({
     where: {

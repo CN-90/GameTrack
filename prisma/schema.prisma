@@ -118,9 +118,9 @@ model Match {
   loser    Record   @relation(name: "Losses", fields: [loserId], references: [id], onDelete: Cascade)
   loserId  Int
   records  Record[]
-  winningPlayer Player @relation(name: "playerWins", fields: [winningPlayerId], references: [id])
+  winningPlayer Player @relation(name: "playerWins", fields: [winningPlayerId], references: [id], onDelete: Cascade)
   winningPlayerId Int
-  losingPlayer Player @relation(name: "playerLosses", fields: [losingPlayerId], references: [id])
+  losingPlayer Player @relation(name: "playerLosses", fields: [losingPlayerId], references: [id], onDelete: Cascade)
   losingPlayerId Int
 }
 

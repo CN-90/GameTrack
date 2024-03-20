@@ -10,7 +10,7 @@ function createLadder({ userId, players }) {
     }
 
     return (
-        <form className="pt-10 text-right pb-8  flex">
+        <form className="pt-10 text-right pb-8 flex">
             <fieldset className="w-full">
                 <label className="hidden" htmlFor="createGame">Game Name</label>
                 <input id="createGame" name="gameName" className="w-full p-2 bg-zinc-400 text-white placeholder-gray-300 placeholder-bold focus:outline-none" ref={ladderName} type="text" placeholder="GAME TO TRACK" />

@@ -119,6 +119,16 @@ a {
   text-transform: uppercase;
 }
 
+.white-fill path {
+  fill: rgb(255, 255, 255) !important;
+
+}
+
+.white-fill:hover path {
+  fill: rgb(255, 82, 82) !important;
+
+}
+
 .bg-d1 {
   background: #212121;
 }

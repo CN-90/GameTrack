@@ -44,7 +44,12 @@ async function createPlayer(req: NextApiRequest, res: NextApiResponse) {
                             id: userId
                         }
                     }
+                },
+                include: {
+                    playerWins: true,
+                    playerLosses: true,
                 }
+                
             })
             response.player = newPlayer;
         } catch (error) {

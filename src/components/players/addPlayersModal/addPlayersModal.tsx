@@ -12,7 +12,14 @@ function AddPlayersModal({ user, ladder }) {
             setPlayerErorr("Please select player(s) to add");
             return;
         }
-        let addedPlayers = await axios.post(`/api/ladder/${ladder.id}/player/${playerId}`, { players: playersToAdd, ladderId: ladder.id });
+        try {
+            let addedPlayers = await axios.post(`/api/ladder/${ladder.id}/player/${playerId}`, { players: playersToAdd, ladderId: ladder.id });
+            router.replace(`/ladder/${ladder.id}`, undefined, { scroll: false })
+        } catch (error) {
+            console.log(error);
+        
+        }
+
     }
 
     const selectPlayersToAdd = (newPlayer) => {
@@ -24,7 +31,7 @@ function AddPlayersModal({ user, ladder }) {
     }
 
     const closeModal = () => {
-        router.push(`/ladder/${ladder.id}`, undefined, { scroll: true });
+        router.push(`/ladder/${ladder.id}`, undefined, { scroll: false });
     }
 
     // filter out what players are already in the ladder
@@ -41,8 +48,8 @@ function AddPlayersModal({ user, ladder }) {
                     {playersAvailableToAdd.length > 0 ? playersAvailableToAdd.map(player => <PlayerItem key={player.id} player={player} selectPlayersToAdd={selectPlayersToAdd} />) : <h1 className="text-white">No players available to add</h1>}
                 </ul>
             </div>
-            <div className="flex gap-2">
-                <button onClick={() => addPlayerToLadder(ladder.id)} className="bg-blue-500 rounded-lg text-white font-bold uppercase hover:bg-blue-700 p-2">Add Players</button>
+            <div className="flex gap-2"> 
+                <button onClick={() => addPlayerToLadder(ladder.id)} className="bg-green-500  hover:bg-green-700 rounded-lg  font-bold uppercase hover:bg-blue-700 p-2">Add Players</button>
                 <button onClick={() => closeModal()} className="bg-red-500 rounded-lg text-white font-bold uppercase hover:bg-red-700 p-2">Cancel</button>
             </div>
         </aside>

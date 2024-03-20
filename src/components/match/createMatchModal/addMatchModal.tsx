@@ -20,10 +20,13 @@ function AddMatchModal({ user, ladder }) {
             return;
         }
 
-        let createdMatch = await axios.post(`/api/match`, { winner, loser, ladderId: ladder.id});
-        // console.log(createdMatch);
-        console.log("Winner is ", winner);
-        console.log("Loser is ", loser);
+        try {
+            let createdMatch = await axios.post(`/api/match`, { winner, loser, ladderId: ladder.id});
+            router.replace(`/ladder/${ladder.id}`, undefined, { scroll: false });
+
+        }   catch (error) {
+            console.log(error);
+        }
     }
 
     const winClickHandler = (record) => {
@@ -41,7 +44,7 @@ function AddMatchModal({ user, ladder }) {
 
 
     return (
-        <aside className="absolute w-full bg-23 rounded-xl p-5 z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:w-1/2">
+        <aside className="absolute w-full bg-23 rounded-xl p-5 z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:w-1/2  2xl:top-1/2">
             <h1 className="text-2xl text-center font-bold text-white uppercase lg:text-4xl pb-10">Add New Match</h1>
             <div className="flex">
                 <form className="w-full">
@@ -62,7 +65,7 @@ function AddMatchModal({ user, ladder }) {
                         </div>
                     </fieldset>
                     <div className="flex pt-8 gap-4">
-                        <button type='submit' onClick={(e) => createMatch(e)} className="bg-blue-500 rounded-md w-1/2  text-white font-bold uppercase hover:bg-blue-700 p-2">Create Match</button>
+                        <button type='submit' onClick={(e) => createMatch(e)} className="bg-green-500 hover:bg-green-700 rounded-md w-1/2 font-bold uppercase  p-2">Create Match</button>
                         <button  onClick={(e) => closeModal(e)}className="bg-red-500 text-white font-bold uppercase rounded-md w-1/2 hover:bg-red-700 p-2">Cancel</button>
                     </div>
                     
