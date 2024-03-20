@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRef, useState } from "react";
 
-function createLadder({ userId, players }) {
+function CreateLadder({ userId, players }) {
     const ladderName = useRef("");
 
     const createTable = async (e) => {
@@ -22,4 +22,4 @@ function createLadder({ userId, players }) {
 
 }
 
-export default createLadder;
+export default CreateLadder;
