@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 
 function Groups({ userGroups }) {
-    if(userGroups.length === 0) return (<h1>You haven't created any groups yet.</h1>)
+    if(userGroups.length === 0) return (<h1>You have not created any groups yet.</h1>)
 
     async function onDeleteHandler(groupId) {
         let res = await deleteGroup(groupId);
