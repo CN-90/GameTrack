@@ -2,9 +2,10 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Player } from "@/interfaces";
 
-function PlayerSidebar({ players }) {
-    const newPlayerName = useRef("");
+function PlayerSidebar({ players }: any) {
+    const newPlayerName = useRef<HTMLInputElement>(null)
     const [totalPlayers, setTotalPlayers] = useState(players);
     const [playerError, setPlayerError] = useState("");
     const [deletePlayerModal, setDeletePlayerModal] = useState({ player: { name: "", id: "" }, modalOpen: false });
@@ -37,21 +38,20 @@ function PlayerSidebar({ players }) {
         } catch (error) {
             console.log(error);
         }
-        togglePlayerModal(false);
     }
 
-    const addPlayer = (newPlayer) => {
-        setTotalPlayers(prev => [...prev, newPlayer]);
+    const addPlayer = (newPlayer: Player) => {
+        setTotalPlayers((prev: any) => [...prev, newPlayer]);
     }
 
-    const removePlayer = (playerId) => {
-        setTotalPlayers(prev => prev.filter(player => player.id !== playerId));
+    const removePlayer = (playerId: string) => {
+        setTotalPlayers((prev: any) => prev.filter((player: Player) => player.id !== playerId));
     }
 
 
-    const togglePlayerModal = (player) => {
+    const togglePlayerModal = (player: any) => {
         if (!player) {
-            setDeletePlayerModal({ player: {}, modalOpen: false });
+            setDeletePlayerModal({ player: { name: "", id: "" }, modalOpen: false });
             return;
         };
         setDeletePlayerModal({ player, modalOpen: true });
@@ -80,14 +80,14 @@ function PlayerSidebar({ players }) {
                     <label className="text-white text-lg uppercase font-semibold" htmlFor="">New Player</label><br />
                     <div className="flex">
                         <input placeholder="PLAYER NAME" className="bg-white p-2 flex-auto font-semibold" ref={newPlayerName} type="text" /><br />
-                        <button className="font-bold uppercase p-2 bg-blue-500" onClick={(e) => createPlayer(e, newPlayerName.current.value)}>Create</button><br />
+                        <button className="font-bold uppercase p-2 bg-blue-500" onClick={(e) => createPlayer(e, newPlayerName.current!.value)}>Create</button><br />
                     </div>
                 </fieldset>
                 {playerError && <p className="text-red-300">{playerError}</p>}
             </form>
 
             <ul className="p-3">
-                {totalPlayers.sort(player => player.playerWins - player.playerLosses).map((player) => (
+                {totalPlayers.sort((player: any) => player.playerWins - player.playerLosses).map((player: Player) => (
                     <li className="player bg-23 text-white text-lg flex pl-2 rounded-lg mb-1 relative m-auto" key={player.id}>
                         <div className="player-img self-center h-14 rounded-full w-20 bg-neutral-700 " />
                         <span className="flex min-h-[56px] pl-2 justify-between items-center w-full">

@@ -1,4 +1,4 @@
-function FrodoFaceSVG(props) {
+function FrodoFaceSVG(props:any) {
     return (
         <div>
             <svg

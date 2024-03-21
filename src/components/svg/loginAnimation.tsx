@@ -3,8 +3,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Script from "next/script";
 
-function LoginAnimation(props) {
-    const svgContainer = useRef();
+function LoginAnimation(props: any) {
+    const svgContainer = useRef<HTMLInputElement>(null)
     useGSAP(() => {
         // gsap code here...
         // --GANDALF ELEMENTS -- // 
@@ -160,7 +160,7 @@ function LoginAnimation(props) {
         // Global animations
 
         // continously rotates hands & controller
-        function rotateHands(handsElement: HTMLElement, reversed = false) {
+        function rotateHands(handsElement: any, reversed = false) {
             let randomRotation = Math.floor((Math.random() * 5) + 5);
             randomRotation = reversed ? randomRotation * -1 : randomRotation;
             const duration = Math.floor((Math.random() * 5) + 5);
@@ -172,7 +172,7 @@ function LoginAnimation(props) {
                 .to(handsElement, { rotate: (randomRotation * -1), duration: .9, delay: 0, transformOrigin: "center" });
         }
 
-        function animateJoysticks(character: HTMLElement, thumbElement: HTMLElement) {
+        function animateJoysticks() {
             const joyStickTimeLine = gsap.timeline({ repeat: -1, yoyo: true });
 
             // add some variation to the rotation off the joystick & thumb movement
@@ -207,7 +207,7 @@ function LoginAnimation(props) {
             gsap.to(gandalf_right_eyebrow, { rotate: 0, duration: 1.3, delay: 5, transformOrigin: "right" });
         }
 
-        function rockCharacterBody(characterElement) {
+        function rockCharacterBody(characterElement: any) {
             const rockingTimeLine = gsap.timeline({ repeat: -1, yoyo: true, ease: "power1.inOut" });
             rockingTimeLine
                 .to(characterElement, { rotation: 2, duration: 3, yoyo: true, transformOrigin: "bottom center" })

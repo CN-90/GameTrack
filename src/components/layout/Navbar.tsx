@@ -7,6 +7,9 @@ export default function Navbar() {
     const { data: session, status } = useSession()
 
 
+    const logout = async () => {
+        await signOut()
+    }
 
 
     return (
@@ -16,7 +19,7 @@ export default function Navbar() {
                 <Link href="/">GAMETRACK</Link>
             </h1>
             {
-                session ? <button onClick={signOut} className="text-xl text-white font-semibold uppercase">Sign Out</button> : null
+                session ? <button onClick={logout} className="text-xl text-white font-semibold uppercase">Sign Out</button> : null
             }
             
 

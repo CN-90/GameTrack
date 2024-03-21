@@ -1,8 +1,9 @@
+import { Record } from "@/interfaces";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
-function AddMatchModal({ user, ladder }) {
+function AddMatchModal({ user, ladder }: any) {
 
     const [winner, setWinner] = useState({ recordId: "", name: "", playerId: "" });
     const [loser, setLoser] = useState({ recordId: "", name: "", playerId : "" });
@@ -10,7 +11,7 @@ function AddMatchModal({ user, ladder }) {
     const router = useRouter();
 
 
-    const createMatch = async (e) => {
+    const createMatch = async (e: any) => {
         e.preventDefault();
         if(!winner.recordId || !loser.recordId) {
             return;
@@ -21,23 +22,23 @@ function AddMatchModal({ user, ladder }) {
         }
 
         try {
-            let createdMatch = await axios.post(`/api/match`, { winner, loser, ladderId: ladder.id});
-            router.replace(`/ladder/${ladder.id}`, undefined, { scroll: false });
+            await axios.post(`/api/match`, { winner, loser, ladderId: ladder.id});
+            router.replace(`/ladder/${ladder.id}`, undefined, { scroll: false })
 
         }   catch (error) {
-            console.log(error);
+            setError("Whoops... Something went wrong, please try again");
         }
     }
 
-    const winClickHandler = (record) => {
+    const winClickHandler = (record: Record) => {
         setWinner({ recordId: record.id, name: record.playerName, playerId: record.playerId});
     }
 
-    const loseClickHandler = (record) => {
+    const loseClickHandler = (record:Record) => {
         setLoser({ recordId: record.id, name: record.playerName, playerId: record.playerId});
     }
 
-    const closeModal = (e) => {
+    const closeModal = (e:any) => {
         e.preventDefault();
         router.push(`/ladder/${ladder.id}`);
     }
@@ -52,7 +53,7 @@ function AddMatchModal({ user, ladder }) {
                         <div className="w-full pb-4">
                             <h1 className="text-2xl font-bold text-white uppercase lg:text-4xl">Winner</h1>
                             <ul className="py-4">
-                                {ladder.records.map(record => <li onClick={() => winClickHandler(record)} className={`${winner.recordId === record.id ? "bg-blue-500 " : "bg-29 "}hover:bg-blue-500 cursor-pointer w-full h-16 text-white font-semibold text-2xl text-white text-lg flex pl-2 rounded-lg mb-1 relative bg-black items-center`} key={record.id}>{record.playerName}</li>)}
+                                {ladder.records.map((record:Record) => <li onClick={() => winClickHandler(record)} className={`${winner.recordId === record.id ? "bg-blue-500 " : "bg-29 "}hover:bg-blue-500 cursor-pointer w-full h-16 text-white font-semibold text-2xl text-white text-lg flex pl-2 rounded-lg mb-1 relative bg-black items-center`} key={record.id}>{record.playerName}</li>)}
                             </ul>
 
                         </div>
@@ -60,7 +61,7 @@ function AddMatchModal({ user, ladder }) {
                         <div className="w-full">
                             <h1 className="text-2xl font-bold text-white uppercase lg:text-4xl">Loser</h1>
                             <ul className="py-4">
-                                {ladder.records.map(record => <li onClick={() => loseClickHandler(record)}  className={`${loser.recordId === record.id ? "bg-red-500 " : "bg-29 "}cursor-pointer hover:bg-red-500 w-full h-16 text-white font-semibold text-2xl text-white text-lg flex pl-2 rounded-lg mb-1 relative bg-black items-center`} key={record.id}>{record.playerName}</li>)}
+                                {ladder.records.map((record: Record) => <li onClick={() => loseClickHandler(record)}  className={`${loser.recordId === record.id ? "bg-red-500 " : "bg-29 "}cursor-pointer hover:bg-red-500 w-full h-16 text-white font-semibold text-2xl text-white text-lg flex pl-2 rounded-lg mb-1 relative bg-black items-center`} key={record.id}>{record.playerName}</li>)}
                             </ul>
                         </div>
                     </fieldset>

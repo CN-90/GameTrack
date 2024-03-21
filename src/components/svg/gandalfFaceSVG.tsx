@@ -1,4 +1,4 @@
-function GandalFaceSVG(props) {
+function GandalFaceSVG(props:any) {
     return (
         <div>
             <svg

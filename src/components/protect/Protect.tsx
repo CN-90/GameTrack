@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
-function ProtectRoute({ children }) {
+function ProtectRoute({ children }: any) {
     const router = useRouter();
     const { status } = useSession({
         required: true,

@@ -1,12 +1,13 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
-function CreateLadder({ userId, players }) {
-    const ladderName = useRef("");
+function CreateLadder({ userId, players }: any) {
+    const ladderName =  useRef<HTMLInputElement>(null)
 
-    const createTable = async (e) => {
+    const createTable = async (e:any) => {
         e.preventDefault();
-        let res = await axios.post(`/api/ladder`, { title: ladderName.current.value, players, userId });
+    
+        let res = await axios.post(`/api/ladder`, { title: ladderName.current!.value, players, userId });
     }
 
     return (

@@ -7,7 +7,7 @@ import { FormEventHandler, useState } from "react";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const pathname = usePathname()
 
@@ -24,12 +24,12 @@ function LoginForm() {
       callbackUrl: "/"
     })
 
-    if (signInResult.error) {
+    if (signInResult && signInResult.error) {
       setError(signInResult.error);
     }
   }
 
-  const handleGoogleSignIn = async (event) => {
+  const handleGoogleSignIn = async (event: any) => {
     event.preventDefault()
     const result = await signIn('google', { callbackUrl: '/' })
   }
@@ -60,7 +60,7 @@ function LoginForm() {
           placeholder="Password"
         />
       </fieldset>
-      <p className="font-semibold">No Account? <Link scroll={false} href={`/${pathname}/?register=true`} className="text-red-500">Sign Up</Link></p>
+      <p className="font-semibold">No Account? <Link scroll={false} href={`${pathname}/?register=true`} className="text-red-500">Sign Up</Link></p>
       <button type="submit" className="outline p-2 font-bold uppercase w-1/2 mt-5 m-auto text-lg" disabled={isSubmitting}>Sign In</button>
       <button onClick={handleGoogleSignIn} className="outline p-2 font-bold uppercase w-1/2 mt-2 m-auto text-lg" disabled={isSubmitting}>GOOGLE</button>
     </form>

@@ -10,7 +10,6 @@ function GollumFaceSVG(props: React.SVGProps<SVGSVGElement>) {
                 y="0px"
                 viewBox="0 0 100 100"
                 style={{
-                    enableBackground: "new 0 0 100 100",
                 }}
                 xmlSpace="preserve"
                 {...props}
