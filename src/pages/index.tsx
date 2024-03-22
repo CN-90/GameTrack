@@ -12,13 +12,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({ userId }) {
   const { data, error, isLoading } = useSWR(`/api/user/${userId}`, (url) => axios.get(url).then(res => res.data))
-  const newLadderName = useRef("");
 
   if (isLoading) return <h1>Loading...</h1>;
 
-
   return (
-    <ProtectRoute>
       <section className="pt-6  flex flex-col w-full m-auto 2xl:flex-row 2xl:w-full 2xl:p-0 sm:w-11/12">
         <div className='min-h-full 2xl:w-full p-4  2xl:p-10'>
           <div className="h-200 bg-zinc-900 relative rounded-lg ">
@@ -37,14 +34,14 @@ export default function Home({ userId }) {
         <PlayerSidebar players={data.user.players} />
 
       </section>
-    </ProtectRoute>
   )
 }
 
 export async function getServerSideProps(context: any) {
   const session = await getSession(context);
   let userId = null;
-
+  let user = null;
+  
   if (session) {
     userId = session.user.id;
   } else {

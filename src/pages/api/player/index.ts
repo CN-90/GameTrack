@@ -3,13 +3,9 @@ import prisma from '../../../../prisma/prisma';
 import { getToken } from 'next-auth/jwt';
 
 
-type Data = {
-    name: string
-}
-
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse
 ) {
     let data;
     switch (req.method) {
@@ -17,7 +13,7 @@ export default async function handler(
             break;
 
         case 'POST':
-            data = await createPlayer(req, res);
+            data = await createPlayer(req);
             return res.status(200).json(data);
 
         case 'DELETE':
@@ -28,20 +24,21 @@ export default async function handler(
 }
 
 
-async function createPlayer(req: NextApiRequest, res: NextApiResponse) {
+async function createPlayer(req: any) {
     const { name } = req.body;
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-    let response = { error: "", player: null };
+    let response = { error: "", player: {} };
+    
 
     if (token) {
         try {
-            let userId = parseInt(token.userID);
+            let userId = token.userID
             let newPlayer = await prisma.player.create({
                 data: {
                     name,
                     user: {
                         connect: {
-                            id: userId
+                            id: userId as number
                         }
                     }
                 },

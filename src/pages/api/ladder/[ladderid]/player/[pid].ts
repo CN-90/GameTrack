@@ -11,7 +11,7 @@ type Data = {
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse<any>
 ) {
     let data;
     switch (req.method) {
@@ -42,7 +42,6 @@ async function addPlayerToLadder(req: NextApiRequest, res: NextApiResponse) {
 
     if (token) {
         const { players, ladderId } = req.body;
-        console.log(players);
         try {
             const updatedLadder = await prisma.ladder.update({
                 where: {
@@ -72,13 +71,11 @@ async function addPlayerToLadder(req: NextApiRequest, res: NextApiResponse) {
 
 async function deletePlayerFromLadder(req: NextApiRequest, res: NextApiResponse) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-        const { ladderid, pid } = req.query;
-        console.log(pid);
 
 
     if (token) {
-        const { ladderid, pid } = req.query;
-        console.log(req.body);
+        const { ladderid, pid }: any = req.query;
+
         try {
             const updatedLadder = await prisma.ladder.update({
                 where: {

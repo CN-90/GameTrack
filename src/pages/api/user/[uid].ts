@@ -2,13 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import prisma from '../../../../prisma/prisma'
 
-type Data = {
-  name: string
-}
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   switch (req.method) {
     case 'GET':
@@ -25,7 +21,7 @@ export default async function handler(
   }
 }
 
-export async function getUserById(uid: number | string) {
+export async function getUserById(uid: any) {
 
   let user = await prisma.user.findUnique({
     where: {
@@ -51,8 +47,8 @@ export async function getUserById(uid: number | string) {
 
 // Exclude keys from user
 function exclude<User, Key extends keyof User>(
-  user: User,
-  keys: Key[]
+  user: any,
+  keys: string[]
 ): Omit<User, Key> {
   for (let key of keys) {
     delete user[key]

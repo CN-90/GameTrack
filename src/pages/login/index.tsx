@@ -11,9 +11,6 @@ function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  
-
-
   // Redirect to the homepage if the user is authenticated
   if (session) {
     router.replace('/');

@@ -7,7 +7,7 @@ type Data = {
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse<any>
 ) {
     switch (req.method) {
         case 'GET':
@@ -17,7 +17,7 @@ export default async function handler(
             break;
 
         case 'DELETE':
-            let ladder = await deleteLadder(req, res);
+            let ladder = await deleteLadder(req);
             return res.status(200).json({ message: "Ladder has been deleted"});
 
 
@@ -27,7 +27,7 @@ export default async function handler(
     }
 }
 
-export async function getLadderById(ladderId: number, userId: number){
+export async function getLadderById(ladderId: string, userId: string){
     let ladder = await prisma.ladder.findUnique({
         where: {
             id: parseInt(ladderId),
@@ -44,7 +44,7 @@ export async function getLadderById(ladderId: number, userId: number){
     return ladder;
 }
 
-async function deleteLadder(req, res) {
+async function deleteLadder(req: any) {
     const ladderId = parseInt(req.query.ladderid);
     // delete players that are in the ladder
 

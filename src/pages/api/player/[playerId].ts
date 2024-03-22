@@ -1,15 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../../prisma/prisma';
-import { removeMatchesFromLadder } from '@/helpers/ladderHelper';
-
-
-type Data = {
-    name: string
-}
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse
 ) {
     let data;
     switch (req.method) {
@@ -20,7 +14,7 @@ export default async function handler(
           
 
         case 'DELETE':
-            let deletedPlayer = await deletePlayer(req, res);
+            let deletedPlayer = await deletePlayer(req);
             return res.status(200).json({message: "Player has been successfully deleted.", deletedPlayer});
 
         default:
@@ -29,7 +23,7 @@ export default async function handler(
 }
 
 
-async function deletePlayer(req: NextApiRequest, res: NextApiResponse) {
+async function deletePlayer(req:any) {
     const playerId = parseInt(req.query.playerId);
         
     try {

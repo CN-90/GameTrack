@@ -1,14 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../../prisma/prisma';
 
-
-type Data = {
-    name: string
-}
-
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse
 ) {
     switch (req.method) {
         case 'GET':

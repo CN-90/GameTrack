@@ -2,13 +2,9 @@ import prisma from '../../../../prisma/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 
-type Data = {
-    name: string
-}
-
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse
 ) {
     switch (req.method) {
         case 'GET':
@@ -25,7 +21,7 @@ export default async function handler(
 }
 
 
-export async function deleteMatch(matchId: number) {
+export async function deleteMatch(matchId: any) {
     const deletedMatch = await prisma.match.delete({
         where: {
             id: parseInt(matchId)
