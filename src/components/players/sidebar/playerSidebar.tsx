@@ -33,11 +33,11 @@ function PlayerSidebar({ players }: any) {
     const deletePlayer = async () => {
         try {
             let res = await axios.delete(`/api/player/${deletePlayerModal.player.id}`);
-            console.log(res);
             removePlayer(res.data.deletedPlayer.id);
         } catch (error) {
-            console.log(error);
+            setPlayerError("Whoops there was an error deleting the player. Please try again");
         }
+        
     }
 
     const addPlayer = (newPlayer: Player) => {

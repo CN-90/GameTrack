@@ -1,19 +1,16 @@
-import { useRef } from 'react'
-import { Inter } from 'next/font/google'
-import { getSession, signOut } from "next-auth/react"
+import { getSession } from "next-auth/react"
 import Link from 'next/link'
-import axios from 'axios'
-import useSWR from 'swr'
-import ProtectRoute from '@/components/protect/Protect'
 import CreateLadder from '@/components/ladder/createLadder'
 import PlayerSidebar from '@/components/players/sidebar/playerSidebar'
+import { getUserById } from './api/user/[uid]'
+import { Ladder, User } from '@/interfaces'
 
-const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({ userId }) {
-  const { data, error, isLoading } = useSWR(`/api/user/${userId}`, (url) => axios.get(url).then(res => res.data))
+interface Props {
+  user: User
+}
 
-  if (isLoading) return <h1>Loading...</h1>;
+export default function Home({ user }: Props) {
 
   return (
       <section className="pt-6  flex flex-col w-full m-auto 2xl:flex-row 2xl:w-full 2xl:p-0 sm:w-11/12">
@@ -21,29 +18,31 @@ export default function Home({ userId }) {
           <div className="h-200 bg-zinc-900 relative rounded-lg ">
             <h1 className="text-6xl bottom-0 text-white font-bold absolute sm:text-7xl md:text-8xl">YOUR GAMES</h1>
           </div>
-          <CreateLadder userId={userId} players={data.user.players} />
+          <CreateLadder userId={user.id} players={user.players} />
 
           <div className="pb-10">
             <ul className="p-2">
-              {data.user.ladders.length > 0 ? data.user.ladders.map((ladder) => (
+              {user.ladders.length > 0 ? user.ladders.map((ladder: Ladder) => (
                 <Link key={ladder.id} href={`/ladder/${ladder.id}`}><li className="text-3xl font-semibold">{ladder.name}</li></Link>
               )): <h1 className="text-3xl uppercase font-semibold">No Games Found</h1>}
             </ul>
           </div>
         </div>
-        <PlayerSidebar players={data.user.players} />
+        <PlayerSidebar players={user.players} />
 
       </section>
   )
 }
 
 export async function getServerSideProps(context: any) {
-  const session = await getSession(context);
+  const session:any = await getSession(context);
   let userId = null;
   let user = null;
   
   if (session) {
     userId = session.user.id;
+    user = await getUserById(userId);
+    
   } else {
     return {
       redirect: {
@@ -55,7 +54,7 @@ export async function getServerSideProps(context: any) {
 
   return {
     props: {
-      userId
+      user
     }
   }
 }

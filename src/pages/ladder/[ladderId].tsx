@@ -14,9 +14,10 @@ import { getLadderById } from "../api/ladder/[ladderid]";
 import { getUserById } from "../api/user/[uid]";
 import AddMatchModal from "@/components/match/createMatchModal/addMatchModal";
 import { getSession } from "next-auth/react";
+import { Match, Record } from "@/interfaces";
 
 
-function LadderPage({ ladder, user }) {
+function LadderPage({ ladder, user }: any) {
     const router = useRouter();
     const { ladderId } = router.query;
     const [selectedPlayer, setSelectedPlayer] = useState({ playerName: "", playerId: "" });
@@ -33,7 +34,7 @@ function LadderPage({ ladder, user }) {
     }
 
 
-    const deleteMatch = async (matchId: Number) => {
+    const deleteMatch = async (matchId: string) => {
         let data = await axios.delete(`/api/match/${matchId}`);
     }
 
@@ -54,9 +55,6 @@ function LadderPage({ ladder, user }) {
         setSelectedPlayer({ playerName: "", playerId: "" });
         router.replace(pathname, undefined, { scroll: false });
     }
-
-
-
 
     return (
         <section className="relative w-full m-auto pt-10">
@@ -92,7 +90,7 @@ function LadderPage({ ladder, user }) {
 
                 <ol className="flex flex-col bg-23 w-full pt-8 pb-16 gap-2  lg:mx-auto 2xl:pl-20">
                     {ladder.records.length === 0 ? <h1 className="text-4xl text-white font-bold">No players have been added to this game.</h1> : <h1 className="text-white pb-4 text-4xl w-11/12 m-auto 2xl:w-full 2xl:mx-0">Players</h1>}
-                    {ladder.records.map((record) => <li className="player flex w-full mx-auto bg-29 py-1 px-2 justify-between gap-2 md:rounded-lg md:w-11/12 2xl:w-1/2 2xl:mx-0" key={record.player.id}>
+                    {ladder.records.map((record: Record) => <li className="player flex w-full mx-auto bg-29 py-1 px-2 justify-between gap-2 md:rounded-lg md:w-11/12 2xl:w-1/2 2xl:mx-0" key={record.player.id}>
                         <div className="flex items-center gap-2">
                             <div>
                                 <div className="w-14 h-14 rounded-full bg-zinc-500 relative 2xl:right-6"></div>
@@ -116,7 +114,7 @@ function LadderPage({ ladder, user }) {
             <div className="pt-8 w-11/12 mx-auto">
                 <h1 className="uppercase text-4xl font-bold pb-4">Recent Matches</h1>
                 <ul className=" w-full 2xl:w-1/2 gap-2 rounded-md flex flex-col">
-                    {ladder.matches.length > 0 ? ladder.matches.map((match) =>
+                    {ladder.matches.length > 0 ? ladder.matches.map((match: Match) =>
                         <li className="uppercase font-bold bg-23 px-5 py-3 rounded-lg lg:flex" onClick={() => deleteMatch(match.id)} key={match.id}>
                                 <div className="flex flex-wrap items-center gap-4">
                                     <h2 className="text-lime-500 rounded-sm">{match.winner.playerName}</h2>
@@ -140,7 +138,7 @@ function LadderPage({ ladder, user }) {
 
 
 // modal used to confirm deletion of player, match or ladder
-function DeleteConfirmModal({ message, action, closeModal }) {
+function DeleteConfirmModal({ message, action, closeModal }: any) {
 
     const onClickHandler = () => {
         action();
@@ -160,9 +158,9 @@ function DeleteConfirmModal({ message, action, closeModal }) {
 export default LadderPage;
 
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
 
-    const session = await getSession(context);
+    const session:any = await getSession(context);
     let userId = null;
 
     if (session) {
@@ -176,8 +174,8 @@ export async function getServerSideProps(context) {
         };
     }
 
-    let token = await getToken({ req: context.req });
-    const { userID, email } = token;
+    let token:any = await getToken({ req: context.req });
+    const { userID } = token;
 
 
     const ladder = await getLadderById(context.query.ladderId, userID);

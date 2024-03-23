@@ -16,6 +16,7 @@ function LoginForm() {
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     let signInResult = await signIn('credentials', {
       email: email,
@@ -27,11 +28,12 @@ function LoginForm() {
     if (signInResult && signInResult.error) {
       setError(signInResult.error);
     }
+
+    setIsSubmitting(false);
   }
 
   const handleGoogleSignIn = async (event: any) => {
     event.preventDefault()
-    const result = await signIn('google', { callbackUrl: '/' })
   }
 
   return (

@@ -1,12 +1,14 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { useSession } from "next-auth/react"
+import { Inter } from "next/font/google";
 
 
-export default function Layout({ children, font }:any) {
+const inter = Inter({ subsets: ['latin'] })
+
+export default function Layout({ children }:any) {
 
     return (
-        <main>
+        <main  className={inter.className}>
             <Navbar />
                 {children}
             <Footer />
