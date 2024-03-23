@@ -1,6 +1,6 @@
-import LoginForm from '@/components/auth/Login/loginForm';
-import RegisterForm from '@/components/auth/Register/registerForm';
-import LoginAnimation from '@/components/svg/loginAnimation';
+import LoginForm from '@/components/auth/Login/LoginForm';
+import RegisterForm from '@/components/auth/Register/RegisterForm';
+import LoginAnimation from '@/components/svg/LoginAnimation';
 import { useSession } from 'next-auth/react';
 import LoginScoreboard from '@/components/loginScoreboard/LoginScoreboard';
 import { useRouter } from 'next/router';
