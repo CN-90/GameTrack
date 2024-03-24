@@ -4,6 +4,7 @@ import CreateLadder from '@/components/ladder/createLadder'
 import PlayerSidebar from '@/components/players/sidebar/playerSidebar'
 import { getUserById } from './api/user/[uid]'
 import { Ladder, User } from '@/interfaces'
+import { useState } from "react"
 
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function Home({ user }: Props) {
+  const [games, setGames] = useState(user.ladders)
 
   return (
       <section className="pt-6  flex flex-col w-full m-auto 2xl:flex-row 2xl:w-full 2xl:p-0 sm:w-11/12">
@@ -18,11 +20,11 @@ export default function Home({ user }: Props) {
           <div className="h-200 bg-zinc-900 relative rounded-lg ">
             <h1 className="text-6xl bottom-0 text-white font-bold absolute sm:text-7xl md:text-8xl">YOUR GAMES</h1>
           </div>
-          <CreateLadder userId={user.id} players={user.players} />
+          <CreateLadder userId={user.id} players={user.players} setGames={setGames} />
 
           <div className="pb-10">
             <ul className="p-2">
-              {user.ladders.length > 0 ? user.ladders.map((ladder: Ladder) => (
+              {games.length > 0 ? games.map((ladder: Ladder) => (
                 <Link key={ladder.id} href={`/ladder/${ladder.id}`}><li className="text-3xl font-semibold">{ladder.name}</li></Link>
               )): <h1 className="text-3xl uppercase font-semibold">No Games Found</h1>}
             </ul>

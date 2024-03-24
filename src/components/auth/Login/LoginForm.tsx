@@ -34,10 +34,11 @@ function LoginForm() {
 
   const handleGoogleSignIn = async (event: any) => {
     event.preventDefault()
+    await signIn('google', { callbackUrl: '/' })
   }
 
   return (
-    <form className="flex flex-col w-full md:w-3/4 m-auto gap-2 p-2 xl:w-1/2" onSubmit={handleSubmit}>
+    <form className="flex flex-col w-11/12 md:w-3/4 m-auto gap-2 p-2 xl:w-1/2" onSubmit={handleSubmit}>
       <h1 className="font-bold text-3xl">Sign In</h1>
       {error && <p className="text-red-500">{error}</p>}
       <fieldset>

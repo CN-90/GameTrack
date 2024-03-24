@@ -17,8 +17,13 @@ function PlayerSidebar({ players }: any) {
             return;
         }
 
-        if(totalPlayers.length >= 2) {
-            setPlayerError("You can only have 2 players");
+        if(totalPlayers.length >= 5) {
+            setPlayerError("You can only have 5 players.");
+            return;
+        }
+
+        if(totalPlayers.find((player: Player) => player.name.toLowerCase() === playerName.toLowerCase())) {
+            setPlayerError("Player already exists");
             return;
         }
 
@@ -37,6 +42,7 @@ function PlayerSidebar({ players }: any) {
         } catch (error) {
             setPlayerError("Whoops there was an error deleting the player. Please try again");
         }
+        setDeletePlayerModal({ player: { name: "", id: "" }, modalOpen: false });
         
     }
 
@@ -57,11 +63,6 @@ function PlayerSidebar({ players }: any) {
         setDeletePlayerModal({ player, modalOpen: true });
     }
 
-
-
-   
-
- 
     return (
         <aside className="bg-29 top-100 right-0 m-w-fit min-h-screen sm:rounded-lg 2xl:w-1/4 2xl:rounded-none">
             {deletePlayerModal.modalOpen ? (<div  className="w-3/4 fixed top-100 text-center top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-23 text-white right-20 p-5 rounded-lg z-10  xl:w-1/3 2xl:w-1/4">

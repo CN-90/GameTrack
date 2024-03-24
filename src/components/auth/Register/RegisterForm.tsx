@@ -47,7 +47,7 @@ function RegisterForm() {
     };
 
     return (
-        <form className="flex flex-col w-3/4 m-auto gap-2 p-2 xl:w-1/2" onSubmit={handleSubmit}>
+        <form className="flex flex-col w-11/12 md:w-3/4 m-auto gap-2 p-2 xl:w-1/2" onSubmit={handleSubmit}>
             {error && <p className="text-red-500 capitalize">{error}</p>}
             <h1 className="font-bold text-3xl">Sign Up</h1>
 

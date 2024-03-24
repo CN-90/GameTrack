@@ -167,7 +167,6 @@ a {
 
 #Layer_1 {
   z-index: 10;
-  bottom: -5vw;
   height: 60vh;
 
 }
@@ -263,6 +262,8 @@ a {
   position: relative;
   overflow: hidden !important;
   padding: 0px 20px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 
@@ -280,7 +281,10 @@ a {
 }
 
 @media screen and (min-width: 374px){
-  
+  #Layer_1 {
+    height: 55vw;
+    bottom: 0;
+  }
 }
 
 
@@ -293,15 +297,30 @@ a {
 
 }
 
-@media screen and (min-width: 700px){
-  #login_svg {
-    width: 80%;
-    margin: 0 auto;
-  }
 
+@media screen and (min-width: 700px) {
   #Layer_1 {
     height: 40vw;
     bottom: 0;
+  }
+  #login_svg {
+    width: 70%;
+    margin: 0 auto;
+  }
+  
+}
+
+@media screen and (min-width: 1200px){
+  #login_svg {
+    min-height: 650px;
+  }
+  #Layer_1 {
+    height: 35vw;
+    bottom: 0;
+  }
+
+  .table-img {
+    height: 60px;
   }
 }
 
