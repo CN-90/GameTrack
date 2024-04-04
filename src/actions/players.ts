@@ -11,6 +11,14 @@ export async function createPlayer(playerName: string, ladderId: number) {
     }
 }
 
+export async function validatePlayerName(playerName: string, players: any) {
+    if (!playerName) return { error: "Player name is required." };
+    if (players.length >= 2) return { error: "You can only have 5 players." };
+    if (players.find((player: any) => player.name.toLowerCase() === playerName.toLowerCase())) return { error: "Player already exists." };
+
+}
+
+
 export async function deletePlayer(playerId: number) {
     try {
         let data = await axios.delete(`/api/player/${playerId}`);

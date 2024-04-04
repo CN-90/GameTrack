@@ -30,19 +30,17 @@ function LadderPage({ ladder, user }: any) {
     }
 
     const deleteLadder = async () => {
-        let deletedTable = await axios.delete(`/api/ladder/${ladderId}`);
+        await axios.delete(`/api/ladder/${ladderId}`);
+        router.replace("/")
     }
 
 
     const deleteMatch = async (matchId: string) => {
-        let data = await axios.delete(`/api/match/${matchId}`);
+        await axios.delete(`/api/match/${matchId}`);
     }
 
     const deletePlayerFromLadder = async () => {
         let deletedPlayer = await axios.delete(`/api/ladder/${ladderId}/player/${selectedPlayer.playerId}`);
-        console.log(deletedPlayer);
-        // if(deletedPlayer) {
-        // }
         setSelectedPlayer({ playerName: "", playerId: "" });
         router.replace(pathname, undefined, { scroll: false });
     }
@@ -60,8 +58,8 @@ function LadderPage({ ladder, user }: any) {
         <section className="relative w-full m-auto pt-10">
             {searchParams.get("players") ? <AddPlayersModal user={user} ladder={ladder} /> : null}
             {searchParams.get("matches") ? <AddMatchModal user={user} ladder={ladder} /> : null}
-            {searchParams.get("deleteGame") ? <DeleteConfirmModal message={`Are you sure you want to delete ${ladder.name}? All matches within this game will also be deleted.`} action={deleteLadder} closeModal={closeModal} /> : null}
-            {selectedPlayer.playerId ? <DeleteConfirmModal message={`Are you sure you want to remove player ${selectedPlayer.playerName}?`} action={deletePlayerFromLadder} closeModal={closeModal} /> : null}
+            {searchParams.get("deleteGame") ? <DeleteConfirmModal message={`Are you sure you want to delete ${ladder.name}? All matches within this game will also be deleted.`} actionFn={deleteLadder} closeModal={closeModal} /> : null}
+            {selectedPlayer.playerId ? <DeleteConfirmModal message={`Are you sure you want to remove player ${selectedPlayer.playerName}? All`} actionFn={deletePlayerFromLadder} closeModal={closeModal} /> : null}
 
             <div>
                 <div className="pb-8 2xl:flex w-11/12 mx-auto 2xl:justify-between">
@@ -138,10 +136,9 @@ function LadderPage({ ladder, user }: any) {
 
 
 // modal used to confirm deletion of player, match or ladder
-function DeleteConfirmModal({ message, action, closeModal }: any) {
-
+function DeleteConfirmModal({ message, actionFn, closeModal }: any) {
     const onClickHandler = () => {
-        action();
+        actionFn();
     }
 
     return (

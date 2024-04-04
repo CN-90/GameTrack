@@ -4,10 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Player } from "@/interfaces";
 
-function PlayerSidebar({ players }: any) {
-    const newPlayerName = useRef<HTMLInputElement>(null)
-    const [totalPlayers, setTotalPlayers] = useState(players);
-    const [playerError, setPlayerError] = useState("");
+interface Props {
+    players: Player[]
+  }
+
+function PlayerSidebar({ players }: Props) {
+    let newPlayerName = useRef<HTMLInputElement>(null)
+    const [totalPlayers, setTotalPlayers] = useState<Player[]>(players);
+    const [playerError, setPlayerError] = useState<String>("");
     const [deletePlayerModal, setDeletePlayerModal] = useState({ player: { name: "", id: "" }, modalOpen: false });
 
     const createPlayer = async (e: any, playerName: string) => {
@@ -30,6 +34,8 @@ function PlayerSidebar({ players }: any) {
         try {
             let res = await axios.post(`/api/player`, { name: playerName });
             addPlayer(res.data.player);
+            newPlayerName.current!.value = "";
+
         } catch (error) {
 
         }

@@ -1,7 +1,7 @@
-import { getSession } from "next-auth/react"
 import Link from 'next/link'
 import CreateLadder from '@/components/ladder/createLadder'
 import PlayerSidebar from '@/components/players/sidebar/playerSidebar'
+import { getSession } from "next-auth/react"
 import { getUserById } from './api/user/[uid]'
 import { Ladder, User } from '@/interfaces'
 import { useState } from "react"
