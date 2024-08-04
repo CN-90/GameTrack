@@ -5,6 +5,7 @@ import { getSession } from "next-auth/react"
 import { getUserById } from './api/user/[uid]'
 import { Ladder, User } from '@/interfaces'
 import { useState } from "react"
+import GameList from '@/components/games/gameList'
 
 
 interface Props {
@@ -23,11 +24,7 @@ export default function Home({ user }: Props) {
           <CreateLadder userId={user.id} players={user.players} setGames={setGames} />
 
           <div className="pb-10">
-            <ul className="p-2">
-              {games.length > 0 ? games.map((ladder: Ladder) => (
-                <Link key={ladder.id} href={`/ladder/${ladder.id}`}><li className="text-3xl font-semibold">{ladder.name}</li></Link>
-              )): <h1 className="text-3xl uppercase font-semibold">No Games Found</h1>}
-            </ul>
+            <GameList games={games} />
           </div>
         </div>
         <PlayerSidebar players={user.players} />

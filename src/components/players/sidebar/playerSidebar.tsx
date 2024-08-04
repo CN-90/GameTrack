@@ -2,7 +2,8 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Player } from "@/interfaces";
+import { DeletePlayerModal, Player } from "@/interfaces";
+import { createPlayer, deletePlayer } from "@/actions/player";
 
 interface Props {
     players: Player[]
@@ -12,44 +13,31 @@ function PlayerSidebar({ players }: Props) {
     let newPlayerName = useRef<HTMLInputElement>(null)
     const [totalPlayers, setTotalPlayers] = useState<Player[]>(players);
     const [playerError, setPlayerError] = useState<String>("");
-    const [deletePlayerModal, setDeletePlayerModal] = useState({ player: { name: "", id: "" }, modalOpen: false });
+    const [deletePlayerModal, setDeletePlayerModal] = useState<DeletePlayerModal>({ player: { id: "", name: "", playerWins: [], playerLosses: [], userId: "",  }, modalOpen: false });
 
-    const createPlayer = async (e: any, playerName: string) => {
+    const createPlayerHandler = async (e: any, playerName: string) => {
         e.preventDefault();
-        if (!playerName) {
-            setPlayerError("Please enter a player name");
-            return;
-        }
-
-        if(totalPlayers.length >= 5) {
-            setPlayerError("You can only have 5 players.");
-            return;
-        }
-
-        if(totalPlayers.find((player: Player) => player.name.toLowerCase() === playerName.toLowerCase())) {
-            setPlayerError("Player already exists");
-            return;
-        }
-
-        try {
-            let res = await axios.post(`/api/player`, { name: playerName });
-            addPlayer(res.data.player);
+        const res = await createPlayer(playerName, totalPlayers, setPlayerError) || {};
+        
+        if(res.error){
+            setPlayerError(res.error);
+        } else if (res.id) {
+            addPlayer(res);
             newPlayerName.current!.value = "";
-
-        } catch (error) {
-
         }
+
+        return;
     }
 
-    const deletePlayer = async () => {
-        try {
-            let res = await axios.delete(`/api/player/${deletePlayerModal.player.id}`);
-            removePlayer(res.data.deletedPlayer.id);
-        } catch (error) {
-            setPlayerError("Whoops there was an error deleting the player. Please try again");
-        }
-        setDeletePlayerModal({ player: { name: "", id: "" }, modalOpen: false });
+    const deletePlayerHandler = async () => {
+        const res =  await deletePlayer(deletePlayerModal.player) || {};
         
+        if(res.error){
+            setPlayerError(res.error);
+        } else if (res.id) {
+            removePlayer(res.id);
+            setDeletePlayerModal({ player: { id: "", name: "", playerWins: [], playerLosses: [], userId: "",  }, modalOpen: false });
+        }
     }
 
     const addPlayer = (newPlayer: Player) => {
@@ -63,7 +51,7 @@ function PlayerSidebar({ players }: Props) {
 
     const togglePlayerModal = (player: any) => {
         if (!player) {
-            setDeletePlayerModal({ player: { name: "", id: "" }, modalOpen: false });
+            setDeletePlayerModal({ player: { id: "", name: "", playerWins: [], playerLosses: [], userId: "",  }, modalOpen: false });
             return;
         };
         setDeletePlayerModal({ player, modalOpen: true });
@@ -76,7 +64,7 @@ function PlayerSidebar({ players }: Props) {
 
                 <p className="text-white text-lg">Are you sure you want to delete player {deletePlayerModal.player.name}? ALL matches across ALL games including this player will also be deleted.</p>
                 <div className="pt-5">
-                    <button onClick={() => deletePlayer()} className="bg-green-500 hover:bg-green-700 font-bold mr-2 w-1/3 text-white p-2">DELETE</button>
+                    <button onClick={() => deletePlayerHandler()} className="bg-green-500 hover:bg-green-700 font-bold mr-2 w-1/3 text-white p-2">DELETE</button>
                     <button onClick={() => togglePlayerModal(false)} className="bg-red-500 hover:bg-red-700 font-bold w-1/3 text-white p-2">NO</button>
 
                 </div>
@@ -87,10 +75,10 @@ function PlayerSidebar({ players }: Props) {
                     <label className="text-white text-lg uppercase font-semibold" htmlFor="">New Player</label><br />
                     <div className="flex">
                         <input placeholder="PLAYER NAME" className="bg-white p-2 flex-auto font-semibold" ref={newPlayerName} type="text" /><br />
-                        <button className="font-bold uppercase p-2 bg-blue-500" onClick={(e) => createPlayer(e, newPlayerName.current!.value)}>Create</button><br />
+                        <button className="font-bold uppercase p-2 bg-blue-500" onClick={(e) => createPlayerHandler(e, newPlayerName.current!.value)}>Create</button><br />
                     </div>
                 </fieldset>
-                {playerError && <p className="text-red-300">{playerError}</p>}
+                {playerError && <p className="text-red-300 pt-2">{playerError}</p>}
             </form>
 
             <ul className="p-3">

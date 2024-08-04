@@ -12,8 +12,6 @@ function LoginForm() {
   const pathname = usePathname()
 
 
-
-
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);

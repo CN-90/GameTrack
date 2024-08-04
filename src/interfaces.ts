@@ -28,7 +28,6 @@ export interface Player {
     userId: string
 }
 
-
 export interface Ladder {
     id: string
     name: string
@@ -44,3 +43,7 @@ export interface Match {
 
 }
 
+export interface DeletePlayerModal {
+    player: Player,
+    modalOpen: boolean
+}
